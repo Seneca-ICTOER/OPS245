@@ -5,7 +5,7 @@ sidebar_position: 1
 description: TBD
 ---
 
-# Lab 1: Installing Debian 12 with VirtualBox (insert URL when ready)
+# Lab 1: Installing Debian 12 with VirtualBox
 
 ## Lab Preparation
 
