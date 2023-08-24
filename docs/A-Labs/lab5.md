@@ -297,7 +297,7 @@ sudo lvextend -r -L +1G centos_centos2/archive
 
 What if your have noted while monitoring disk space, that you starting to run-out of space on your **home** file-system, although you **do NOT have any available space on your current hard disk**? You could obtain an additional hard-drive. We can **add a new virtual hard-drive** (which will serve as a physical volume to the volume group), and extend the **home** logical volume to make use of the new available space. Creating virtual hard drives is not only inexpensive, but a great way for students to learn now to simulate growing the size of the file system!
 
-![Add Virtual Disk](/img/Add_virtual_disk.png)
+ Add Virtual Disk (add link here when ready)
 
 You can add virtual hard disks for a VM by changing to the Details section for the VM (as opposed to console), click Add Hardware, fill information in the Add New Virtual Hardware dialog box and clicking Finish. **Notice that I have my original storage in the background so I know what type of disk to select for this second device. They should match**.
 

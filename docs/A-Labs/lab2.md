@@ -157,7 +157,7 @@ You will be learning in the next investigations to perform 3 different types of 
 
 ## Investigation 2: Install Nested Virtual Machines (KVM)
 
-> ![caution](/img/caution.jpg)**Keep the root password the same for Host and VMs**
+> ![caution](/img/caution.png)**Keep the root password the same for Host and VMs**
 >
 > In order to simplify running the lab checking scripts in future labs, using the same root password for ALL machines (debhost and virtual machines). Also use the same username and passwords for all of your machines (debhost and virtual machines).
 

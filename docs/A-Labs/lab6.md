@@ -93,7 +93,7 @@ This diagram shows the current network configuration of your **c7host** machine 
 
 In this section, we will be using a graphical tool to connect our **centos1** VM to our private network.
 
-![New Network Dialog](/img/New_network_dialog.png)
+New Network Dialog (add URL here when ready)
 
 Although the private network has been setup via the **Virtual Machine Manager**, each virtual machine requires to change its own network setting individually (either **graphically** or by **command line**).
 
