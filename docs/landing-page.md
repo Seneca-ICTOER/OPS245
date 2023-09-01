@@ -79,7 +79,7 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 **[Andrew Smith](mailto:andrew.smith@senecacollege.ca)** \| Section **NCC**
 
-![Hans Heim](/img/hans.png)
+![Hans Heim](/img/hans.jpg)
 
 **[Hans Heim](mailto:hans.heim@senecacollege.ca)** \| Section **NDD, NEE**
 
