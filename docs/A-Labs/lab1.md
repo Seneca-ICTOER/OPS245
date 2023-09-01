@@ -467,19 +467,19 @@ An installation log file called `/var/log/installer/status` has been created to 
   - `sudo systemctl disable apparmor`
 - We will learn more about these commands later
 
-## Investigation 3: Using Shell Commands to Generate System Information Reports
+## Investigation 3: Using Shell Commands to Generate System Information
 
-It is very common for System Administrators to keep records regarding their installed computer systems. For example, it is necessary to have a record of all the hardware information for each machine in order to help fix computer hardware problems, and to assist when purchasing additional consistent computer hardware.
+It is very common for system administrators to keep records regarding their installed computer systems. For example, it is necessary to have a record of all the hardware information for each machine in order to help fix computer hardware problems, and to assist when purchasing additional consistent computer hardware.
 
 Therefore, it makes sense to also have a record of the installed software and important system configurations as well. This can contain information regarding the Linux operating system, installed software, and network connectivity information.
 
-**Please review the [Bash Shell Reference Guide](/C-ExtraResources/bash-shell-reference-guide.md) to help with the rest of Investigation 3**
-
 **Perform the Following Steps:**
 
-1. Study the Linux commands and their purpose to note computer software information for your installed debhost VM. You should take time to issue each of these commands to view the output, and record this chart in your lab1 logbook. Run each one as a regular user, then with sudo to see the differences.
+1. Refer to the table below for common system information utilities and explanations for each.
+2. Run each of these commands, taking the time to *understand* what each command's output means.
+2. **Record the output** from these commands (except for the **ps -ef** output) in your lab logbook.
 
-2. Make certain to **record output** from these commands (except for the **ps -ef** output) in your lab1 logbook.
+The [Bash Shell Reference Guide](/C-ExtraResources/bash-shell-reference-guide.md) is available to refresh your memory of last semester's ULI101.
 
 **Linux/Unix System Information Utilities**
 
@@ -487,69 +487,124 @@ Therefore, it makes sense to also have a record of the installed software and im
 | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `uname -rv`, `hostname`, `ps -ef`                                                     | Basic Linux OS information such as **kernel** version, **host-name** of Linux server, and all **processes** that are running on the system after installation.                                                                |
 | `ip address show`, `ip route show`, `nslookup` (at prompt, enter command: **server**) | Obtain network connectivity confirmation including: **IP ADDRESS, Netmask, routing** (default gateway), and the default **Domain Name Server**.                                                                               |
+| `date +'%A %B %d, %Y (%I:%M %p)'` | Get the current date and time according to the system. (If the date or time do not match your timezone, fix this in system settings for debhost!) |
 
-3. Refer to the Bash Shell Reference Guide prior to proceeding with this section.
-4. Create a directory called bin in your home directory to store your shell scripts by issuing the command:
+3. Note that when you are done, you should have recorded the following information in your Lab Logbook:
+   - Current Date (according to debhost)
+   - Hostname (ie. debhost)
+   - Kernel version
+   - IPv4 address
+   - Subnet mask
+   - Broadcast address
+   - Default gateway address
+   - DNS address
 
-```bash
-mkdir ~/bin
-```
-
-5. Change to that newly-created **bin** directory
-6. Using output redirection, send the output from each of the following commands to a file called **report.txt**. Note that when you are done, you should have one file that has output from all of the commands.
-
-   - `date +'%A %B %d, %Y (%I:%M %p)'`
-   - `hostname`
-   - `uname -rv`
-   - `ps aux`
-   - `ip address show`
-
-7. View the _report.txt_ contents. You should be able to understand them because you just put that content there, but what would this look like if you look at the file several months from now? In order to make this file more readable, use the command line to add a blank line between the output from each command, and a header before each command briefly describing what the output is (note that this will likely require re-running all of these commands).
+4. Review what you just wrote in your Lab Logbook. You should be able to understand them because you just put that content there, but what would this look like if you look at it several months from now? Make sure it's clear to future-you!
 
 **Answer Investigation 3 observations (all parts and questions) in your lab log book.**
 
-## Investigation 4: Using BASH Scripting to Generate System Information Reports
+## Investigation 4: Using Ansible to Generate System Information Reports
 
-You may have learned about creating and running Bash Shell Scripts in your ULI101 course. Shell scripts help Linux users and system administrators to automate repetitive tasks to become more efficient and to help them save time. We can take what we have learned from the commands above and put them into a bash script to generate information reports for your newly-installed Linux host machine.
+### What is Ansible?
+***Ansible** is a suite of software tools that enables infrastructure as code. It is open-source and the suite includes **software provisioning**, **configuration management**, and **application deployment** functionality.*
 
-1. Create a new file in your **~/bin** directory called **myreport.bash**
-2. Populate the beginning of the file with sh-bang line and block comment describing what this script does:
+*...Ansible is designed to configure both Unix-like systems and Microsoft Windows. Ansible is agentless, relying on temporary remote connections via SSH or Windows Remote Management which allows PowerShell execution. The Ansible control node runs on most Unix-like systems that are able to run Python, including Windows with Windows Subsystem for Linux installed.System configuration is defined in part by using its own declarative language.*
 
-```bash
-#!/usr/bin/bash
-# Author: *** INSERT YOUR NAME ***
-# Date:   *** CURRENT DATE ***
+- Reference: https://en.wikipedia.org/wiki/Ansible_(software)
 
-# Purpose: Creates system info report
-# USAGE: ./myreport.bash
+In this course, you will learn how to easily automate system administration tasks including software installation, service configuration, and backups with Ansible. Each lab will include an investigation that provides you with an Ansible playbook that automates at least one aspect of that lab.
+
+### Defintions
+
+**Ansible**: This refers to the suite of applications, but is also the name of the basic command itself. There are others in the suite we will be using.
+
+**Playbook:** A plain text file that defines the tasks you want to run. This is similar to a script. It is in YAML format. We can point Ansible to a playbook file.
+
+**Task:** A task is the smallest unit of action you can take in a playbook. For example, a playbook meant to install a web server would include a series of tasks to install the server software, start the web server, and even copy HTML files into the default web server directory. Tasks are completed in sequence.
+
+**Module:** Ansible modules are units of code that can control system resources or execute system commands. An example would be the **apt** module, which can install software packages on a target system. Many of the modules we'll be using are built in and ready to use.
+
+### Task 1: Ansible Installation
+
+Our first step is to install Ansible itself:
+
+1. In a Terminal: `sudo apt install ansible`
+2. Verify your installation has succeeded: `ansible --version`
+
+You will be creating Ansible playbooks using the code given to you in these labs.
+
+3. Create a new directory to store all your Ansible playbooks (as your regular user, not root): `mkdir ~/playbooks`
+
+### Task 2: Creating Your First Playbook: report.yaml
+
+We will now create an Ansible playbook that will collect all the information from *Investigation 3* for us and display the results.
+
+1. Using a text editor (vim, Sublime, VS Code, etc), create a new text file at this location: **~/playbooks/report.yaml**
+2. The following Ansible playbook gathers all the information we found ourselves in Investigation 3:
+
+```yaml
+---
+- name: Gather basic system information for debhost
+  hosts: localhost
+  tasks:
+
+    - debug:
+        msg: "Date: {{ ansible_date_time.date }} {{ ansible_date_time.time }}"
+
+    - debug:
+        msg: "User: {{ ansible_env.USER }}"
+
+    - debug:
+        msg: "Hostname: {{ ansible_hostname }}"
+
+    - debug:
+        msg: "Kernel Version: {{ ansible_kernel }}"
+
+    - debug:
+        msg: "Network Interface: {{ansible_default_ipv4.interface }}"
+
+    - debug:
+        msg: "IP Address: {{ ansible_default_ipv4.address }}"
+
+    - debug:
+        msg: "Netmask: {{ ansible_default_ipv4.netmask }}"
+
+    - debug:
+        msg: "Broadcast: {{ ansible_default_ipv4.broadcast }}"
+
+    - debug:
+        msg: "Default Gateway: {{ ansible_default_ipv4.gateway }}"
 ```
 
-3. Add a line that will print out the heading **System Report**
+3. Paste this code into your new *report.yaml* playbook file.
 
-```
-echo 'System Report'
-```
+### Task 3: Running Your Ansible Playbook and Understanding the Results
+1. The basic syntax for running an Ansible playbook is: **ansible-playbook *path-to-playbook-file***
+2. Run the playbook we just wrote with the following Ansible command at the command line: `ansible-playbook ~/playbooks/report.yaml`
+3. Let's take a look at a sample run and go through what's happening.
 
-4. Save your script and run it. Does it work?
-5. You'll notice that the script is currently sending its output to your terminal (STDOUT). We can just use output redirection on the command line when you run the script to send the output to **~/bin/sysreport.txt**.
-6. Open your script in a text editor (like vim) again, and add the following lines below the echo statement:
+![Sample: report.yaml](/img/ansible-sample-report.png)
 
-```
-# Print a heading for the date command output
-date=$(date +'%A %B %d, %Y (%I:%M %p)')
-echo 'Report Date:  $date'
-```
+4. The first thing we see are warnings (in purple). This refers to a lack of an inventory file. We'll cover inventory files in Lab 2. Can be safely ignored for now.
+5. Under the *Play* header, we see the name of the play we'd written in the **Name** field of our playbook file.
+6. The first **Task** is always to gather facts about the target system, such as network information, date, user, etc. This task will run at the start of all playbooks by default.
+7. The second task, **Task [debug]**: The debug module is normally used to provide additional information *after* a task has run. For example, turning on a system service, the debug module might provide any error messages. For our playbook, we're using the debug module to simply print out specific facts gathered from the first task. In this second task, we are displaying the date and time when they playbook was run.
+8. Each debug message must be it's own task, they cannot be combined, nor can you add line breaks to a debug message. This is why the full *report.yaml* playbook has so many tasks.
+9. Other details of this playbook output, such as "localhost" and the play recap at the end will be covered in Lab 2.
 
-7. Save your script and run it again. Observe the output?
-8. Based on the previous investigation and output, add the extra commands for your script to also output (with appropriate headings):
 
-   - The hostname of the machine.
-   - The kernel version.
-   - The list of all installed packages.
-   - The IP address.
+10. Read through the output of the Ansible play to:
+    - Ensure there are no errors
+    - Understand *how* to read the output of an Ansible play.
 
-9. Run your script to make sure it works. Note that the output does not need to match investigation 3 exactly, but it should be very close.
-10. What other commands and information could we document? Perhaps a list of storage devices, partitions and mount points?
+
+**It's important to reiterate that Ansible is primarily used to automate system changes.** Our playbook is a little unusual in that it's only gathering and displaying system information. We'll automate configuration changes in Lab 2 onward.
+
+Every time Ansible runs, it first gathers a ton of information about the target system *at run time* before it makes any changes.
+
+What information is gathered on every run? Take a look: https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_vars_facts.html#ansible-facts
+
+Our **report.yaml** playbook is simply taking that automatically gathered information and displaying a few specific pieces.
 
 ## Lab 1 Sign-Off
 
@@ -580,13 +635,12 @@ wget https://raw.githubusercontent.com/OPS245/labs/main/lab1-check.bash
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
-1. Define the term Virtual Machine.
+1. Define the term *Virtual Machine*.
 2. List the major screens (steps) in the installation of Debian 12.
 3. What key-combination is used to toggle the view of your running VM from "window-mode" to "full-screen-mode"?
 4. List the steps for updating the Debian software.
-5. What is the home directory for the user "root"?
+5. What is the **home** directory for the user "root"?
 6. How do you determine the host name of your GNU/Linux workstation?
 7. What command can display the NIC MAC address?
 8. What command is used to get a list of running processes on your newly-installed system?
 9. Write the Linux command to download the on-line file: http://linux.server.org/package.tar.gz
-10. Write a bash Shell Script to prompt the user for a directory, and then display the file types for all files in that specified directory (hint: use the **read** command and then use the **file** command and **command substitution** with the **ls** command). Test the Bash Shell script by adding execute permissions and run the Bash Shell Script.
