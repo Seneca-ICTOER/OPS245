@@ -597,6 +597,11 @@ We will now create an Ansible playbook that will collect all the information fro
     - Ensure there are no errors
     - Understand *how* to read the output of an Ansible play.
 
+11. Once you're satisfied with the results, run the playbook again and pipe it through the *tee* utility to save your output to a text file.
+
+```bash
+ansible-playbook ~/playbooks/report.yaml | tee ~/report.txt
+```
 
 **It's important to reiterate that Ansible is primarily used to automate system changes.** Our playbook is a little unusual in that it's only gathering and displaying system information. We'll automate configuration changes in Lab 2 onward.
 
