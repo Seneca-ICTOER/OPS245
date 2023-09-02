@@ -411,7 +411,7 @@ As part of this investigation you will learn how to switch over to the root acco
 >
 > # Display the xml data that defines the VM configuration
 > virsh dumpxml <vmname>
->
+
 > ```
 >
 > To view the VM in a window without using `virt-manager`
@@ -556,176 +556,100 @@ wget https://matrix.senecacollege.ca/~ops245/centos4.xml
 
 **Answer INVESTIGATION 3 observations / questions in your lab log book.**
 
-## Investigation 4: Using Ansible To Automate Virtual Machine Backups
+## Investigation 4: Using Python To Automate Managing Virtual Machines
 
-In this investigation, you will learn about and use an Ansible playbook that backs up deb1, deb2, and deb3 VMs, or lets the user specify which VMs they want backed up.
+This week you have added some significant capabilities to your python scripting. The ability to run loops and make decisions makes your scripts much more powerful. In this investigation you will write a python script that backs up the centos1, centos2, and centos3 VMs, or lets the user specify which VMs they want backed up.
 
-We will then use the ability to run loops and make decisions to make our playbooks much more powerful.
+**Please take a look at these [Python Scripting Tips](/C-ExtraResources/python-scripting-tips.md) before continuing with the steps below**
 
-### backupVM.yaml: Version 1
+  1. In your **bin** directory, create the file **backupVM.py**, and populate with our standard beginning
 
-1. In your **playbooks** directory, create **backupVM.yaml** with the following:
-
-```yaml
----
-- name: Backup Virtual Machines - Version 1
-  hosts: localhost
-  become: no
-  tasks:
-  - name: Task 1 - Check if the user is root
-    fail:
-      msg: "You must not be root to run this playbook"
-    when: ansible_user_id == 'root'
-
-  - name: Task 2 - Ensure backup directory exists
-    file:
-      path: "~/backups"
-      state: directory
-      mode: '0755'
-      become: false
-
-  - name: Task 3a - Starting backup for deb1, please wait...
-    archive:
-      path: "/var/lib/libvirt/images/deb1.qcow2"
-      dest: "~/backups/deb1.qcow2.gz"
-      format: gz
-      remove: no
-    become: true
-
-  - name: Task 3b - Starting backup for deb2, please wait...
-    archive:
-      path: "/var/lib/libvirt/images/deb2.qcow2"
-      dest: "~/backups/deb2.qcow2.gz"
-      format: gz
-      remove: no
-    become: true
-
-  - name: Task 3c -Starting backup for deb3, please wait...
-    archive:
-      path: "/var/lib/libvirt/images/deb3.qcow2"
-      dest: "~/backups/deb3.qcow2.gz"
-      format: gz
-      remove: no
-    become: true
-```
-This playbook does the following:
-
-1. **Playbook setup (before tasks):** Sets the target of the tasks to the computer running the playbook.
-2. **Task 1:** Checks if the playbook is being run by the root user or not. If being run by root, the playbook aborts with a helpful error message to the user.
-3. **Task 2:** Confirms the backup directory exists. If it doesn't, Ansible will create it.
-4. **Task 3a:** Using the **archive** module, backs up the deb1 VM's virtual disk:
-  - *Path* refers to the location of the VM's virtual disk on debhost.
-  - *dest* refers to the destination of the backup file.
-  - *format* is the type of compression being used.
-  - *remove* set to no ensures the original virtual disk file isn't deleted.
-  - *become: true* tells Ansible to run this task (and only this task) as root. Elevated permissions are required to access the path, but aren't required for the entire playbook.
-
-This playbook does work, but we can make it more efficient by introducing a loop and using variables.
-
-### backupVM.yaml: Version 2
-
-In this version, we create the variable **vm** and use it in a loop. The loop will run once for each item in the **vm** list.
-
-
-```yaml
----
-- name: Backup Virtual Machines
-  hosts: localhost
-  become: no
-  vars:
-    vm_name: ["deb1", "deb2"]
-
-  tasks:
-  - name: Task 1 - Check if the user is root
-    fail:
-      msg: "You must not be root to run this playbook"
-    when: ansible_user_id == 'root'
-
-  - name: Task 2 - Ensure backup directory exists
-    file:
-      path: "~/backups"
-      state: directory
-      mode: '0755'
-
-  - name: Task 3 - Delete previous backups
-    file:
-      path: "~{{ ansible_user_id }}/backups/{{ item }}.qcow2.gz"
-      state: absent
-    loop: "{{ vm_name }}"
-
-  - name: Task 4 - Backing up all VM images. Please stand by...
-    archive:
-      path: "/var/lib/libvirt/images/{{ item }}.qcow2"
-      dest: "~{{ ansible_user_id }}/backups/{{ item }}.qcow2.gz"
-      format: gz
-      remove: no
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-    loop: "{{ vm_name }}"
-    become: true
+```python
+#!/usr/bin/env python3
+# backupVM.py
+# Purpose: Backs up virtual machines
+#
+# USAGE: ./backupVM.py
+#
+# Author: *** INSERT YOUR NAME ***
+# Date: *** CURRENT DATE ***
+import os
+currentuser = os.popen('whoami')
+if currentuser.read() != 'root':
+  print("You must be root")
+  exit()
+else:
+  print('Backing up centos1')
+  os.system('gzip < /var/lib/libvirt/images/centos1.qcow2 > ~YourRegularUsername/backups/centos1.qcow2.gz')
+  print('Backing up centos2')
+  os.system('gzip < /var/lib/libvirt/images/centos2.qcow2 > ~YourRegularUsername/backups/centos2.qcow2.gz')
+  print('Backing up centos3')
+  os.system('gzip < /var/lib/libvirt/images/centos3.qcow2 > ~YourRegularUsername/backups/centos3.qcow2.gz')
 ```
 
-Just like in Bash scripting, *variable substitution* will replace *item* with deb1, and then deb2, and then deb3 inside the loop.
+  2. Try to run that script. You'll notice it does not work. No matter what you do, it always says you are not root.
+  3. Modify the print statement that tells the user they must be root to also include the current username, then run the program again.
+  4. It should print out root, but with an extra new-line. You may have noticed this in your other python scripts so far: the data we get from os.popen() has an extra new-line on the end. We will need to modify the string(s) it gives us a bit. See the side-bar for hints on how to do so.
+  5. Modify the if statement so it is just getting the current username, not the username and a newline. You can do this using several steps and several variables, but it can also be done in a single line.
+  6. Test your script to make sure it works. If it doesn't, go back and fix it. **Do not continue until it successfully makes backups of your VMs**.
+  7. There is a weakness to this script as written. Every time you run it, it will make a backup of all three VMs. But what if you only made a change to one of them? Do we really need to wait through a full backup cycle for two machines that didn't change? As the script is currently written, we do. But we can make it better. We've provided the scripts with some comments below.
 
-As a result, we have a more compact and efficient playbook. 
+  8. 
 
-**Q: Why do this if the end result (three backups) is the same?**
+```python
+#!/usr/bin/env python3
+# backupVM.py
+# Purpose: Backs up virtual machines
+#
+# USAGE: ./backupVM.py
+#
+# Author: *** INSERT YOUR NAME ***
+# Date: *** CURRENT DATE ***
+import os
 
-**A:** Not only is it cool, but it allows for much easier code maintenance. Say you wanted to add a hypothetical *deb4* VM. In version 1, this requires an entire additional task. In version 2, we simply add another item to the variable, and that's it!
+#Make sure script is being run with elevated permissions
+currentuser = os.popen('whoami').read().strip()
+if currentuser != 'root':
+  print("You must be root")
+  exit()
+else
 
-As a general rule, the more lines of code you have, the more potential you have for mistakes like typos.
+#The rest of this script identifies steps with comments 'Step <something>'.
+#This is not a normal standard for commenting, it has been done here to link the script
+# to the instructions on the wiki.
 
-### backupVM.yaml: Version 3
-What if we want to choose which VMs to backup instead of all of them every time? We can introduce a user prompt into the Ansible playbook and use that answer to fill in the loop we already created in V2.
-
-As an added bonus, this allows us to specify *any* VM name and it'll be backed up, as long as it exists.
-
-
-```yaml
----
-- name: Backup Virtual Machines
-  hosts: localhost
-  become: no
-  vars_prompt:
-    - name: "vm_name"
-      prompt: "Which VMs would you like to backup? (comma-separated, e.g., deb1,deb2)"
-      private: no
-      type: "list"
-
-  vars:
-    backup_dir: "~/backups"
-
-  tasks:
-  - name: Check if the user is root
-    fail:
-      msg: "You must not be root to run this playbook"
-    when: ansible_user_id == 'root'
-
-  - name: Ensure backup directory exists
-    file:
-      path: "~/backups"
-      state: directory
-      mode: '0755'
-
-  - name: Backup Virtual Machines
-    loop: "{{ vm_name }}"
-    block:
-      - name: Check if source exists
-        stat:
-          path: "/var/lib/libvirt/images/{{ item }}.qcow2"
-        become: true
-        register: stat_result
-
-      - name: Starting backup for {{ item }}, please wait...
-        archive:
-          path: "/var/lib/libvirt/images/{{ item }}.qcow2"
-          dest: "~/backups/{{ item }}.qcow2.gz"
-          format: gz
-          remove: no
-        become: true
-        when: stat_result.stat.exists
+#Step A: Find out if user wants to back up all VMs
+#Step B-1:use the existing loop to back up all the VMs
+  print('Backing up centos1')
+  os.system('gzip < /var/lib/libvirt/images/centos1.qcow2 > ~YourRegularUsername/backups/centos1.qcow2.gz')
+  print('Backing up centos2')
+  os.system('gzip < /var/lib/libvirt/images/centos2.qcow2 > ~YourRegularUsername/backups/centos2.qcow2.gz')
+  print('Backing up centos3')
+  os.system('gzip < /var/lib/libvirt/images/centos3.qcow2 > ~YourRegularUsername/backups/centos3.qcow2.gz')
+#Step B-2: They don't want to back up all VMs, prompt them for which VM they want to back up
+#Step C: Prompt the user for the name of the VM they want to back up
+#Step C-1: If the user chose Centos1, back up that machine.
+#Step C-2: If the user chose Centos2, back up that machine.
+#Step C-3: If the user chose Centos3, back up that machine.
 ```
 
+  9. Before the block that backs up each machine add a prompt to ask the user if they want to back up all machines. Use an if statement to check if they said yes (See comment 'Step A').
+
+        - if they did say yes, back up all the VMs using your existing block (Comment step B-1).
+        - If they didn't say yes, do nothing for now (you could even use python's pass statement).
+
+  10. Test your script to make sure it works. Check what happens if you say 'yes' to the prompt, and check what happens if you say things other than 'yes'.
+  11. Now we have a script that asks the user if they want to back up all VMS, and if they say they do, it does. But if they don't want to back up every VM, it currently does nothing.
+  12. Add an else statement at comment Step B-2 to handle the user not wanting to back up every VM. Inside that else clause (Comment step C) ask the user which VM they would like to back up (you can even give them the names of available VMs (Centos1, Centos2, Centos3).
+  13. Now nest an if statement inside that else (Comments C-1, C-2, and C-3) so that your script can handle what your user just responded with. If they asked for Centos1, back up Centos1. If they want to back up Centos2, only back up Centos2, etc. Hint: You might want to use elif for this.
+  14. Test your script again. You should now have a script that:
+
+         - Makes sure the user is running the script with elevated permissions.
+         - Asks the user if they want to back up every VM.
+         - If they want to back up every VM, it backs up every VM.
+         - If the user does not want to back up every VM, the script asks them which VM they do want to back up.
+         - If the user selected a single VM, the script will back up that one VM.
+         - Now you may notice another issue with the script: The gzip lines are almost identical. The only difference in them is the name of the VM file being backed up. In the portion of code where you back up each machine individually (comment steps C-1, C-2, and C-3) try replacing the machine name in the gzip command with a string variable that holds the machine's name instead. Note that you will have to make us of string concatenation for this to work correctly.
 
 ## Lab 2 Sign-Off (Show Instructor)
 

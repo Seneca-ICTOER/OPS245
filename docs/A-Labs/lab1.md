@@ -503,113 +503,71 @@ The [Bash Shell Reference Guide](/C-ExtraResources/bash-shell-reference-guide.md
 
 **Answer Investigation 3 observations (all parts and questions) in your lab log book.**
 
-## Investigation 4: Using Ansible to Generate System Information Reports
+## Investigation 4: Using Python Scripting to Generate System Information Reports
 
-### What is Ansible?
-***Ansible** is a suite of software tools that enables infrastructure as code. It is open-source and the suite includes **software provisioning**, **configuration management**, and **application deployment** functionality.*
+Before we can successfully automate parts of configuration using python, we need to learn how to use it. Initially we will perform simple tasks we have already learned how to do in bash. This way can learn how the language works as we go.
 
-*...Ansible is designed to configure both Unix-like systems and Microsoft Windows. Ansible is agentless, relying on temporary remote connections via SSH or Windows Remote Management which allows PowerShell execution. The Ansible control node runs on most Unix-like systems that are able to run Python, including Windows with Windows Subsystem for Linux installed.System configuration is defined in part by using its own declarative language.*
+In this investigation you will write a python script that duplicates (as closely as possible with the parts of python we have covered so far) the file we created in the previous investigation.
 
-- Reference: https://en.wikipedia.org/wiki/Ansible_(software)
+**Perform the Following Steps:**
 
-In this course, you will learn how to easily automate system administration tasks including software installation, service configuration, and backups with Ansible. Each lab will include an investigation that provides you with an Ansible playbook that automates at least one aspect of that lab.
-
-### Defintions
-
-**Ansible**: This refers to the suite of applications, but is also the name of the basic command itself. There are others in the suite we will be using.
-
-**Playbook:** A plain text file that defines the tasks you want to run. This is similar to a script. It is in YAML format. We can point Ansible to a playbook file.
-
-**Task:** A task is the smallest unit of action you can take in a playbook. For example, a playbook meant to install a web server would include a series of tasks to install the server software, start the web server, and even copy HTML files into the default web server directory. Tasks are completed in sequence.
-
-**Module:** Ansible modules are units of code that can control system resources or execute system commands. An example would be the **apt** module, which can install software packages on a target system. Many of the modules we'll be using are built in and ready to use.
-
-### Task 1: Ansible Installation
-
-Our first step is to install Ansible itself:
-
-1. In a Terminal: `sudo apt install ansible`
-2. Verify your installation has succeeded: `ansible --version`
-
-You will be creating Ansible playbooks using the code given to you in these labs.
-
-3. Create a new directory to store all your Ansible playbooks (as your regular user, not root): `mkdir ~/playbooks`
-
-### Task 2: Creating Your First Playbook: report.yaml
-
-We will now create an Ansible playbook that will collect all the information from *Investigation 3* for us and display the results.
-
-1. Using a text editor (vim, Sublime, VS Code, etc), create a new text file at this location: **~/playbooks/report.yaml**
-2. The following Ansible playbook gathers all the information we found ourselves in Investigation 3:
-
-```yaml
----
-- name: Gather basic system information for debhost
-  hosts: localhost
-  tasks:
-
-    - debug:
-        msg: "Date: {{ ansible_date_time.date }} {{ ansible_date_time.time }}"
-
-    - debug:
-        msg: "User: {{ ansible_env.USER }}"
-
-    - debug:
-        msg: "Hostname: {{ ansible_hostname }}"
-
-    - debug:
-        msg: "Kernel Version: {{ ansible_kernel }}"
-
-    - debug:
-        msg: "Network Interface: {{ansible_default_ipv4.interface }}"
-
-    - debug:
-        msg: "IP Address: {{ ansible_default_ipv4.address }}"
-
-    - debug:
-        msg: "Netmask: {{ ansible_default_ipv4.netmask }}"
-
-    - debug:
-        msg: "Broadcast: {{ ansible_default_ipv4.broadcast }}"
-
-    - debug:
-        msg: "Default Gateway: {{ ansible_default_ipv4.gateway }}"
-```
-
-3. Paste this code into your new *report.yaml* playbook file.
-
-### Task 3: Running Your Ansible Playbook and Understanding the Results
-1. The basic syntax for running an Ansible playbook is: **ansible-playbook *path-to-playbook-file***
-2. Run the playbook we just wrote with the following Ansible command at the command line: `ansible-playbook ~/playbooks/report.yaml`
-3. Let's take a look at a sample run and go through what's happening.
-
-![Sample: report.yaml](/img/ansible-sample-report.png)
-
-4. The first thing we see are warnings (in purple). This refers to a lack of an inventory file. We'll cover inventory files in Lab 2. Can be safely ignored for now.
-5. Under the *Play* header, we see the name of the play we'd written in the **Name** field of our playbook file.
-6. The first **Task** is always to gather facts about the target system, such as network information, date, user, etc. This task will run at the start of all playbooks by default.
-7. The second task, **Task [debug]**: The debug module is normally used to provide additional information *after* a task has run. For example, turning on a system service, the debug module might provide any error messages. For our playbook, we're using the debug module to simply print out specific facts gathered from the first task. In this second task, we are displaying the date and time when they playbook was run.
-8. Each debug message must be it's own task, they cannot be combined, nor can you add line breaks to a debug message. This is why the full *report.yaml* playbook has so many tasks.
-9. Other details of this playbook output, such as "localhost" and the play recap at the end will be covered in Lab 2.
-
-
-10. Read through the output of the Ansible play to:
-    - Ensure there are no errors
-    - Understand *how* to read the output of an Ansible play.
-
-11. Once you're satisfied with the results, run the playbook again and pipe it through the *tee* utility to save your output to a text file.
+  1. Check if python3 is installed on your Centos Host machine. Open a terminal and type:
 
 ```bash
-ansible-playbook ~/playbooks/report.yaml | tee ~/report.txt
+which python3
 ```
 
-**It's important to reiterate that Ansible is primarily used to automate system changes.** Our playbook is a little unusual in that it's only gathering and displaying system information. We'll automate configuration changes in Lab 2 onward.
+  2. The output should of the previous command should show python3 is already installed. If it is not, install python3 on your Centos Host machine.
 
-Every time Ansible runs, it first gathers a ton of information about the target system *at run time* before it makes any changes.
+```bash
+sudo yum install python3
+```
 
-What information is gathered on every run? Take a look: https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_vars_facts.html#ansible-facts
+  3. Create a new file in your **~/bin** directory called **myreport.py**
 
-Our **report.yaml** playbook is simply taking that automatically gathered information and displaying a few specific pieces.
+        - Since we haven't covered if statements in python yet, we won't be able to check if the user running the script is root. For now, we will have to trust ourselves to remember to use elevated permissions to run this script. We will correct this in lab 2.
+
+  4. Populate the beginning of the file with sh-bang line and block comment describing what this script does:
+
+```python
+#!/usr/bin/env python3
+# Author: *** INSERT YOUR NAME ***
+# Date:   *** CURRENT DATE ***
+
+# Purpose: Creates system info report
+# USAGE: ./myreport.py
+```
+
+  5. Add a line that will print out the heading **System Report**
+
+```python
+print('System Report\n')
+```
+
+  6. Save your script and run it. Does it work?
+  7. You'll notice that the python script is currently sending its output to your terminal. Since we haven't covered how to write to a file yet, this is ok for now. Just use output redirection on the command line when you run the script to send the output to **~/bin/pythonreport.txt**.
+  8. Open your script in a text editor (like Vi) again, and add the following lines below the print statement:
+
+```python
+# Import the Operating System module
+import os
+
+# Print a heading for the date command output
+print('Current Date:')
+
+# Call the date command using the os module
+os.system("date +'%A %B %d, %Y (%I:%M %p)'")
+```
+
+  9. Save your script and run it again. Observe the output. What do you think the os.system command did?
+  10. Based on the above example and output, add the extra commands for your python script to also output (with appropriate headings):
+
+         + The hostname of the machine.
+         + The kernel version.
+         + The list of all processes.
+         + The IP address.
+
+  11. Run your script to make sure it works. Note that the output does not need to match investigation 3 exactly, but it should be very close.
 
 ## Lab 1 Sign-Off
 
