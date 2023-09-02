@@ -57,7 +57,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           routeBasePath: '/',
-          editUrl: 'https://github.com/Seneca-ICTOER/OPS245dev/tree/main',
+          editUrl: 'https://github.com/Seneca-ICTOER/OPS245/tree/main',
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
