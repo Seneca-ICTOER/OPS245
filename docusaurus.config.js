@@ -5,19 +5,19 @@ const katex = require('rehype-katex');
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'OPS245 - Dev Space for Fall 2023',
+  title: 'OPS245 - Open System Server',
   tagline: 'OPS245',
   url: 'https://Seneca-ICTOER.github.io/',
-  baseUrl: '/OPS245dev/',
+  baseUrl: '/OPS245/',
   trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'Seneca-ICTOER',
-  projectName: 'OPS245dev',
+  projectName: 'OPS245',
   themeConfig: {
     navbar: {
-      title: 'OPS245 - Dev Space for Fall 2023',
+      title: 'OPS245 - Open System Server',
       logo: {
         alt: 'Seneca College',
         src: 'img/logo.svg',
@@ -31,7 +31,7 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'OPS245 - Dev Space for Fall 2023',
+          title: 'OPS245 - Open System Server',
           items: [
             {
               label: 'Contents',
