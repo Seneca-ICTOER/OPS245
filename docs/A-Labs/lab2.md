@@ -629,11 +629,11 @@ In this version, we create the variable **vm** and use it in a loop. The loop wi
 
 ```yaml
 ---
-- name: Backup Virtual Machines - Version 2
+- name: Backup Virtual Machines
   hosts: localhost
   become: no
   vars:
-    vm: ["deb1", "deb2", "deb3"]
+    vm_name: ["deb1", "deb2"]
 
   tasks:
   - name: Task 1 - Check if the user is root
@@ -647,23 +647,22 @@ In this version, we create the variable **vm** and use it in a loop. The loop wi
       state: directory
       mode: '0755'
 
-  - name: Task 3 - Backup Virtual Machines
-    loop: "{{ vm }}"
-    block:
-      - name: Task 3a - Check if source exists
-        stat:
-          path: "/var/lib/libvirt/images/{{ item }}.qcow2"
-        register: stat_result
-        become: true
+  - name: Task 3 - Delete previous backups
+    file:
+      path: "~{{ ansible_user_id }}/backups/{{ item }}.qcow2.gz"
+      state: absent
+    loop: "{{ vm_name }}"
 
-      - name: Task 3b - Starting backup for {{ item }}, please wait...
-        archive:
-          path: "/var/lib/libvirt/images/{{ item }}.qcow2"
-          dest: "~/backups/{{ item }}.qcow2.gz"
-          format: gz
-          remove: no
-        when: stat_result.stat.exists
-        become: true
+  - name: Task 4 - Backing up all VM images. Please stand by...
+    archive:
+      path: "/var/lib/libvirt/images/{{ item }}.qcow2"
+      dest: "~{{ ansible_user_id }}/backups/{{ item }}.qcow2.gz"
+      format: gz
+      remove: no
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+    loop: "{{ vm_name }}"
+    become: true
 ```
 
 Just like in Bash scripting, *variable substitution* will replace *item* with deb1, and then deb2, and then deb3 inside the loop.
