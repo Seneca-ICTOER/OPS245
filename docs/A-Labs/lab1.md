@@ -503,71 +503,48 @@ The [Bash Shell Reference Guide](/C-ExtraResources/bash-shell-reference-guide.md
 
 **Answer Investigation 3 observations (all parts and questions) in your lab log book.**
 
-## Investigation 4: Using Python Scripting to Generate System Information Reports
+## Investigation 4: Using BASH Scripting to Generate System Information Reports
 
-Before we can successfully automate parts of configuration using python, we need to learn how to use it. Initially we will perform simple tasks we have already learned how to do in bash. This way can learn how the language works as we go.
+You may have learned about creating and running Bash Shell Scripts in your ULI101 course. Shell scripts help Linux users and system administrators to automate repetitive tasks to become more efficient and to help them save time. We can take what we have learned from the commands above and put them into a bash script to generate information reports for your newly-installed Linux host machine.
 
-In this investigation you will write a python script that duplicates (as closely as possible with the parts of python we have covered so far) the file we created in the previous investigation.
-
-**Perform the Following Steps:**
-
-  1. Check if python3 is installed on your Centos Host machine. Open a terminal and type:
+1. Create a new file in your **~/bin** directory called **myreport.bash**
+2. Populate the beginning of the file with sh-bang line and block comment describing what this script does:
 
 ```bash
-which python3
-```
-
-  2. The output should of the previous command should show python3 is already installed. If it is not, install python3 on your Centos Host machine.
-
-```bash
-sudo yum install python3
-```
-
-  3. Create a new file in your **~/bin** directory called **myreport.py**
-
-        - Since we haven't covered if statements in python yet, we won't be able to check if the user running the script is root. For now, we will have to trust ourselves to remember to use elevated permissions to run this script. We will correct this in lab 2.
-
-  4. Populate the beginning of the file with sh-bang line and block comment describing what this script does:
-
-```python
-#!/usr/bin/env python3
+#!/usr/bin/bash
 # Author: *** INSERT YOUR NAME ***
 # Date:   *** CURRENT DATE ***
 
 # Purpose: Creates system info report
-# USAGE: ./myreport.py
+# USAGE: ./myreport.bash
 ```
 
-  5. Add a line that will print out the heading **System Report**
+3. Add a line that will print out the heading **System Report**
 
-```python
-print('System Report\n')
+```
+echo 'System Report'
 ```
 
-  6. Save your script and run it. Does it work?
-  7. You'll notice that the python script is currently sending its output to your terminal. Since we haven't covered how to write to a file yet, this is ok for now. Just use output redirection on the command line when you run the script to send the output to **~/bin/pythonreport.txt**.
-  8. Open your script in a text editor (like Vi) again, and add the following lines below the print statement:
+4. Save your script and run it. Does it work?
+5. You'll notice that the script is currently sending its output to your terminal (STDOUT). We can just use output redirection on the command line when you run the script to send the output to **~/bin/sysreport.txt**.
+6. Open your script in a text editor (like vim) again, and add the following lines below the echo statement:
 
-```python
-# Import the Operating System module
-import os
-
+```
 # Print a heading for the date command output
-print('Current Date:')
-
-# Call the date command using the os module
-os.system("date +'%A %B %d, %Y (%I:%M %p)'")
+date=$(date +'%A %B %d, %Y (%I:%M %p)')
+echo 'Report Date:  $date'
 ```
 
-  9. Save your script and run it again. Observe the output. What do you think the os.system command did?
-  10. Based on the above example and output, add the extra commands for your python script to also output (with appropriate headings):
+7. Save your script and run it again. Observe the output?
+8. Based on the previous investigation and output, add the extra commands for your script to also output (with appropriate headings):
 
-         + The hostname of the machine.
-         + The kernel version.
-         + The list of all processes.
-         + The IP address.
+   - The hostname of the machine.
+   - The kernel version.
+   - The list of all installed packages.
+   - The IP address.
 
-  11. Run your script to make sure it works. Note that the output does not need to match investigation 3 exactly, but it should be very close.
+9. Run your script to make sure it works. Note that the output does not need to match investigation 3 exactly, but it should be very close.
+10. What other commands and information could we document? Perhaps a list of storage devices, partitions and mount points?
 
 ## Lab 1 Sign-Off
 
