@@ -75,10 +75,6 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 **[Brian Gray](mailto:brian.gray@senecacollege.ca)** \| Section **NAA, NBB**
 
-![Andrew](/img/Andrew.jpg)
-
-**[Andrew Smith](mailto:andrew.smith@senecacollege.ca)** \| Section **NCC**
-
 ![Hans Heim](/img/hans.jpg)
 
 **[Hans Heim](mailto:hans.heim@senecacollege.ca)** \| Section **NDD, NEE**
