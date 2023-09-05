@@ -28,7 +28,7 @@ While you are performing this lab, it is recommended to generally note the major
 - Properly **backup VM images** and backup **VM configuration files**
 - Create and run **Bash Shell scripts** to automatically backup our installed VM's
 
-![Lab Environment](/static/img/labenv.png)
+![Lab Environment](/img/labenv.png)
 
 At the end of Lab 2, your hypervisor (VirtualBox or VMWare) application will contain **4 virtual machines** (**debhost** in your hypervisor application, and **deb1, deb2, deb3 VMs** in your **KVM** application). You will now have the option to run one virtual machine at a time, or run all machines simultaneously to learn about networking (covered in later labs)
 
@@ -92,7 +92,7 @@ There are actually several key programs installed for virtualisation using KVM:
 sudo systemctl status libvirtd
 ```
 
-![libvirtdstatus](/static/img/libvirtdstatus.png)
+![libvirtdstatus](/img/libvirtdstatus.png)
 
 In the screenshot above you can see the first "enabled" indicates that this service will start automatically when the system starts.
 The "preset: enabled" indicates that "enabled" is the default when this service is first installed by apt.
@@ -127,7 +127,7 @@ sudo systemctl restart <servicename>
 
 5. Issue the correct commands to make sure that the "libvirtd" service is both "active" (started) and "enabled" (will start automatically at boot)
 
-   > ![caution](/static/img/caution.png)
+   > ![caution](/img/caution.png)
    > The behaviour of the **libvirtd** service on Debian Linux is for the service to stop when not in use and restart when required.
 
    >
@@ -162,7 +162,7 @@ You will be learning in the next investigations to perform 3 different types of 
 
 ## Investigation 2: Install Nested Virtual Machines (KVM)
 
-> ![caution](/static/img/caution.png)**Keep the root password the same for Host and VMs**
+> ![caution](/img/caution.png)**Keep the root password the same for Host and VMs**
 >
 > In order to simplify running the lab checking scripts in future labs, using the same root password for ALL machines (debhost and virtual machines). Also use the same username and passwords for all of your machines (debhost and virtual machines).
 
@@ -179,7 +179,7 @@ Lets start by gathering information
 ip address
 ```
 
-![ipaddr](/static/img/ipaddr.png)
+![ipaddr](/img/ipaddr.png)
 
 2. Run the following command to list the current firewall/routing rules.
 
@@ -188,7 +188,7 @@ ip address
 sudo iptables -L
 ```
 
-![iptables1](/static/img/iptables1.png)
+![iptables1](/img/iptables1.png)
 
 3. Open virt-manager
 4. Select the QEMU/KVM connection and then click on Edit --> Connection Details
@@ -196,8 +196,8 @@ sudo iptables -L
 6. Check the "Autostart: On Boot" and then click Apply
 7. Close virt-manager and reboot. You can use the command `sudo reboot` or the graphical option.
 8. Open a terminal window and rerun the previous commands to list network addresses and iptables rules
-   ![ipaddr2](/static/img/ipaddr2.png)
-   ![iptables2](/static/img/iptables2.png)
+   ![ipaddr2](/img/ipaddr2.png)
+   ![iptables2](/img/iptables2.png)
    You can see that debhost has connected to the virtual network and iptables rules have been added to configure access to that network.
 
 ### Part 2 Installing deb1
@@ -211,7 +211,7 @@ sudo iptables -L
 - **Disk space**: 15GB
 - **CPUs**: 2
 
-> ![caution](/static/img/caution.png) It would be best to download a local copy of the Debian "netinst" ISO
+> ![caution](/img/caution.png) It would be best to download a local copy of the Debian "netinst" ISO
 >
 > [Download Debian](https://www.debian.org/download)
 
@@ -223,14 +223,14 @@ sudo iptables -L
 4. Browse to the location of your ISO image. (probably ~/Downloads) and select the iso image
 5. If the Operating System is not auto detected, uncheck the **"Automatically detect from the installation media"** and Choose **Debian 11**, and click **Forward**.
 
-![vmsource](/static/img/vmsource.png)
+![vmsource](/img/vmsource.png)
 
 6. If a **"search permissions"** dialog box opens, Check **"Don't ask about these directories again"** and click **yes**
 
-![searchperms](/static/img/searchperms.png)
+![searchperms](/img/searchperms.png)
 
 7. Set **Memory**: size to **2048** MB and **CPUs** to **2**, then click **Forward**.
-   ![memcpu](/static/img/memcpu.png)
+   ![memcpu](/img/memcpu.png)
 
 8. Set **Hard Disk** size to **15** GB and click **Forward**.
 9. Enter the Name: **deb1**, AND then select the option: **Customize configuration before install**, and click **Finish**.
@@ -241,7 +241,7 @@ sudo iptables -L
     >
     > - To have the VM "capture" the keyboard and mouse input click on the viewer window
     > - To release the keyboard and mouse from the VM use **left-ctrl+left-alt**
-    > - To make the VM easier to display, click on **View --> Scale Display --> Always** > ![scale](/static/img/scale.png)
+    > - To make the VM easier to display, click on **View --> Scale Display --> Always** > ![scale](/img/scale.png)
 
 12. Select **English** as the language
 13. Select **Canada** as the location
@@ -250,7 +250,7 @@ sudo iptables -L
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/static/img/caution.png) 
+    > ![caution](/img/caution.png) 
     > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
@@ -262,7 +262,7 @@ sudo iptables -L
 24. Select **All files in one partititon**
 25. Select **yes** to **Write the changes to disk and configure LVM**
 26. Accept the default **Amount of volume group to use for guided partitioning**
-    ![deb1part](/static/img/deb1part.png)
+    ![deb1part](/img/deb1part.png)
 
 27. Your storage should be configured as shown above. Select **Finish partitioning and write changes to disk**
 28. Select **Yes** to **Write the changes to disks**
@@ -272,12 +272,12 @@ sudo iptables -L
 32. Leave **HTTP proxy information** as _blank_
 33. Select **No** to **Participate in the package survey**
 34. On the **Software Selection Screen** uncheck **Gnome** and select **Cinnamon** instead. Also select **SSH Server**
-    ![softsel](/static/img/softsel.png)
+    ![softsel](/img/softsel.png)
 
 35. Select **Yes** to **Install the GRUB boot loader**
 36. Select **/dev/vda** as the **Device for boot loader installation**
 37. When the installation is complete **Reboot**
-    > ![caution](/static/img/caution.png)
+    > ![caution](/img/caution.png)
     > You may need to go into the VM details and remove the media from the **CDROM** device
 38. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
 39. Issue the following command to obtain the IPv4 address for your deb1 VM to record in your Lab 2 logbook:
@@ -319,7 +319,7 @@ ip address show
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/static/img/caution.png) 
+    > ![caution](/img/caution.png) 
     > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
@@ -331,17 +331,17 @@ ip address show
 24. Select **Separate /home partititon**
 25. Select **yes** to **Write the changes to disk and configure LVM**
 26. Accept the default **Amount of volume group to use for guided partitioning**
-    ![deb2part](/static/img/deb2part.png)
+    ![deb2part](/img/deb2part.png)
 27. Select **Yes** to **Write the changes to disks**
 28. Select **No** to **Scan extra installation media**
 29. Select **No** to **Participate in the package survey**
 30. On the **Software Selection Screen** uncheck **Debian desktop environment** and **Gnome**. Also add the selection **SSH Server**
-    ![softsel2](/static/img/softsel2.png)
+    ![softsel2](/img/softsel2.png)
 
 31. Select **Yes** to **Install the GRUB boot loader**
 32. Select **/dev/vda** as the **Device for boot loader installation**
 33. When the installation is complete **Reboot**
-    > ![caution](/static/img/caution.png)
+    > ![caution](/img/caution.png)
     > You may need to go into the VM details and remove the media from the **CDROM** device
 34. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
 35. Issue the following command to obtain the IPv4 address for your **deb2** VM to record in your Lab 2 logbook:
@@ -403,7 +403,7 @@ We are going to use this [preseed file](https://raw.githubusercontent.com/OPS245
 ```
 auto url=https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg
 ```
-![deb3boot](/static/img/deb3boot.png)
+![deb3boot](/img/deb3boot.png)
 
 The installer should start and will perform an auto install using the information in the **preseed** file
 
@@ -423,7 +423,7 @@ As part of this investigation you will learn how to switch over to the root acco
 
 ### Part 1: Backing Up Virtual Machines
 
-> ![caution](/static/img/caution.png)
+> ![caution](/img/caution.png)
 > Taking the time to backup the image of the Virtual Machines filesystem allows the user to return to a "**restoration point**" using the **gunzip** command.
 >
 > This allows us to recover in case something bad occurs during a Lab!
@@ -490,7 +490,7 @@ As part of this investigation you will learn how to switch over to the root acco
 
 1. Login to a terminal on `debhost` as your regular user
 2. Shut down your **deb1**, **deb2**, and **deb3** VMs.
-   > ![caution](/static/img/caution.png)
+   > ![caution](/img/caution.png)
    > You can shutdown the VM's from the user interface, (For _deb2_ and _deb3_, which are CLI-only, you can issue the following command to shutdown: `sudo poweroff`, or you can use the `virsh` command.
    > Please be patient, the VMs will shut down!
 3. Create a directory for your backups. `mkdir ~/backups`
@@ -528,7 +528,7 @@ gzip < deb3.qcow2 > ~YourRegularUsername/backups/deb3.qcow2.gz
 
 **NOTE**: Make certain to use the redirection signs "<" and "\>" properly in the command!
 
-> ![caution](/static/img/caution.png)**Please be patient**
+> ![caution](/img/caution.png)**Please be patient**
 >
 > It may look like the command prompt is stuck but it could take a while for gzip to compress an entire operating system.
 >
@@ -540,7 +540,7 @@ gzip < deb3.qcow2 > ~YourRegularUsername/backups/deb3.qcow2.gz
 ### Part 2: Testing the backup
 
 1. Start the **deb3** VM and login.
-   > ![caution](/static/img/caution.png) **THIS WILL DESTROY YOUR SYSTEM**
+   > ![caution](/img/caution.png) **THIS WILL DESTROY YOUR SYSTEM**
    >
    > **Make certain that you are in your `deb3` VM and not in `debhost`!**
 1. Type this command inside the deb3 virtual machine: `sudo rm -rf /*` (ignore error messages).
@@ -607,7 +607,7 @@ wget https://matrix.senecacollege.ca/~ops245/centos4.xml
 6. Start up your `centos4` VM.
 7. Click on the user _OPS245_, and login with the password **ops245**.
 
-> ![caution](/static/img/caution.png)**Shutting Down the Host while Virtual Machines are Running**
+> ![caution](/img/caution.png)**Shutting Down the Host while Virtual Machines are Running**
 >
 > If you shut down your host system while virtual machines are running, they will be suspended, and will resume the next time you boot your host system. Note that it is better to shut down the VMs prior to shutting down the host
 
