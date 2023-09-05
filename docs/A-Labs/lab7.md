@@ -1,7 +1,7 @@
 ---
 id: lab7
 title: Lab 7
-sidebar_position: 7
+sidebar_position: 8
 description: TBD
 ---
 

@@ -1,7 +1,7 @@
 ---
 id: lab2
 title: Lab 2
-sidebar_position: 2
+sidebar_position: 3
 description: Lab 2
 ---
 
@@ -22,15 +22,15 @@ While you are performing this lab, it is recommended to generally note the major
 
   - **deb1**: Network Debian Installation (**Graphical Desktop Environment**)
   - **deb2**: Network Debian Installation (minimal install - **CLI only**)
-  - **deb3**: Network Debian Installation deployed using Ansible playbook file (**CLI only**)
+  - **deb3**: Network Debian Unattended Installation deployed using a **preseed** file (**CLI only**)
 
 - Manipulate virtual machines by CLI (**virsh**)
 - Properly **backup VM images** and backup **VM configuration files**
 - Create and run **Bash Shell scripts** to automatically backup our installed VM's
 
-![Lab Environment](/img/labenv.png)
+![Lab Environment](/static/img/labenv.png)
 
-At the end of Lab 2, your VirtualBox application will contain **4 virtual machines** (**debhost** in your **VirtualBox** application, and **deb1, deb2, deb3 VMs** in your **KVM** application). You will now have the option to run one virtual machine at a time, or run all machines simultaneously to learn about networking (covered in later labs)
+At the end of Lab 2, your hypervisor (VirtualBox or VMWare) application will contain **4 virtual machines** (**debhost** in your hypervisor application, and **deb1, deb2, deb3 VMs** in your **KVM** application). You will now have the option to run one virtual machine at a time, or run all machines simultaneously to learn about networking (covered in later labs)
 
 ### Minimum Required Materials
 
@@ -86,14 +86,13 @@ There are actually several key programs installed for virtualisation using KVM:
 - A system service named **libvirtd** that manages the VMs.
 - A graphical tool for managing virtual machines (**virt-manager**) and the **virsh** command-line tool.
 
-4. 
-5. Now we will confirm the status of the "libvirtd" virtualisation service:
+4. Now we will confirm the status of the "libvirtd" virtualisation service:
 
 ```bash
 sudo systemctl status libvirtd
 ```
 
-![libvirtdstatus](/img/libvirtdstatus.png)
+![libvirtdstatus](/static/img/libvirtdstatus.png)
 
 In the screenshot above you can see the first "enabled" indicates that this service will start automatically when the system starts.
 The "preset: enabled" indicates that "enabled" is the default when this service is first installed by apt.
@@ -126,26 +125,26 @@ sudo systemctl stop <servicename>
 sudo systemctl restart <servicename>
 ```
 
-6. Issue the correct commands to make sure that the "libvirtd" service is both "active" (started) and "enabled" (will start automatically at boot)
+5. Issue the correct commands to make sure that the "libvirtd" service is both "active" (started) and "enabled" (will start automatically at boot)
 
-   > ![caution](/img/caution.png)
+   > ![caution](/static/img/caution.png)
    > The behaviour of the **libvirtd** service on Debian Linux is for the service to stop when not in use and restart when required.
 
    >
 
-7. In order to manage VMs your user account needs to be added to the "libvirt" group
+6. In order to manage VMs your user account needs to be added to the "libvirt" group
 
 ```bash
 sudo usermod -aG libvirt <username>
 ```
 
-8. **Restart your debhost virtual machine**. If you fail to do this, you may experience virtualization network problems and issues loading Virtual Machine Manager.
+7. **Restart your debhost virtual machine**. If you fail to do this, you may experience virtualization network problems and issues loading Virtual Machine Manager.
 
-9. Once you've restarted, confirm your changes took affect by running the following as your regular user (don't use sudo):
+8. Once you've restarted, confirm your changes took affect by running the following as your regular user (don't use sudo):
   - `systemctl status libvirtd`
   - `id`
 
-10. The *libvirtd* daemon should be running, and the *id* command should show that your user is part of the **libvirt** group. 
+The *libvirtd* daemon should be running, and the *id* command should show that your user is part of the **libvirt** group. 
 
 9. Start the graphical `virt-manager` tool by clicking "Activities " and searching for "virt-manager".
 10. Right click on the icon and "Pin to dash" and then run the application or by typing the command `virt-manager` (without sudo!)
@@ -163,7 +162,7 @@ You will be learning in the next investigations to perform 3 different types of 
 
 ## Investigation 2: Install Nested Virtual Machines (KVM)
 
-> ![caution](/img/caution.png)**Keep the root password the same for Host and VMs**
+> ![caution](/static/img/caution.png)**Keep the root password the same for Host and VMs**
 >
 > In order to simplify running the lab checking scripts in future labs, using the same root password for ALL machines (debhost and virtual machines). Also use the same username and passwords for all of your machines (debhost and virtual machines).
 
@@ -180,7 +179,7 @@ Lets start by gathering information
 ip address
 ```
 
-![ipaddr](/img/ipaddr.png)
+![ipaddr](/static/img/ipaddr.png)
 
 2. Run the following command to list the current firewall/routing rules.
 
@@ -189,7 +188,7 @@ ip address
 sudo iptables -L
 ```
 
-![iptables1](/img/iptables1.png)
+![iptables1](/static/img/iptables1.png)
 
 3. Open virt-manager
 4. Select the QEMU/KVM connection and then click on Edit --> Connection Details
@@ -197,8 +196,8 @@ sudo iptables -L
 6. Check the "Autostart: On Boot" and then click Apply
 7. Close virt-manager and reboot. You can use the command `sudo reboot` or the graphical option.
 8. Open a terminal window and rerun the previous commands to list network addresses and iptables rules
-   ![ipaddr2](/img/ipaddr2.png)
-   ![iptables2](/img/iptables2.png)
+   ![ipaddr2](/static/img/ipaddr2.png)
+   ![iptables2](/static/img/iptables2.png)
    You can see that debhost has connected to the virtual network and iptables rules have been added to configure access to that network.
 
 ### Part 2 Installing deb1
@@ -212,7 +211,7 @@ sudo iptables -L
 - **Disk space**: 15GB
 - **CPUs**: 2
 
-> ![caution](/img/caution.png) It would be best to download a local copy of the Debian "netinst" ISO
+> ![caution](/static/img/caution.png) It would be best to download a local copy of the Debian "netinst" ISO
 >
 > [Download Debian](https://www.debian.org/download)
 
@@ -224,14 +223,14 @@ sudo iptables -L
 4. Browse to the location of your ISO image. (probably ~/Downloads) and select the iso image
 5. If the Operating System is not auto detected, uncheck the **"Automatically detect from the installation media"** and Choose **Debian 11**, and click **Forward**.
 
-![vmsource](/img/vmsource.png)
+![vmsource](/static/img/vmsource.png)
 
 6. If a **"search permissions"** dialog box opens, Check **"Don't ask about these directories again"** and click **yes**
 
-![searchperms](/img/searchperms.png)
+![searchperms](/static/img/searchperms.png)
 
 7. Set **Memory**: size to **2048** MB and **CPUs** to **2**, then click **Forward**.
-   ![memcpu](/img/memcpu.png)
+   ![memcpu](/static/img/memcpu.png)
 
 8. Set **Hard Disk** size to **15** GB and click **Forward**.
 9. Enter the Name: **deb1**, AND then select the option: **Customize configuration before install**, and click **Finish**.
@@ -242,7 +241,7 @@ sudo iptables -L
     >
     > - To have the VM "capture" the keyboard and mouse input click on the viewer window
     > - To release the keyboard and mouse from the VM use **left-ctrl+left-alt**
-    > - To make the VM easier to display, click on **View --> Scale Display --> Always** > ![scale](/img/scale.png)
+    > - To make the VM easier to display, click on **View --> Scale Display --> Always** > ![scale](/static/img/scale.png)
 
 12. Select **English** as the language
 13. Select **Canada** as the location
@@ -251,7 +250,8 @@ sudo iptables -L
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/img/caution.png) > **Remember to user the same username and password on all of your VM's**
+    > ![caution](/static/img/caution.png) 
+    > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
 19. Enter your **Username**
@@ -262,7 +262,7 @@ sudo iptables -L
 24. Select **All files in one partititon**
 25. Select **yes** to **Write the changes to disk and configure LVM**
 26. Accept the default **Amount of volume group to use for guided partitioning**
-    ![deb1part](/img/deb1part.png)
+    ![deb1part](/static/img/deb1part.png)
 
 27. Your storage should be configured as shown above. Select **Finish partitioning and write changes to disk**
 28. Select **Yes** to **Write the changes to disks**
@@ -272,12 +272,12 @@ sudo iptables -L
 32. Leave **HTTP proxy information** as _blank_
 33. Select **No** to **Participate in the package survey**
 34. On the **Software Selection Screen** uncheck **Gnome** and select **Cinnamon** instead. Also select **SSH Server**
-    ![softsel](/img/softsel.png)
+    ![softsel](/static/img/softsel.png)
 
 35. Select **Yes** to **Install the GRUB boot loader**
 36. Select **/dev/vda** as the **Device for boot loader installation**
 37. When the installation is complete **Reboot**
-    > ![caution](/img/caution.png)
+    > ![caution](/static/img/caution.png)
     > You may need to go into the VM details and remove the media from the **CDROM** device
 38. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
 39. Issue the following command to obtain the IPv4 address for your deb1 VM to record in your Lab 2 logbook:
@@ -319,7 +319,8 @@ ip address show
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/img/caution.png) > **Remember to user the same username and password on all of your VM's**
+    > ![caution](/static/img/caution.png) 
+    > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
 19. Enter your **Username**
@@ -330,17 +331,17 @@ ip address show
 24. Select **Separate /home partititon**
 25. Select **yes** to **Write the changes to disk and configure LVM**
 26. Accept the default **Amount of volume group to use for guided partitioning**
-    ![deb2part](/img/deb2part.png)
+    ![deb2part](/static/img/deb2part.png)
 27. Select **Yes** to **Write the changes to disks**
 28. Select **No** to **Scan extra installation media**
 29. Select **No** to **Participate in the package survey**
 30. On the **Software Selection Screen** uncheck **Debian desktop environment** and **Gnome**. Also add the selection **SSH Server**
-    ![softsel2](/img/softsel2.png)
+    ![softsel2](/static/img/softsel2.png)
 
 31. Select **Yes** to **Install the GRUB boot loader**
 32. Select **/dev/vda** as the **Device for boot loader installation**
 33. When the installation is complete **Reboot**
-    > ![caution](/img/caution.png)
+    > ![caution](/static/img/caution.png)
     > You may need to go into the VM details and remove the media from the **CDROM** device
 34. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
 35. Issue the following command to obtain the IPv4 address for your **deb2** VM to record in your Lab 2 logbook:
@@ -349,8 +350,71 @@ ip address show
 ip address show
 ```
 
-### Part 4: Installing deb3 using Ansible
+### Part 4: Installing deb3 using a preseed file
 
+**VM Details:**
+
+- **VM Name (and hostname)**: deb3
+- **Debian Automated Install with preseed file (command line) Interface only**:
+- **VM Image Pathname**: /var/lib/libvirt/images/deb3.qcow2
+- **Preseed URL**: [https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg](https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg)  
+- **Memory**: 2048MB
+- **Disk space**: 15GB
+- **CPUs**: 1
+
+**Preseed Installations**
+
+1. **READ** the first 6 sections of the following [Debian wiki Document](https://wiki.debian.org/DebianInstaller/Preseed)
+
+Preseed files can be be quite complex and difficult to create from scratch. Debian provides an example preseed file that documents the default settings. 
+
+[Example preseed file](https://www.debian.org/releases/stable/example-preseed.txt)
+
+We are going to use this [preseed file](https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg) to install our **deb3** VM. 
+
+2.  **Read** the preseed file and answer the following questions
+- What locale will be chosen?
+- What mirror will be used?
+- Will the root account be enabled?
+- What is the regular user account "Full Name"?
+- What is the regular user account name?
+- what is the regular user's password?
+- Will the account have access to `sudo`?
+- What time zone will be selected?
+- Will the ssh server be installed?
+- What will the hostname be?
+- What partitions or LVM volumes will be created?
+
+**Perform the following steps:**
+
+1. Create the VM (called **deb3**) as you did with the **deb2** VM.
+2. Launch `virt-manager`.
+3. Click the **Create a new VM icon** located near the top left-corner of the application window.
+4. Select the **Local install media** option and click **Forward**.
+5. Browse to the location of your ISO image. (probably ~/Downloads) and select the iso image
+6. If the Operating System is not auto detected, uncheck the **"Automatically detect from the installation media"** and Choose **Debian 11**, and click **Forward**.
+7. Set **Memory**: size to **2048** MB and **CPUs** to **1**, then click **Forward**.
+8. Set **Hard Disk** size to **15** GB and click **Forward**.
+9. Enter the Name: **deb3**, AND then select the option: **Customize configuration before install**, and click **Finish**.
+10. Another dialog will appear. Click **CPUs** (or "processors") and on right-side under Configuration select **Copy Host CPU Configuration**, click **Apply**, and then click **Begin Installation** at the top left-hand side.
+11. When the installer starts hit the **ESC** key to access the **boot:** prompt
+12. At the **boot:** prompt enter the following and type enter
+
+```
+auto url=https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg
+```
+![deb3boot](/static/img/deb3boot.png)
+
+The installer should start and will perform an auto install using the information in the **preseed** file
+
+12. Select **English** as the language
+13. Select **Canada** as the location
+14. Select **American English** as the keyboard
+15. Enter a **Hostname** of **deb2**
+16. Leave the **Domain name**: _blank_
+17. **Do NOT set a root password**
+1. Create the deb3 VM as you did deb2
+2. 
 ## Investigation 3: Managing Virtual Machines (KVM)
 
 **Root Privileges**
@@ -359,7 +423,7 @@ As part of this investigation you will learn how to switch over to the root acco
 
 ### Part 1: Backing Up Virtual Machines
 
-> ![caution](/img/caution.png)
+> ![caution](/static/img/caution.png)
 > Taking the time to backup the image of the Virtual Machines filesystem allows the user to return to a "**restoration point**" using the **gunzip** command.
 >
 > This allows us to recover in case something bad occurs during a Lab!
@@ -426,7 +490,7 @@ As part of this investigation you will learn how to switch over to the root acco
 
 1. Login to a terminal on `debhost` as your regular user
 2. Shut down your **deb1**, **deb2**, and **deb3** VMs.
-   > ![caution](/img/caution.png)
+   > ![caution](/static/img/caution.png)
    > You can shutdown the VM's from the user interface, (For _deb2_ and _deb3_, which are CLI-only, you can issue the following command to shutdown: `sudo poweroff`, or you can use the `virsh` command.
    > Please be patient, the VMs will shut down!
 3. Create a directory for your backups. `mkdir ~/backups`
@@ -464,7 +528,7 @@ gzip < deb3.qcow2 > ~YourRegularUsername/backups/deb3.qcow2.gz
 
 **NOTE**: Make certain to use the redirection signs "<" and "\>" properly in the command!
 
-> ![caution](/img/caution.png)**Please be patient**
+> ![caution](/static/img/caution.png)**Please be patient**
 >
 > It may look like the command prompt is stuck but it could take a while for gzip to compress an entire operating system.
 >
@@ -476,7 +540,7 @@ gzip < deb3.qcow2 > ~YourRegularUsername/backups/deb3.qcow2.gz
 ### Part 2: Testing the backup
 
 1. Start the **deb3** VM and login.
-   > ![caution](/img/caution.png) **THIS WILL DESTROY YOUR SYSTEM**
+   > ![caution](/static/img/caution.png) **THIS WILL DESTROY YOUR SYSTEM**
    >
    > **Make certain that you are in your `deb3` VM and not in `debhost`!**
 1. Type this command inside the deb3 virtual machine: `sudo rm -rf /*` (ignore error messages).
@@ -543,7 +607,7 @@ wget https://matrix.senecacollege.ca/~ops245/centos4.xml
 6. Start up your `centos4` VM.
 7. Click on the user _OPS245_, and login with the password **ops245**.
 
-> ![caution](/img/caution.png)**Shutting Down the Host while Virtual Machines are Running**
+> ![caution](/static/img/caution.png)**Shutting Down the Host while Virtual Machines are Running**
 >
 > If you shut down your host system while virtual machines are running, they will be suspended, and will resume the next time you boot your host system. Note that it is better to shut down the VMs prior to shutting down the host
 
@@ -556,104 +620,118 @@ wget https://matrix.senecacollege.ca/~ops245/centos4.xml
 
 **Answer INVESTIGATION 3 observations / questions in your lab log book.**
 
-## Investigation 4: Using Python To Automate Managing Virtual Machines
+## Investigation 4: Using Shell Scripts for VM Backup & Management
 
-This week you have added some significant capabilities to your python scripting. The ability to run loops and make decisions makes your scripts much more powerful. In this investigation you will write a python script that backs up the centos1, centos2, and centos3 VMs, or lets the user specify which VMs they want backed up.
+You will continue our use of Bash Shell scripting by first creating a Bash Shell script that will allow the Linux sysadmin to select their created VMs for backup. Afterwards you will download, view and run a couple of Bash Shell scripts that use the virsh command to start and stop your virtual machines.
 
-**Please take a look at these [Python Scripting Tips](/C-ExtraResources/python-scripting-tips.md) before continuing with the steps below**
+**Please check out these [Bash Shell Scripting Tips](/C-ExtraResources/bash-shell-scripting-tips.md) first before continuing with the following steps**
 
-  1. In your **bin** directory, create the file **backupVM.py**, and populate with our standard beginning
+**Perform the following steps:**
 
-```python
-#!/usr/bin/env python3
-# backupVM.py
-# Purpose: Backs up virtual machines
-#
-# USAGE: ./backupVM.py
-#
-# Author: *** INSERT YOUR NAME ***
-# Date: *** CURRENT DATE ***
-import os
-currentuser = os.popen('whoami')
-if currentuser.read() != 'root':
-  print("You must be root")
-  exit()
-else:
-  print('Backing up centos1')
-  os.system('gzip < /var/lib/libvirt/images/centos1.qcow2 > ~YourRegularUsername/backups/centos1.qcow2.gz')
-  print('Backing up centos2')
-  os.system('gzip < /var/lib/libvirt/images/centos2.qcow2 > ~YourRegularUsername/backups/centos2.qcow2.gz')
-  print('Backing up centos3')
-  os.system('gzip < /var/lib/libvirt/images/centos3.qcow2 > ~YourRegularUsername/backups/centos3.qcow2.gz')
+  1. Start the **deb1** virtual machine, and stop the **deb2** and **deb3** virtual machines.
+  2. Switch to the **debhost** machine, and open a shell terminal.
+  3. Enter these admin commands into your **debhost** machine and note the result:
+
+```bash
+virsh list
 ```
 
-  2. Try to run that script. You'll notice it does not work. No matter what you do, it always says you are not root.
-  3. Modify the print statement that tells the user they must be root to also include the current username, then run the program again.
-  4. It should print out root, but with an extra new-line. You may have noticed this in your other python scripts so far: the data we get from os.popen() has an extra new-line on the end. We will need to modify the string(s) it gives us a bit. See the side-bar for hints on how to do so.
-  5. Modify the if statement so it is just getting the current username, not the username and a newline. You can do this using several steps and several variables, but it can also be done in a single line.
-  6. Test your script to make sure it works. If it doesn't, go back and fix it. **Do not continue until it successfully makes backups of your VMs**.
-  7. There is a weakness to this script as written. Every time you run it, it will make a backup of all three VMs. But what if you only made a change to one of them? Do we really need to wait through a full backup cycle for two machines that didn't change? As the script is currently written, we do. But we can make it better. We've provided the scripts with some comments below.
+```bash
+virsh list --all
+```
 
-  8. 
+```bash
+virsh list --inactive
+```
 
-```python
-#!/usr/bin/env python3
-# backupVM.py
-# Purpose: Backs up virtual machines
+  4. Now, shut-down your deb1 VM normally, and close the deb1 VM window.
+  5. Switch to your terminal and issue the command: 
+
+```bash
+virsh start deb1
+```
+
+  6. Using the appropriate command check to see if your deb1 VM is now running.
+  7. There are other commands that can be used (such as **suspend**, or **shutdown**). The "shutdown" command may not always work since it relies on the guest handling a particular ACPI event. Why do you think it is useful to have commands to manipulate VMs?
+  8. Since this is a text-based version of Linux, you do not need to turn off the screen-saver.
+
+**Virtual Machine Does not Shutdown from Command**
+
+If the Virtual machine fails to shutdown from the `virsh shutdown` command, then you can go to the **Virtual Machine manager** and **halt** or **shutdown** within the VM itself, then you can click the **PowerOff** button in the VM window. You'll want to avoid a forced shutdown since those are equivalent to yanking the power cord out of the wall on a physical machine!
+
+  9. Open a Bash shell terminal and login as root.
+  10. Use a text editor (such as `vi` or `nano`) to create a Bash Shell script called: `~/bin/backupVM.bash`
+  11. Enter the following text content into your file:
+
+```bash
+#!/bin/bash
+
+
+# backupVM.bash
+# Purpose: Backup VM images
 #
-# USAGE: ./backupVM.py
+# USAGE: ./report.bash
 #
 # Author: *** INSERT YOUR NAME ***
 # Date: *** CURRENT DATE ***
-import os
 
-#Make sure script is being run with elevated permissions
-currentuser = os.popen('whoami').read().strip()
-if currentuser != 'root':
-  print("You must be root")
-  exit()
+user=$(whoami)
+if [ $user != "root" ] # only runs if using sudo or root
+then
+ echo "You must run this script with root privileges. Please use sudo" >&2
+ exit 1
+fi
+```
+
+  12. Save your editing session, but remain in the text editor.
+  13. This shell script is designed particularly for your deb1, deb2, and deb3 VMS.
+  14. The code displayed below will prompt the user if they wish for all VMs to be backed-up; otherwise, allow the user the option of specifying which VMs to be backed-up. Add the following code.
+
+**Make sure you edit the code with the correct username!**
+
+```bash
+# prompt if all VMs to be backed-up
+read -p "Backup all VMs? (y|n):" answer 
+
+# Backup all VMs if answer is yes
+if [ "$answer" = "y" ] 
+then
+ for num in 1 2 3 # Determinant loop for 3 arguments: 1, 2, and 3
+ do
+  echo "Backing up VM #${num}"
+  gzip < /var/lib/libvirt/images/deb${num}.qcow2 > ~YourRegularUserName/backups/deb${num}.qcow2.backup.gz
+
+  echo "VM #${num} BACKUP DONE"
+ done
+
+# Prompt for VM is answer is no
+elif [ "$answer" = "n" ]
+then
+ read -p "Which VM should be backed up? (1/2/3): " numanswer
+ until echo $numanswer | grep "^[123]$" >> /dev/null # Look for match of single digit: 1,2, or 3
+ do
+  read -p "Invalid Selection. Select 1, 2, or 3: " numanswer
+ done
+ echo "Backing up VM #${numanswer}"
+ gzip < /var/lib/libvirt/images/deb${numanswer}.qcow2 > ~YourRegularUserName/backups/deb${numanswer}.qcow2.backup.gz
+
+ echo "VM #${numanswer} BACKUP DONE"
 else
-
-#The rest of this script identifies steps with comments 'Step <something>'.
-#This is not a normal standard for commenting, it has been done here to link the script
-# to the instructions on the wiki.
-
-#Step A: Find out if user wants to back up all VMs
-#Step B-1:use the existing loop to back up all the VMs
-  print('Backing up centos1')
-  os.system('gzip < /var/lib/libvirt/images/centos1.qcow2 > ~YourRegularUsername/backups/centos1.qcow2.gz')
-  print('Backing up centos2')
-  os.system('gzip < /var/lib/libvirt/images/centos2.qcow2 > ~YourRegularUsername/backups/centos2.qcow2.gz')
-  print('Backing up centos3')
-  os.system('gzip < /var/lib/libvirt/images/centos3.qcow2 > ~YourRegularUsername/backups/centos3.qcow2.gz')
-#Step B-2: They don't want to back up all VMs, prompt them for which VM they want to back up
-#Step C: Prompt the user for the name of the VM they want to back up
-#Step C-1: If the user chose Centos1, back up that machine.
-#Step C-2: If the user chose Centos2, back up that machine.
-#Step C-3: If the user chose Centos3, back up that machine.
+ echo "Invalid Selection... Aborting program"
+ exit 2
+fi
 ```
 
-  9. Before the block that backs up each machine add a prompt to ask the user if they want to back up all machines. Use an if statement to check if they said yes (See comment 'Step A').
+  15. Save, set the permissions, and then run that shell script to backup deb1. Confirm that this script did backup this image to ~/backups
 
-        - if they did say yes, back up all the VMs using your existing block (Comment step B-1).
-        - If they didn't say yes, do nothing for now (you could even use python's pass statement).
+  16. You have completed lab2. Proceed to Completing The Lab, and follow the instructions for "lab sign-off".
 
-  10. Test your script to make sure it works. Check what happens if you say 'yes' to the prompt, and check what happens if you say things other than 'yes'.
-  11. Now we have a script that asks the user if they want to back up all VMS, and if they say they do, it does. But if they don't want to back up every VM, it currently does nothing.
-  12. Add an else statement at comment Step B-2 to handle the user not wanting to back up every VM. Inside that else clause (Comment step C) ask the user which VM they would like to back up (you can even give them the names of available VMs (Centos1, Centos2, Centos3).
-  13. Now nest an if statement inside that else (Comments C-1, C-2, and C-3) so that your script can handle what your user just responded with. If they asked for Centos1, back up Centos1. If they want to back up Centos2, only back up Centos2, etc. Hint: You might want to use elif for this.
-  14. Test your script again. You should now have a script that:
+**Answer INVESTIGATION 4 observations / questions in your lab log book.**
 
-         - Makes sure the user is running the script with elevated permissions.
-         - Asks the user if they want to back up every VM.
-         - If they want to back up every VM, it backs up every VM.
-         - If the user does not want to back up every VM, the script asks them which VM they do want to back up.
-         - If the user selected a single VM, the script will back up that one VM.
-         - Now you may notice another issue with the script: The gzip lines are almost identical. The only difference in them is the name of the VM file being backed up. In the portion of code where you back up each machine individually (comment steps C-1, C-2, and C-3) try replacing the machine name in the gzip command with a string variable that holds the machine's name instead. Note that you will have to make us of string concatenation for this to work correctly.
 
 ## Lab 2 Sign-Off (Show Instructor)
 
-Follow the submission instructions for lab 2 on Blackboard.
+Follow the submission instructions that your Professor provides.
 
 **Backup ALL of your VMs!**
 
@@ -663,50 +741,25 @@ If you have successfully completed this lab, make a new backup of all of your vi
 
 1. Use the **virsh start** command to launch all the VMs (**deb1**, **deb2**, and **deb3**).
 2. Inside each virtual machine, run `ip a` on the command line. Open a Terminal window in deb1 to do so. You'll need the IP address of each machine for the next steps.
-3. Switch to your **debhost** VM, open a terminal, login as root, and change directory to **/root/bin**.
+3. Switch to your **debhost** VM, open a terminal, and change directory to **~/bin**.
 4. Issue the Linux command:
 
 ```bash
 wget https://raw.githubusercontent.com/OPS245/labs/main/lab2-check.bash
 ```
 
-5. Give the **lab2-check.bash** file execute permissions (for the file owner).
-6. Run the shell script and if any warnings, make fixes and re-run shell script until you receive "congratulations" message.
-7. Arrange proof of the following on the screen:
-
-- [x] **All VMs**:
-
-  - All 4 nested VMs **created** and **running**
-  - Proof of **yum updates** on ALL VMs (i.e. results from **yum update** command)
-
-- [x] **debhost VM:**
-
-  - Run the **lab2-check.bash** script in front of your instructor (must have all `OK` messages)
-
-- [x] Lab2 logbook notes completed.
-
-8. Upload a screenshot of the proof listed above, the output file generated by the lab2-check.bash script, your log book, and your backupVM.py to blackboard.
+5. Give the **lab2-check.bash** execute permissions for the file owner.
+6. Run the shell script and if there are any warnings, make fixes and re-run shell script until you receive the "Congratulations" message.
+7. Follow the submission instructions of your Professor:
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
-1. What is the name of the Debian installation program?
-2. What is the name of the file created by the Debian installation program?
-3. Which type of installation works best for confirming compatibility with hardware before installation? Why?
-4. Which type of installation works best for installing large numbers of computers? Why?
-5. How can you reduce the number of software updates required immediately after installation?
-6. How do you start and stop virtual machines?
-7. How do you SSH into your virtual machines?
-8. List the steps to install a VM from:
-
-   - Downloaded iso file
-   - Network install (without kickstart file)
-   - Network install (with kickstart file)
-
-9. What is the purpose of the virsh command?
-10. How to start and stop VMs using the virsh command?
-11. List the steps to correctly backup your VMs to a USB disk
-12. List the steps to correctly restore your VMs from a USB disk to your debhost VM.
-13. How can you prompt the user for data and store into a variable?
-14. Show a few examples how loops can be used to error-check when prompting the user for data.
-15. What does the command **rpm -qi Debian-release** do and why is it important?
-16. What is the difference between **rpm -q Debian-release** and **uname -a**?
+1. How do you start and stop virtual machines?
+2. What is the purpose of the virsh command?
+3. List the steps to correctly backup your VM's xml data
+4. List the steps to correctly backup your VM's disk images
+5. List the steps to correctly restore your VMs 
+6. How can you prompt the user for data and store into a variable?
+7. Show a few examples of bash loops that can be used to error-check user input.
+8. What does the command **apt update** do and why is it important?
+9. What does the command **apt upgrade** do and why is it important?

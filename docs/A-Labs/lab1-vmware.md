@@ -1,11 +1,11 @@
 ---
-id: lab1
-title: Lab 1
-sidebar_position: 1
+id: lab1-vmware
+title: Lab 1 - VMware Version
+sidebar_position: 2
 description: TBD
 ---
 
-# Lab 1: Installing Debian 12 with VirtualBox
+# Lab 1: Installing Debian 12 with VMware Workstation
 
 ## Lab Preparation
 
@@ -13,7 +13,7 @@ description: TBD
 
 In order to save money and resources when learning to install, to manage, and to connect Linux machines to form networks, we will be using **Virtual Machines** for this course. In fact, we will be using two virtual machine programs:
 
-- **Lab 1**: Create a **Debian 12 Host virtual machine** (called **debhost**) in the virtual program called **VirtualBox**. This host will be stored on your Solid State External Drive (SSD).
+- **Lab 1**: Create a **Debian 12 Host virtual machine** (called **debhost**) in the virtual program called **VMware Workstation**. This host will be stored on your Solid State External Drive (SSD).
 - **Lab 2**: Install a **Virtualization program package** on your **Debian 12 Host virtual machine** called **KVM** which will be used to create 3 remaining Virtual Machines (VMs) that you will use to learn about Linux system administration for the remainder of this course.
 
 The virtualization software will allow you to create and administer **4 different virtual machines** (**VMs**) on your computer system.
@@ -24,7 +24,7 @@ It is ESSENTIAL to have a **Solid State Drive (SSD) with a minimum storage capac
 
 ### Main Objectives
 
-- **Correctly install the Debian 12 host VM (debhost)** on your SSD using **VirtualBox**.
+- **Correctly install the Debian 12 host VM (debhost)** on your SSD using **VMware Workstation**.
 - Note common Linux commands and record them in your lab logbook.
 - Use **scripts** to generate a post-install report for your Debian 12 host VM.
 - **Disable Linux Kernel security enhancements** to allow for more experimentation.
@@ -66,9 +66,9 @@ It is ESSENTIAL to have a **Solid State Drive (SSD) with a minimum storage capac
 
 ## Investigation 1: Create And Install Your First Virtual Machine (debhost)
 
-In this lab, you will learn how to install your **Debian 12 VM** using the **VirtualBox** application.
+In this lab, you will learn how to install your **Debian 12 VM** using the **VMware Workstation** application.
 
-### Part 1: Using VirtualBox to Create a New Virtual Machine (VM)
+### Part 1: Using VMware Workstation to Create a New Virtual Machine (VM)
 
 **debhost VM Details:**
 
@@ -77,13 +77,13 @@ In this lab, you will learn how to install your **Debian 12 VM** using the **Vir
 
   - [Download netinst image](https://www.debian.org/download)
 
-- **Disk space**: 238GB
+- **Disk space**: 240GB
 - **CPUs**: 1 CPU, 4 cores **(Do not mix and match! Always use 1 CPU, and multiples of 2 for cores.)**
 
 > ![Caution](/img/caution.png)**If you are using an external SSD drive on a Seneca Lab Computer you _must_ FORMAT it AS exFAT.**
 >
 > By default, most external drives will be formatted for NTFS. **NTFS-formatted drives may cause issues in this course if you are constantly moving between different Seneca Lab computers.** When you plug your drive in, open My Computer, right-click on the new drive, and select _Format_....
-> If you are storing the vmdk file (VirtualBox disk image) on your own devices internal storage, this is not necessary.
+> If you are storing the vmdk file (VMware Workstation disk image) on your own devices internal storage, this is not necessary.
 
 ![Format exFAT](/img/Format_ExFAT.png)
 
@@ -109,16 +109,19 @@ Reading documentation, like any skill, requires practice. Reading `man` pages fo
 
 Click on the "User Support" link. Take a look at some of the support options available. Find the links to the documentation and forums. Take a look around. Bookmark the page. (The Debian website is well known for being difficult to navigate.)
 
-**Creating the VM in VirtualBox**
+**Creating the VM in VMware Workstation**
 
-Before you can install your Debian Linux OS, you must first create a storage container which is a virtual machine (VM) using VirtualBox on your **host** computer.
+Before you can install your Debian Linux OS, you must first create a storage container which is a virtual machine (VM) using VMware Workstation on your **host** computer.
 
-If you will be completing the course work on your own computer then you should download and install VirtualBox from the [VirtualBox Website](https://www.virtualbox.org)
-If you will be completing the course work on Seneca Lab computers you will need to run VirtualBox from "MyApps"
+if you will be completing the course work on your own computer then you should download and install VMware Workstation from the [VMware IT Academy Website](https://itacademy.brightspace.com/d2l/login)
 
-> ![Caution](/img/caution.png) > **Possible VirtualBox Installation Problem:**
+> You may have done this already in first semester.
 >
-> if you receive a warning that VirtualBox has missing dependencies for Python Core / win32api cancel the installation and follow [these instructions](https://www.sysnettechsolutions.com/en/fix-python-win32api-virtualbox/) before trying to install again.
+> If not your Professor can send a request to enroll you on the IT Academy
+
+If you will be completing the course work on Seneca Lab computers you will need to run VMware Workstation from "MyApps"
+
+> ![Caution](/img/caution.png) > **Please use VMware Workstation 17.x**
 
 **Perform the Following Steps:**
 
@@ -127,48 +130,55 @@ If you will be completing the course work on Seneca Lab computers you will need 
 3.  If you are using an external SSD drive, connect it to the computer and note the drive letter for that device.
 4.  If you will be working on Seneca Lab computers, format your SSD to use exFAT, **not NTFS**. Open _My Computer_, right-click on the SSD, and select _Format_.... The dialog box should have the **exFAT** option selected. Once selected, click _Start_.
 5.  Create a folder called: **Virtual Machines** on your SSD device or internal storage device. The storage device should have 240GB of usable space.
-6.  Launch VirtualBox.
-7.  Click the File menu, then select Preferences.
-8.  Under the General tab, set the Default Machine Folder: to the correct location for Virtual Machines, enter the pathname for the newly created folder in your SSD or internal device, and click OK.
-    ![VirtualBox Prefs](/img/vboxprefs.png)
-9.  Click on the "New" icon to create a new VM.
+6.  Launch VMware Workstation.
+
+![vmware1](/img/vmware1.png) 7. Click the Edit menu, then select Preferences.
+
+8. Set the default location for virtual machines to the correct location for Virtual Machines, enter the pathname for the newly created folder in your SSD or internal device, and click OK.
+
+![vmware2](/img/vmware2.png)
+
+9.  Click on the "Create a New Virtual Machine" icon to create a new VM.
+
     We will just be creating a "shell" for the VM to contain our Debian 12 Linux operating system. This will allow us to configure the VM properly so it will boot-up properly in our Seneca labs.
 
-          - Name: debhost
-          - Folder:  Check the location
-          - ISO image: Browse to the downloaded ISO file
-          - Type: Linux
-          - Version: Debian (64 bit)
-          - Check the box to "Skip unattended Installation"
-          - Click "Next"
+10. Select Custom --> Next
+11. Set Hardware Compatibility: Workstation 17.x --> Next
+12. Select I will install the operating system later --> Next
+13. Select Linux and Version Debian 11.x 64 bit --> Next
+14. Virtual Machine Name: debhost
+15. Check the location --> Next
 
-> NOTE: Since this “virtual machine” will be supporting other virtual machines (i.e. nested VMs), it is necessary to give this host VM a higher amount of Memory, and number of processors cores.
-> You can always change these settings later on to maximize the performance of running the “nested” VMs on your Host VM.
+![vmware3](/img/vmware3.png)
 
-10. Assign the VM 8GB of memory. (8192 MB)
-11. Assign 4 CPU's and select the box for ":Enable EFI"
-12. Click "Next"
-13. Choose "Create a virtual hard disk now"
-14. Set the size of the virtual hard disk to 240GB
-15. Click "Next"
-16. Review the settings and Click "Finish"
+16. Number of processors: 4 --> Next
+17. Memory for Virtual Machine: 8192 MB --> Next
+18. Network type: "Use network address translation (NAT)" --> Next
+19. SCSI Controller: LSI Logic (Recommended) --> Next
+20. Select Create a new virtual disk --> Next
+21. Set the Maximum disk size to 240GB --> Next
+22. Disk file: debhost.vmdk --> Next
+23. Review the settings and click on Finish
+24. Before you start the VM we need to make some changes
+25. Click on Edit the virtual machine settings
+26. Select Processors and check "Virtualize Intel VT-x/EPT or AMD-V/RVI"
 
-**Before starting the VM we need to adjust a couple of settings**
+![vmware5](/img/vmware5.png)
 
-1.  Click on the "Settings" icon
-2.  Click on the "System" tab
-3.  Under "Motherboard" check "Enable EFI"
-4.  Under "Processor" give your VM 4 Processors
-5.  **Enable Nested VT-x/AMD-v**
-6.  Click on the "Display" tab
-7.  Increase the "Video Memory" to 128MB
-8.  Click "OK"
+27. Select New CD/DVD (IDE)
+28. Select Use ISO image file and Browse to your Debian ISO
 
-**Boot the VM and begin the installation of Debian**
+![vmware6](/img/vmware6.png)
 
-1.  Click on the "Start" icon
-2.  When the Installer Boot Screen appears, Select "Advanced options..."
-3.  Select "Expert install"
+29. Select the Options tab at the top
+30. Select Advanced and select Firmware type: UEFI
+31. Click Save
+
+**Installing Debian 12**
+
+1. Start the **debhost** VM
+2. When the Installer Boot Screen appears, Select "Advanced options..."
+3. Select "Expert install"
 
 > ![Caution](/img/caution.png)**Possible installer problem:**
 >
@@ -194,13 +204,14 @@ If you will be completing the course work on Seneca Lab computers you will need 
 13. Leave the Domain name: as blank
 14. Select "Set up users and passwords"
 
-    > The installation of Debian 12 provides 2 methods of achieving administrative access to the system.
-    >
-    > - If you enable the "root" account and provide it with a password then to get admin access you need to login as root or use the `su` command to switch to root. No other accounts will have admin access.
-    > - If you leave the "root" account disabled then the first regular account that you create will be able to access administrative privileges by using the `sudo` command.
-    >   Generally the 2nd option is considered to be better, especially in environments where multiple users may need admin access to the system. You can always enable root account access after installation if you want both options available.
-    >
-    > ![Caution](/img/caution.png) > **WARNING: Do not login to a Graphical User Interface as the "root" account. Most Linux distributions prevent this.**
+The installation of Debian 12 provides 2 methods of achieving administrative access to the system.
+
+- If you enable the "root" account and provide it with a password then to get admin access you need to login as root or use the `su` command to switch to root. No other accounts will have admin access.
+- If you leave the "root" account disabled then the first regular account that you create will be able to access administrative privileges by using the `sudo` command.
+
+Generally the 2nd option is considered to be better, especially in environments where multiple users may need admin access to the system. You can always enable root account access after installation if you want both options available.
+
+> ![Caution](/img/caution.png) > **WARNING: Do not login to a Graphical User Interface as the "root" account. Most Linux distributions prevent this.**
 
 15. Choose "No" to prevent "root" from being enabled
 16. Enter your full name for the initial user account and then "Continue"
@@ -220,7 +231,7 @@ If you will be completing the course work on Seneca Lab computers you will need 
 > ![Caution](/img/caution.png)**It is very important that you setup disk partitioning correctly.
 > A mistake at this point in the lab could cause problems in future labs.**
 
-23. Select the "SCSI1" device which is the virtual disk for this VM.
+23. Select the "SCSI3" device which is the virtual disk for this VM.
 24. Choose "Yes" to create a new empty partition table on the device.
 25. Choose a "gpt" partition table
 26. Choose the "Free Space"
@@ -244,7 +255,12 @@ The remaining storage will be configured using "Logical Volume Management (LVM)"
 
 42. Choose "Configure the Logical Volume Manager"
 43. Compare your settings with the image below, make sure they are correct and choose "yes" to write those changes to disk
-    ![debgpt](/img/debgpt.png)
+
+> ![caution](/img/caution.png)
+> The image shows a device of "SCSI1" yours will have "SCSI3"
+
+![debgpt](/img/debgpt.png)
+
 44. Choose "Create volume group" and set Volume group name to "vg_debhost"
 45. Select "/dev/sda3" as the new device for the volume group and then continue
 46. Choose "Create logical volume"
@@ -293,7 +309,7 @@ Choose "Yes" to write the changes to disk**
 83. Select "Select and install software"
 84. Choose "no automatic updates" (We will update manually)
 85. Choose "no" to the package usage survey
-86. On the Software Selection screen make sure that the **Debian Desktop Environment** and **Gnome** are selected and  add the "SSH Server" to the default selections
+86. On the Software Selection screen make sure that the **Debian Desktop Environment** and **Gnome** are selected and add the "SSH Server" to the default selections
     ![tasksel](/img/tasksel.png)
 87. Select "Install the GRUB boot loader"
 88. Choose "No" to "Force GRUB installation to the EFI removable media path"
@@ -316,15 +332,14 @@ Then you will be presented with the "Welcome" application
 
 ## Investigation 2: Common Post-Installation Tasks
 
-### **Fix Display Resolution**
+**VMware Workstation Tips**
 
-VirtualBox display your VM in 3 modes.
+- To have the VM capture the keyboard and mouse click on the VM window.
+- To have the VM release the keyboard and mouse back to Windows type CTRL+ALT
+- To switch between windowed mode and full screen type CTRL+ALT+RETURN
+- Click on View --> Autofit Guest
 
-- Windowed mode (default)
-- Full Screen Mode (Toggle with right-ctrl F)
-- Scaled mode (Toggle with right-ctrl S)
-
-> It is recommended to run VirtualBox in full screen mode. You can press right-ctrl F to toggle between windowed and full screen mode. It is recommended that you stay in full screen mode for the duration of your lab work. You should use Firefox within the VM to access the various websites for this course.
+> It is recommended to run VMware Workstation in full screen mode. You can press CTRL+ALT+RETURN to toggle between windowed and full screen mode. It is recommended that you stay in full screen mode for the duration of your lab work. You should use Firefox within the VM to access the various websites for this course.
 
 Switch to Full Screen Mode
 
@@ -467,39 +482,44 @@ An installation log file called `/var/log/installer/status` has been created to 
   - `sudo systemctl disable apparmor`
 - We will learn more about these commands later
 
-## Investigation 3: Using Shell Commands to Generate System Information
+## Investigation 3: Using Shell Commands to Generate System Information Reports
 
-It is very common for system administrators to keep records regarding their installed computer systems. For example, it is necessary to have a record of all the hardware information for each machine in order to help fix computer hardware problems, and to assist when purchasing additional consistent computer hardware.
+It is very common for System Administrators to keep records regarding their installed computer systems. For example, it is necessary to have a record of all the hardware information for each machine in order to help fix computer hardware problems, and to assist when purchasing additional consistent computer hardware.
 
 Therefore, it makes sense to also have a record of the installed software and important system configurations as well. This can contain information regarding the Linux operating system, installed software, and network connectivity information.
 
+**Please review the [Bash Shell Reference Guide](/C-ExtraResources/bash-shell-reference-guide.md) to help with the rest of Investigation 3**
+
 **Perform the Following Steps:**
 
-1. Refer to the table below for common system information utilities and explanations for each.
-2. Run each of these commands, taking the time to *understand* what each command's output means.
-2. **Record the output** from these commands (except for the **ps -ef** output) in your lab logbook.
+1. Study the Linux commands and their purpose to note computer software information for your installed debhost VM. You should take time to issue each of these commands to view the output, and record this chart in your lab1 logbook. Run each one as a regular user, then with sudo to see the differences.
 
-The [Bash Shell Reference Guide](/C-ExtraResources/bash-shell-reference-guide.md) is available to refresh your memory of last semester's ULI101.
+2. Make certain to **record output** from these commands (except for the **ps -ef** output) in your lab1 logbook.
 
 **Linux/Unix System Information Utilities**
 
-| **Command(s)**                                                                        | **Purpose**                                                                                                                                                                                                                   |
-| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `uname -rv`, `hostname`, `ps -ef`                                                     | Basic Linux OS information such as **kernel** version, **host-name** of Linux server, and all **processes** that are running on the system after installation.                                                                |
-| `ip address show`, `ip route show`, `nslookup` (at prompt, enter command: **server**) | Obtain network connectivity confirmation including: **IP ADDRESS, Netmask, routing** (default gateway), and the default **Domain Name Server**.                                                                               |
-| `date +'%A %B %d, %Y (%I:%M %p)'` | Get the current date and time according to the system. (If the date or time do not match your timezone, fix this in system settings for debhost!) |
+| **Command(s)**                                                                        | **Purpose**                                                                                                                                                    |
+| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uname -rv`, `hostname`, `ps -ef`                                                     | Basic Linux OS information such as **kernel** version, **host-name** of Linux server, and all **processes** that are running on the system after installation. |
+| `ip address show`, `ip route show`, `nslookup` (at prompt, enter command: **server**) | Obtain network connectivity confirmation including: **IP ADDRESS, Netmask, routing** (default gateway), and the default **Domain Name Server**.                |
 
-3. Note that when you are done, you should have recorded the following information in your Lab Logbook:
-   - Current Date (according to debhost)
-   - Hostname (ie. debhost)
-   - Kernel version
-   - IPv4 address
-   - Subnet mask
-   - Broadcast address
-   - Default gateway address
-   - DNS address
+3. Refer to the Bash Shell Reference Guide prior to proceeding with this section.
+4. Create a directory called bin in your home directory to store your shell scripts by issuing the command:
 
-4. Review what you just wrote in your Lab Logbook. You should be able to understand them because you just put that content there, but what would this look like if you look at it several months from now? Make sure it's clear to future-you!
+```bash
+mkdir ~/bin
+```
+
+5. Change to that newly-created **bin** directory
+6. Using output redirection, send the output from each of the following commands to a file called **report.txt**. Note that when you are done, you should have one file that has output from all of the commands.
+
+   - `date +'%A %B %d, %Y (%I:%M %p)'`
+   - `hostname`
+   - `uname -rv`
+   - `ps aux`
+   - `ip address show`
+
+7. View the _report.txt_ contents. You should be able to understand them because you just put that content there, but what would this look like if you look at the file several months from now? In order to make this file more readable, use the command line to add a blank line between the output from each command, and a header before each command briefly describing what the output is (note that this will likely require re-running all of these commands).
 
 **Answer Investigation 3 observations (all parts and questions) in your lab log book.**
 
@@ -575,12 +595,13 @@ wget https://raw.githubusercontent.com/OPS245/labs/main/lab1-check.bash
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
-1. Define the term *Virtual Machine*.
+1. Define the term Virtual Machine.
 2. List the major screens (steps) in the installation of Debian 12.
 3. What key-combination is used to toggle the view of your running VM from "window-mode" to "full-screen-mode"?
 4. List the steps for updating the Debian software.
-5. What is the **home** directory for the user "root"?
+5. What is the home directory for the user "root"?
 6. How do you determine the host name of your GNU/Linux workstation?
 7. What command can display the NIC MAC address?
 8. What command is used to get a list of running processes on your newly-installed system?
 9. Write the Linux command to download the on-line file: http://linux.server.org/package.tar.gz
+10. Write a bash Shell Script to prompt the user for a directory, and then display the file types for all files in that specified directory (hint: use the **read** command and then use the **file** command and **command substitution** with the **ls** command). Test the Bash Shell script by adding execute permissions and run the Bash Shell Script.
