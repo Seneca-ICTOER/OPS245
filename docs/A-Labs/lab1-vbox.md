@@ -293,7 +293,7 @@ Choose "Yes" to write the changes to disk**
 83. Select "Select and install software"
 84. Choose "no automatic updates" (We will update manually)
 85. Choose "no" to the package usage survey
-86. On the Software Selection screen make sure that the **Debian Desktop Environment** and **Gnome** are selected and  add the "SSH Server" to the default selections
+86. On the Software Selection screen make sure that the **Debian Desktop Environment** and **Gnome** are selected and add the "SSH Server" to the default selections
     ![tasksel](/img/tasksel.png)
 87. Select "Install the GRUB boot loader"
 88. Choose "No" to "Force GRUB installation to the EFI removable media path"
@@ -476,20 +476,21 @@ Therefore, it makes sense to also have a record of the installed software and im
 **Perform the Following Steps:**
 
 1. Refer to the table below for common system information utilities and explanations for each.
-2. Run each of these commands, taking the time to *understand* what each command's output means.
-2. **Record the output** from these commands (except for the **ps -ef** output) in your lab logbook.
+2. Run each of these commands, taking the time to _understand_ what each command's output means.
+3. **Record the output** from these commands (except for the **ps -ef** output) in your lab logbook.
 
 The [Bash Shell Reference Guide](/C-ExtraResources/bash-shell-reference-guide.md) is available to refresh your memory of last semester's ULI101.
 
 **Linux/Unix System Information Utilities**
 
-| **Command(s)**                                                                        | **Purpose**                                                                                                                                                                                                                   |
-| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `uname -rv`, `hostname`, `ps -ef`                                                     | Basic Linux OS information such as **kernel** version, **host-name** of Linux server, and all **processes** that are running on the system after installation.                                                                |
-| `ip address show`, `ip route show`, `nslookup` (at prompt, enter command: **server**) | Obtain network connectivity confirmation including: **IP ADDRESS, Netmask, routing** (default gateway), and the default **Domain Name Server**.                                                                               |
-| `date +'%A %B %d, %Y (%I:%M %p)'` | Get the current date and time according to the system. (If the date or time do not match your timezone, fix this in system settings for debhost!) |
+| **Command(s)**                                                                        | **Purpose**                                                                                                                                                    |
+| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uname -rv`, `hostname`, `ps -ef`                                                     | Basic Linux OS information such as **kernel** version, **host-name** of Linux server, and all **processes** that are running on the system after installation. |
+| `ip address show`, `ip route show`, `nslookup` (at prompt, enter command: **server**) | Obtain network connectivity confirmation including: **IP ADDRESS, Netmask, routing** (default gateway), and the default **Domain Name Server**.                |
+| `date +'%A %B %d, %Y (%I:%M %p)'`                                                     | Get the current date and time according to the system. (If the date or time do not match your timezone, fix this in system settings for debhost!)              |
 
 3. Note that when you are done, you should have recorded the following information in your Lab Logbook:
+
    - Current Date (according to debhost)
    - Hostname (ie. debhost)
    - Kernel version
@@ -532,7 +533,7 @@ echo 'System Report'
 ```
 # Print a heading for the date command output
 date=$(date +'%A %B %d, %Y (%I:%M %p)')
-echo 'Report Date:  $date'
+echo "Report Date:  $date"
 ```
 
 7. Save your script and run it again. Observe the output?
@@ -540,8 +541,8 @@ echo 'Report Date:  $date'
 
    - The hostname of the machine.
    - The kernel version.
+   - The IP address
    - The list of all installed packages.
-   - The IP address.
 
 9. Run your script to make sure it works. Note that the output does not need to match investigation 3 exactly, but it should be very close.
 10. What other commands and information could we document? Perhaps a list of storage devices, partitions and mount points?
@@ -563,7 +564,7 @@ On the other hand, if there were errors, then a `WARNING` message will appear wi
 3. Download the checking script by issuing the following Linux command:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main/lab1-check.bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab1-check.bash
 ```
 
 4. Give that downloaded shell script file execute permissions (for the file owner).
@@ -575,7 +576,7 @@ wget https://raw.githubusercontent.com/OPS245/labs/main/lab1-check.bash
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
-1. Define the term *Virtual Machine*.
+1. Define the term _Virtual Machine_.
 2. List the major screens (steps) in the installation of Debian 12.
 3. What key-combination is used to toggle the view of your running VM from "window-mode" to "full-screen-mode"?
 4. List the steps for updating the Debian software.

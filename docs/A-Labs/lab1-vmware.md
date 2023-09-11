@@ -552,7 +552,7 @@ echo 'System Report'
 ```
 # Print a heading for the date command output
 date=$(date +'%A %B %d, %Y (%I:%M %p)')
-echo 'Report Date:  $date'
+echo "Report Date:  $date"
 ```
 
 7. Save your script and run it again. Observe the output?
@@ -560,8 +560,8 @@ echo 'Report Date:  $date'
 
    - The hostname of the machine.
    - The kernel version.
+   - The IP address
    - The list of all installed packages.
-   - The IP address.
 
 9. Run your script to make sure it works. Note that the output does not need to match investigation 3 exactly, but it should be very close.
 10. What other commands and information could we document? Perhaps a list of storage devices, partitions and mount points?
@@ -583,7 +583,7 @@ On the other hand, if there were errors, then a `WARNING` message will appear wi
 3. Download the checking script by issuing the following Linux command:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main/lab1-check.bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab1-check.bash
 ```
 
 4. Give that downloaded shell script file execute permissions (for the file owner).
