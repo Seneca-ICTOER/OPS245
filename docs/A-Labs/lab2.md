@@ -141,10 +141,11 @@ sudo usermod -aG libvirt <username>
 7. **Restart your debhost virtual machine**. If you fail to do this, you may experience virtualization network problems and issues loading Virtual Machine Manager.
 
 8. Once you've restarted, confirm your changes took affect by running the following as your regular user (don't use sudo):
-  - `systemctl status libvirtd`
-  - `id`
 
-The *libvirtd* daemon should be running, and the *id* command should show that your user is part of the **libvirt** group. 
+- `systemctl status libvirtd`
+- `id`
+
+The _libvirtd_ daemon should be running, and the _id_ command should show that your user is part of the **libvirt** group.
 
 9. Start the graphical `virt-manager` tool by clicking "Activities " and searching for "virt-manager".
 10. Right click on the icon and "Pin to dash" and then run the application or by typing the command `virt-manager` (without sudo!)
@@ -250,7 +251,7 @@ sudo iptables -L
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/img/caution.png) 
+    > ![caution](/img/caution.png)
     > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
@@ -319,7 +320,7 @@ ip address show
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/img/caution.png) 
+    > ![caution](/img/caution.png)
     > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
@@ -328,7 +329,7 @@ ip address show
 21. Select the **Eastern** time zone
 22. When asked for **Partitioning method**: choose **Guided - use entire disk and setup LVM**
 23. Select **Virtual disk 1(vda)**
-24. Select **Separate /home partititon**
+24. Select **Separate /home partition**
 25. Select **yes** to **Write the changes to disk and configure LVM**
 26. Accept the default **Amount of volume group to use for guided partitioning**
     ![deb2part](/img/deb2part.png)
@@ -357,7 +358,7 @@ ip address show
 - **VM Name (and hostname)**: deb3
 - **Debian Automated Install with preseed file (command line) Interface only**:
 - **VM Image Pathname**: /var/lib/libvirt/images/deb3.qcow2
-- **Preseed URL**: [https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg](https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg)  
+- **Preseed URL**: [https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg](https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg)
 - **Memory**: 2048MB
 - **Disk space**: 15GB
 - **CPUs**: 1
@@ -366,13 +367,14 @@ ip address show
 
 1. **READ** the first 6 sections of the following [Debian wiki Document](https://wiki.debian.org/DebianInstaller/Preseed)
 
-Preseed files can be be quite complex and difficult to create from scratch. Debian provides an example preseed file that documents the default settings. 
+Preseed files can be be quite complex and difficult to create from scratch. Debian provides an example preseed file that documents the default settings.
 
 [Example preseed file](https://www.debian.org/releases/stable/example-preseed.txt)
 
-We are going to use this [preseed file](https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg) to install our **deb3** VM. 
+We are going to use this [preseed file](https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg) to install our **deb3** VM.
 
 2.  **Read** the preseed file and answer the following questions
+
 - What locale will be chosen?
 - What mirror will be used?
 - Will the root account be enabled?
@@ -403,19 +405,45 @@ We are going to use this [preseed file](https://raw.githubusercontent.com/OPS245
 ```
 auto url=https://raw.githubusercontent.com/OPS245/debian-labs/main/deb3-preseed.cfg
 ```
+
 ![deb3boot](/img/deb3boot.png)
 
-The installer should start and will perform an auto install using the information in the **preseed** file
+The installer should start and will perform an auto install using the information in the **preseed** file. When **deb3** reboots login to the **tty** as the user **ops245**.
 
-12. Select **English** as the language
-13. Select **Canada** as the location
-14. Select **American English** as the keyboard
-15. Enter a **Hostname** of **deb2**
-16. Leave the **Domain name**: _blank_
-17. **Do NOT set a root password**
-1. Create the deb3 VM as you did deb2
-2. 
-## Investigation 3: Managing Virtual Machines (KVM)
+**Post Installation Tasks**
+
+1. First change the **tty** display font.
+
+```bash
+# Reconfigure the console font
+sudo dpkg-reconfigure console-setup
+```
+
+![deb3tty](/img/deb3tty.png)
+
+2. Select **UTF-8**
+3. Select **Latin1**
+4. Select **Terminus**
+5. Select **11x22**
+
+You can experiment with different settings for Font and Font size.
+
+6. Create a new regular user account and password that matches your other VM's
+
+```bash
+# Create the user
+sudo useradd -m -c "Full Name" <username>
+
+# Set the users password
+sudo passwd <username>
+
+# Add the user to the sudo group
+sudo usermod -aG sudo <username>
+```
+
+7. Type `exit` to logout and then login as the new user
+8. Test **sudo** access using the command `sudo whoami`
+9. Follow the same process as you did for previous VM's to enable the **root** account, perform an update, and disable the apparmor service
 
 **Root Privileges**
 
@@ -431,65 +459,60 @@ As part of this investigation you will learn how to switch over to the root acco
 > Failure to take the time to make and confirm backups can result in loss of lab work for the student!
 >
 > There are three general steps to back up your Virtual Machines:
+>
+> - Shutdown the VM
+> - Create a compressed copy of your **Disk Images** using the **gzip** command.
+> - Backup the VM xml configuration using the **virsh** shell command.
 
-- Shutdown the VM
-- Create a compressed copy of your **Disk Images** using the **gzip** command.
-- Backup the VM xml configuration using the **virsh** shell command.
+The `virsh` command is a command line tool/shell for managing VM's
 
-> The `virsh` command is a command line tool/shell for managing VM's
-> We use it to connect to the hypervisor and then interact with our VM's
->
-> In order to use the **virsh** command as a regular user to connect to our VM's we must configure an ENVIRONMENT variable.
->
-> Edit the file `~/.bashrc` as your regular user on `debhost`
->
-> Add the following to the file
->
-> ```bash
-> # virsh connection variable
-> export LIBVIRT_DEFAULT_URI='qemu:///system'
-> ```
->
-> Logout and login again to `debhost`
->
-> The following example `virsh` commands will be useful
->
-> ```bash
-> # List all running (active) VM's
-> virsh list
->
-> # List all inactive VM's
-> virsh list --inactive
->
-> # List all VM's (active or not)
-> virsh list --all
->
-> # Start a VM
-> virsh start <vmname>
->
-> # Shutdown a VM
-> virsh shutdown <vmname>
->
-> # Force off a VM (if shutdown fails)
-> virsh destroy <vmname>
->
-> # Display the xml data that defines the VM configuration
-> virsh dumpxml <vmname>
+We use it to connect to the hypervisor and then interact with our VM's
 
-> ```
->
-> To view the VM in a window without using `virt-manager`
->
-> ```bash
-> # Open VM in viewer window
-> virt-viewer <vmname> &
->
-> ```
+In order to use the **virsh** command as a regular user to connect to our VM's we must configure an ENVIRONMENT variable.
 
-**Perform the following steps:**
+1. Edit the file `~/.bashrc` as your regular user on `debhost`
+2. Add the following to the file
 
-1. Login to a terminal on `debhost` as your regular user
-2. Shut down your **deb1**, **deb2**, and **deb3** VMs.
+```bash
+# virsh connection variable
+export LIBVIRT_DEFAULT_URI='qemu:///system'
+```
+
+3. Logout and login again to `debhost`
+
+The following example `virsh` commands will be useful
+
+```bash
+# List all running (active) VM's
+virsh list
+
+# List all inactive VM's
+virsh list --inactive
+
+# List all VM's (active or not)
+virsh list --all
+
+# Start a VM
+virsh start <vmname>
+
+# Shutdown a VM
+virsh shutdown <vmname>
+
+# Force off a VM (if shutdown fails)
+virsh destroy <vmname>
+
+# Display the xml data that defines the VM configuration
+virsh dumpxml <vmname>
+```
+
+To view the VM in a window without launching `virt-manager`
+
+```bash
+# Open VM in viewer window
+virt-viewer <vmname> &
+```
+
+2. Shut down your **deb1**, **deb2**, and **deb3** VMs. (Use the `virsh` command)
    > ![caution](/img/caution.png)
    > You can shutdown the VM's from the user interface, (For _deb2_ and _deb3_, which are CLI-only, you can issue the following command to shutdown: `sudo poweroff`, or you can use the `virsh` command.
    > Please be patient, the VMs will shut down!
@@ -510,7 +533,7 @@ As part of this investigation you will learn how to switch over to the root acco
 > `sudo -i` will start a new shell as the root user, you can run a number of commands and then type `exit` to return to your previous shell.
 
 9. Change to the images directory: `cd /var/lib/libvirt/images/`. Note that you did not need to use sudo, as you are already using elevated permissions.
-10. Type `ls -l` to see the contents
+10. Type `ls -lh` to see the contents
 11. To make a compressed copy of your **deb1.qcow2**, **deb2.qcow2**, and **deb3.qcow2** files we will use the `gzip` command.
 
     The `gzip` command will compress the file in place and rename the file with a `.gz` extension.
@@ -536,6 +559,8 @@ gzip < deb3.qcow2 > ~YourRegularUsername/backups/deb3.qcow2.gz
 
 13. Compare the size of the compressed and original files (hint: use `ls -lh`). If file is very large (like 15GB), you didn't compress it and you need to remove that file and perform the previous step until you get it right!
 14. Once you are **sure you have all three VM disk images backed up**, use the `exit` command to revert back to your normal user.
+
+![vmbackup](/img/vmbackup.png)
 
 ### Part 2: Testing the backup
 
@@ -584,43 +609,18 @@ exit
 
 9. Start the `deb3` VM and login to make sure it was successfully restored
 
-### Part 3: Restoring Virtual Machines
-
-1. We will now download a compressed image file and XML configuration file and add it as a VM to the Virtual Machine Manager menu.
-2. Issue the following commands:
-
-```bash
-# Change to ~/backups
-cd ~/backups
-
-# Download disk image
-wget https://matrix.senecacollege.ca/~ops245/centos4.qcow2.gz
-
-# Download xml data
-wget https://matrix.senecacollege.ca/~ops245/centos4.xml
-```
-
-3. Use the same procedure as above in Part 2, use `gunzip` with elevated privileges to decompress the qcow2 image file into the **/var/lib/libvirt/images** directory, and define a VM from the xml file.
-
-4. What happened in the `virt-manager` window?
-5. In order to remove a VM entry in the Virtual Manager window, simply issue the command `virsh undefine <vmname>` without the **.xml** file extension
-6. Start up your `centos4` VM.
-7. Click on the user _OPS245_, and login with the password **ops245**.
-
 > ![caution](/img/caution.png)**Shutting Down the Host while Virtual Machines are Running**
 >
 > If you shut down your host system while virtual machines are running, they will be suspended, and will resume the next time you boot your host system. Note that it is better to shut down the VMs prior to shutting down the host
 
-8. For the remainder of these labs, it is assumed that you will backup **both** the images and XML configuration files for **all** Virtual machines, when asked to backup your virtual machines. It is also highly recommended to backup these files to an external storage device (eg. USB key) in case the host machine gets "wiped" and you need to rebuild your HOST machine and then restore your Virtual Machines...
-9. Answer this question in your log book:
+10. For the remainder of these labs, it is assumed that you will backup **both** the images and XML configuration files for **all** Virtual machines, when asked to backup your virtual machines. It is also highly recommended to backup these files to an external storage device (eg. USB key) in case the host machine gets "wiped" and you need to rebuild your HOST machine and then restore your Virtual Machines...
+11. Answer this question in your log book:
 
-   - In order to fully back up a virtual machine, what information should be saved in addition to the virtual machine image?
+- In order to fully back up a virtual machine, what information should be saved in addition to the virtual machine image?
 
-10. You can now safely remove the `centos4` VM and it's disk image. They are no longer needed.
+**Answer INVESTIGATION 2 observations / questions in your lab log book.**
 
-**Answer INVESTIGATION 3 observations / questions in your lab log book.**
-
-## Investigation 4: Using Shell Scripts for VM Backup & Management
+## Investigation 3: Using Shell Scripts for VM Backup & Management
 
 You will continue our use of Bash Shell scripting by first creating a Bash Shell script that will allow the Linux sysadmin to select their created VMs for backup. Afterwards you will download, view and run a couple of Bash Shell scripts that use the virsh command to start and stop your virtual machines.
 
@@ -628,9 +628,9 @@ You will continue our use of Bash Shell scripting by first creating a Bash Shell
 
 **Perform the following steps:**
 
-  1. Start the **deb1** virtual machine, and stop the **deb2** and **deb3** virtual machines.
-  2. Switch to the **debhost** machine, and open a shell terminal.
-  3. Enter these admin commands into your **debhost** machine and note the result:
+1. Start the **deb1** virtual machine, and stop the **deb2** and **deb3** virtual machines.
+2. Switch to the **debhost** machine, and open a shell terminal.
+3. Enter these admin commands into your **debhost** machine and note the result:
 
 ```bash
 virsh list
@@ -644,24 +644,24 @@ virsh list --all
 virsh list --inactive
 ```
 
-  4. Now, shut-down your deb1 VM normally, and close the deb1 VM window.
-  5. Switch to your terminal and issue the command: 
+4. Now, shut-down your deb1 VM normally, and close the deb1 VM window.
+5. Switch to your terminal and issue the command:
 
 ```bash
 virsh start deb1
 ```
 
-  6. Using the appropriate command check to see if your deb1 VM is now running.
-  7. There are other commands that can be used (such as **suspend**, or **shutdown**). The "shutdown" command may not always work since it relies on the guest handling a particular ACPI event. Why do you think it is useful to have commands to manipulate VMs?
-  8. Since this is a text-based version of Linux, you do not need to turn off the screen-saver.
+6. Using the appropriate command check to see if your deb1 VM is now running.
+7. There are other commands that can be used (such as **suspend**, or **shutdown**). The "shutdown" command may not always work since it relies on the guest handling a particular ACPI event. Why do you think it is useful to have commands to manipulate VMs?
+8. Since this is a text-based version of Linux, you do not need to turn off the screen-saver.
 
 **Virtual Machine Does not Shutdown from Command**
 
 If the Virtual machine fails to shutdown from the `virsh shutdown` command, then you can go to the **Virtual Machine manager** and **halt** or **shutdown** within the VM itself, then you can click the **PowerOff** button in the VM window. You'll want to avoid a forced shutdown since those are equivalent to yanking the power cord out of the wall on a physical machine!
 
-  9. Open a Bash shell terminal and login as root.
-  10. Use a text editor (such as `vi` or `nano`) to create a Bash Shell script called: `~/bin/backupVM.bash`
-  11. Enter the following text content into your file:
+9. Open a Bash shell terminal and login as root.
+10. Use a text editor (such as `vi` or `nano`) to create a Bash Shell script called: `~/bin/backupVM.bash`
+11. Enter the following text content into your file:
 
 ```bash
 #!/bin/bash
@@ -670,7 +670,7 @@ If the Virtual machine fails to shutdown from the `virsh shutdown` command, then
 # backupVM.bash
 # Purpose: Backup VM images
 #
-# USAGE: ./report.bash
+# USAGE: ./backupVM.bash
 #
 # Author: *** INSERT YOUR NAME ***
 # Date: *** CURRENT DATE ***
@@ -683,51 +683,54 @@ then
 fi
 ```
 
-  12. Save your editing session, but remain in the text editor.
-  13. This shell script is designed particularly for your deb1, deb2, and deb3 VMS.
-  14. The code displayed below will prompt the user if they wish for all VMs to be backed-up; otherwise, allow the user the option of specifying which VMs to be backed-up. Add the following code.
+12. Save your editing session, but remain in the text editor.
+13. This shell script is designed particularly for your deb1, deb2, and deb3 VMS.
+14. The code displayed below will prompt the user if they wish for all VMs to be backed-up; otherwise, allow the user the option of specifying which VMs to be backed-up. Add the following code.
 
 **Make sure you edit the code with the correct username!**
 
 ```bash
+# Set variables for source path and backup path
+img_path="/var/lib/libvirt/images/"
+backup_path="/home/username/backups/"
+
 # prompt if all VMs to be backed-up
-read -p "Backup all VMs? (y|n):" answer 
+read -p "Backup all VMs? (y|n):" answer
 
 # Backup all VMs if answer is yes
-if [ "$answer" = "y" ] 
+if [ "$answer" = "y" ]
 then
  for num in 1 2 3 # Determinant loop for 3 arguments: 1, 2, and 3
  do
-  echo "Backing up VM #${num}"
-  gzip < /var/lib/libvirt/images/deb${num}.qcow2 > ~YourRegularUserName/backups/deb${num}.qcow2.backup.gz
-
-  echo "VM #${num} BACKUP DONE"
+  vm="deb${num}"
+  echo "Backing up VM ${vm}"
+  gzip < ${img_path}${vm}.qcow2 > ${backup_path}${vm}.qcow2.gz
+  echo "${vm} BACKUP DONE"
  done
 
 # Prompt for VM is answer is no
 elif [ "$answer" = "n" ]
 then
- read -p "Which VM should be backed up? (1/2/3): " numanswer
+ read -p "Which VM should be backed up? (1|2|3): " numanswer
  until echo $numanswer | grep "^[123]$" >> /dev/null # Look for match of single digit: 1,2, or 3
  do
   read -p "Invalid Selection. Select 1, 2, or 3: " numanswer
  done
- echo "Backing up VM #${numanswer}"
- gzip < /var/lib/libvirt/images/deb${numanswer}.qcow2 > ~YourRegularUserName/backups/deb${numanswer}.qcow2.backup.gz
-
- echo "VM #${numanswer} BACKUP DONE"
+ vm="deb${numanswer}"
+ echo "Backing up VM ${vm}"
+ gzip < ${img_path}${vm}.qcow2 > ${backup_path}${vm}.qcow2.gz
+ echo "${vm} BACKUP DONE"
 else
  echo "Invalid Selection... Aborting program"
  exit 2
 fi
 ```
 
-  15. Save, set the permissions, and then run that shell script to backup deb1. Confirm that this script did backup this image to ~/backups
+15. Save, set the permissions, and then run that shell script to backup deb1. Confirm that this script did backup this image to ~/backups
+16. What happens if you enter an invalid answer to any of the prompts?
+17. You have completed lab2. Proceed to Completing The Lab, and follow the instructions for "lab sign-off".
 
-  16. You have completed lab2. Proceed to Completing The Lab, and follow the instructions for "lab sign-off".
-
-**Answer INVESTIGATION 4 observations / questions in your lab log book.**
-
+**Answer INVESTIGATION 3 observations / questions in your lab log book.**
 
 ## Lab 2 Sign-Off (Show Instructor)
 
@@ -742,10 +745,10 @@ If you have successfully completed this lab, make a new backup of all of your vi
 1. Use the **virsh start** command to launch all the VMs (**deb1**, **deb2**, and **deb3**).
 2. Inside each virtual machine, run `ip a` on the command line. Open a Terminal window in deb1 to do so. You'll need the IP address of each machine for the next steps.
 3. Switch to your **debhost** VM, open a terminal, and change directory to **~/bin**.
-4. Issue the Linux command:
+4. Issue the command:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main/lab2-check.bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab2-check.bash
 ```
 
 5. Give the **lab2-check.bash** execute permissions for the file owner.
@@ -758,7 +761,7 @@ wget https://raw.githubusercontent.com/OPS245/labs/main/lab2-check.bash
 2. What is the purpose of the virsh command?
 3. List the steps to correctly backup your VM's xml data
 4. List the steps to correctly backup your VM's disk images
-5. List the steps to correctly restore your VMs 
+5. List the steps to correctly restore your VMs
 6. How can you prompt the user for data and store into a variable?
 7. Show a few examples of bash loops that can be used to error-check user input.
 8. What does the command **apt update** do and why is it important?
