@@ -17,6 +17,7 @@ In order to save money and resources when learning to install, to manage, and to
 - **Lab 2**: Install a **Virtualization program package** on your **Debian 12 Host virtual machine** called **KVM** which will be used to create 3 remaining Virtual Machines (VMs) that you will use to learn about Linux system administration for the remainder of this course.
 
 The virtualization software will allow you to create and administer **4 different virtual machines** (**VMs**) on your computer system.
+![labenv](/img/labenv.png)
 
 It is ESSENTIAL to have a **Solid State Drive (SSD) with a minimum storage capacity of 240 GB** or **240 GB available on your own computer** for you to perform the lab work and provide storage for your Debian 12 host and other VMs that you will create in Lab 2. **Due to space requirements, you are NOT permitted to share this SSD drive with any other course material than our OPS245 course.**
 

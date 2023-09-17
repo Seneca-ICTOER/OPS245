@@ -251,8 +251,7 @@ sudo iptables -L
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/img/caution.png)
-    > **Remember to user the same username and password on all of your VM's**
+    > ![caution](/img/caution.png) > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
 19. Enter your **Username**
@@ -280,14 +279,17 @@ sudo iptables -L
 37. When the installation is complete **Reboot**
     > ![caution](/img/caution.png)
     > You may need to go into the VM details and remove the media from the **CDROM** device
-38. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
-39. Issue the following command to obtain the IPv4 address for your deb1 VM to record in your Lab 2 logbook:
+
+**Post Installation Tasks**
+
+1. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
+2. Issue the following command to obtain the IPv4 address for your deb1 VM to record in your Lab 2 logbook:
 
 ```bash
 ip address show
 ```
 
-40. Explore the Cinnamon Desktop Environment.
+3. Explore the Cinnamon Desktop Environment.
 
 ### Part 3: Installing deb2 (Non-Graphical Install)
 
@@ -320,8 +322,7 @@ ip address show
 16. Leave the **Domain name**: _blank_
 17. **Do NOT set a root password**
 
-    > ![caution](/img/caution.png)
-    > **Remember to user the same username and password on all of your VM's**
+    > ![caution](/img/caution.png) > **Remember to user the same username and password on all of your VM's**
 
 18. Enter your **Full name**
 19. Enter your **Username**
@@ -344,8 +345,27 @@ ip address show
 33. When the installation is complete **Reboot**
     > ![caution](/img/caution.png)
     > You may need to go into the VM details and remove the media from the **CDROM** device
-34. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
-35. Issue the following command to obtain the IPv4 address for your **deb2** VM to record in your Lab 2 logbook:
+
+**Post Installation Tasks**
+
+1. First change the **tty** display font.
+
+```bash
+# Reconfigure the console font
+sudo dpkg-reconfigure console-setup
+```
+
+![deb3tty](/img/deb3tty.png)
+
+2. Select **UTF-8**
+3. Select **Latin1**
+4. Select **Terminus**
+5. Select **11x22**
+
+You can experiment with different settings for Font and Font size.
+
+6. Repeat the steps as you did in Lab 1 to **set the root account password**, **perform a system update**, and **disable AppArmor**.
+7. Issue the following command to obtain the IPv4 address for your **deb2** VM to record in your Lab 2 logbook:
 
 ```bash
 ip address show
@@ -412,23 +432,8 @@ The installer should start and will perform an auto install using the informatio
 
 **Post Installation Tasks**
 
-1. First change the **tty** display font.
-
-```bash
-# Reconfigure the console font
-sudo dpkg-reconfigure console-setup
-```
-
-![deb3tty](/img/deb3tty.png)
-
-2. Select **UTF-8**
-3. Select **Latin1**
-4. Select **Terminus**
-5. Select **11x22**
-
-You can experiment with different settings for Font and Font size.
-
-6. Create a new regular user account and password that matches your other VM's
+1. Follow the same procedure to set the TTY(console) font to your preference.
+2. Create a new regular user account and password that matches your other VM's (We will learn more about these commands in a future lab)
 
 ```bash
 # Create the user
@@ -441,9 +446,9 @@ sudo passwd <username>
 sudo usermod -aG sudo <username>
 ```
 
-7. Type `exit` to logout and then login as the new user
-8. Test **sudo** access using the command `sudo whoami`
-9. Follow the same process as you did for previous VM's to enable the **root** account, perform an update, and disable the apparmor service
+3. Type `exit` to logout and then login as the new user
+4. Test **sudo** access using the command `sudo whoami`
+5. Follow the same process as you did for previous VM's to enable the **root** account, perform an update, and disable the apparmor service
 
 **Root Privileges**
 
