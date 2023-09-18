@@ -15,11 +15,11 @@ In this lab, you are going to identify potential problems such as running out of
 You will also learn to conserve hard disk space by learning how to compress and decompress files that are stored on your computer server.
 In addition, you will learn alternative methods of how to install applications (i.e. programs).
 
-> ![caution](/static/img/caution.png)Learning how to conserve disk space is essential for the efficient operation of a Linux computer system. You will learn how to manipulate the size of Linux file-system sizes (via **LVM**) in Lab 5.
+> ![caution](/img/caution.png)Learning how to conserve disk space is essential for the efficient operation of a Linux computer system. You will learn how to manipulate the size of Linux file-system sizes (via **LVM**) in Lab 5.
 
 You will download and compile the game called **lbreakout2** which is only available as compressed source code.
 
-![LBreakout2](/static/img/Lbreakout2.png)
+![LBreakout2](/img/Lbreakout2.png)
 
 **Main Objectives**
 
@@ -94,24 +94,24 @@ If you cannot login graphically to your machine (first two common problems), the
 This "mode" puts the OS into a state that does not provide networking, graphics, or the ability to login in as other regular users.
 You can only login to a TTY (text interface) as the user **root**.
 
-> ![caution](/static/img/caution.png) This method will only work if a GRUB (**Gr**and **U**nified **B**oot-loader) password has not been set, or that you haven't forgotten the GRUB password.
+> ![caution](/img/caution.png) This method will only work if a GRUB (**Gr**and **U**nified **B**oot-loader) password has not been set, or that you haven't forgotten the GRUB password.
 
 **Perform the following steps:**
 
 1. Launch the the **debhost** VM.
 2. Login as as a regular user.
 3. Boot-up your **deb1** VM. **When the Grub Boot menu appears**, press the letter `e` (for "edit").
-   ![deb1grub](/static/img/deb1grub.png)
+   ![deb1grub](/img/deb1grub.png)
 4. Using your arrow keys, scroll down to the line that starts with `linux` add the word `single` as an argument after **quiet** (see diagram below for reference) and then press `ctrl-x` to boot.
 
-![deb1grubsingle](/static/img/deb1grubsingle.png)
+![deb1grubsingle](/img/deb1grubsingle.png)
 
 5. The system should boot into a text-based interface. Enter your **root** password.
-   ![single](/static/img/single.png)
+   ![single](/img/single.png)
    One thing that can cause the graphical interface to not function is lack of disk space. All graphical interfaces need to write to temporary files on disk.
    If your disk is full it will fail.
 6. To look at storage utilization. Issue the command: `df -h`
-   ![df](/static/img/df.png)
+   ![df](/img/df.png)
    > Temporary files are written to the `/tmp` directory, so in the image above that would be on the storage device mounted on `/`
    > If you have problems with disk space in this course it is likely because you have not been backing up your VM's correctly.
    > **Do NOT remove the image in _/var/lib/libvirt/images_ directory**!
@@ -138,14 +138,14 @@ As `systemd` is not started, none of our typical services are started, including
 
 1. Shutdown `deb1`
 2. Start your `deb1` VM and press `e` at the Grub boot menu.
-   ![deb1grub](/static/img/deb1grub.png)
+   ![deb1grub](/img/deb1grub.png)
 3. Using your arrow keys, scroll down to the line that starts with `linux` and replace the argument `ro` with the argument `rw init=/bin/bash` (see image below for reference) and then press `ctrl-x` to boot.
 
-![deb1grubinit](/static/img/deb1grubinit.png)
+![deb1grubinit](/img/deb1grubinit.png)
 
 4. The system should boot directly into a bash shell as the user **root** without prompting for root's password.
 
-> ![caution](/static/img/caution.png) **Obviously this has serious security implications!**
+> ![caution](/img/caution.png) **Obviously this has serious security implications!**
 >
 > 2 Things to consider:
 >
@@ -186,7 +186,7 @@ An archive file is essentially a file that contains other files. We use the `tar
 tar cvf ~/archive1.tar .
 ```
 
-> ![caution](/static/img/caution.png) > **Warning!**
+> ![caution](/img/caution.png) > **Warning!**
 >
 > Don't miss the `.` at the end of the `tar` command (where indicated). It specifies what should be added into the archive. (the contents of the current directory).
 
@@ -259,7 +259,7 @@ tar xvzf archive2.tar.gz
 
 We will learn how to install software packages with the **apt** utility. This command is useful for installing software since it automatically resolves software dependencies prior to installing the software. Upon your Debian install, links to software repositories are automatically made to allow for easy software updates and installs from online repositories.
 
-> ![caution](/static/img/caution.png)**Internet Connection**
+> ![caution](/img/caution.png)**Internet Connection**
 >
 > In order for the **apt** command to work you require a connection to the Internet.
 
@@ -338,7 +338,7 @@ sudo apt remove elinks
 sudo apt install ./hexchat*.deb
 ```
 
-![hexchat](/static/img/hexchat.png)
+![hexchat](/img/hexchat.png)
 Was the command successful?
 
 > While it is possible to install a package directly from a package file, it does present some difficulties.
@@ -422,7 +422,7 @@ In order to build software from source code, you must have the appropriate softw
 10. Once extracted you will have a new directory that contains the source code for this game. Change to that directory.
 11. List the contents
 
-![lbreakoutsrc](/static/img/lbreakoutsrc.png)
+![lbreakoutsrc](/img/lbreakoutsrc.png)
 
 There are a number of files of significance:
 
@@ -459,7 +459,7 @@ make
 
 2. When the compile is complete the next step is to install all of the files to the correct directories on the system.
 
-> ![caution](/static/img/caution.png) `./configure`and `make` do not require root privileges. Installing all of the compiled files to the correct locations on the system does require root privileges
+> ![caution](/img/caution.png) `./configure`and `make` do not require root privileges. Installing all of the compiled files to the correct locations on the system does require root privileges
 
 ```bash
 # Install the compiled software
@@ -473,7 +473,7 @@ sudo make install
 lbreakout2 &
 ```
 
-![lbreakout2run](/static/img/lbreakout2run.png)
+![lbreakout2run](/img/lbreakout2run.png)
 
 **Using && and \|\| Conditional Statements**
 
