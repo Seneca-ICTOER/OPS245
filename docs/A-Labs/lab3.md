@@ -15,11 +15,11 @@ In this lab, you are going to identify potential problems such as running out of
 You will also learn to conserve hard disk space by learning how to compress and decompress files that are stored on your computer server.
 In addition, you will learn alternative methods of how to install applications (i.e. programs).
 
-> ![caution](/img/caution.png)Learning how to conserve disk space is essential for the efficient operation of a Linux computer system. You will learn how to manipulate the size of Linux file-system sizes (via **LVM**) in Lab 5.
+> ![caution](/static/img/caution.png)Learning how to conserve disk space is essential for the efficient operation of a Linux computer system. You will learn how to manipulate the size of Linux file-system sizes (via **LVM**) in Lab 5.
 
 You will download and compile the game called **lbreakout2** which is only available as compressed source code.
 
-![LBreakout2](/img/Lbreakout2.png)
+![LBreakout2](/static/img/Lbreakout2.png)
 
 **Main Objectives**
 
@@ -80,9 +80,9 @@ There are a few "classic problems" that students can encounter with their virtua
 **Troubleshooting skills take time to develop. Your approach should be methodical. Consider the following elements:**
 
 - **Gathering Information**
-  - Asking questions like "What was changed recently"
-  - Examining Log files
-  - Reading documentation and searching the Internet
+- Asking questions like "What was changed recently"
+- Examining Log files
+- Reading documentation and searching the Internet
 - **Eliminating** what the problem **IS NOT**
 - Testing possible solutions one at a time
 - Documenting the problem
@@ -94,24 +94,24 @@ If you cannot login graphically to your machine (first two common problems), the
 This "mode" puts the OS into a state that does not provide networking, graphics, or the ability to login in as other regular users.
 You can only login to a TTY (text interface) as the user **root**.
 
-> ![caution](/img/caution.png) This method will only work if a GRUB (**Gr**and **U**nified **B**oot-loader) password has not been set, or that you haven't forgotten the GRUB password.
+> ![caution](/static/img/caution.png) This method will only work if a GRUB (**Gr**and **U**nified **B**oot-loader) password has not been set, or that you haven't forgotten the GRUB password.
 
 **Perform the following steps:**
 
-1. Launch the VirtualBox application and start the `debhost` VM.
+1. Launch the the **debhost** VM.
 2. Login as as a regular user.
 3. Boot-up your **deb1** VM. **When the Grub Boot menu appears**, press the letter `e` (for "edit").
-   ![deb1grub](/img/deb1grub.png)
+   ![deb1grub](/static/img/deb1grub.png)
 4. Using your arrow keys, scroll down to the line that starts with `linux` add the word `single` as an argument after **quiet** (see diagram below for reference) and then press `ctrl-x` to boot.
 
-![deb1grubsingle](/img/deb1grubsingle.png)
+![deb1grubsingle](/static/img/deb1grubsingle.png)
 
 5. The system should boot into a text-based interface. Enter your **root** password.
-   ![single](/img/single.png)
-   One thing that can cause the graphical interface not function is lack of disk space. All graphical interfaces need to write to temporary files on disk.
+   ![single](/static/img/single.png)
+   One thing that can cause the graphical interface to not function is lack of disk space. All graphical interfaces need to write to temporary files on disk.
    If your disk is full it will fail.
 6. To look at storage utilization. Issue the command: `df -h`
-   ![df](/img/df.png)
+   ![df](/static/img/df.png)
    > Temporary files are written to the `/tmp` directory, so in the image above that would be on the storage device mounted on `/`
    > If you have problems with disk space in this course it is likely because you have not been backing up your VM's correctly.
    > **Do NOT remove the image in _/var/lib/libvirt/images_ directory**!
@@ -138,27 +138,28 @@ As `systemd` is not started, none of our typical services are started, including
 
 1. Shutdown `deb1`
 2. Start your `deb1` VM and press `e` at the Grub boot menu.
-   ![deb1grub](/img/deb1grub.png)
-3. Using your arrow keys, scroll down to the line that starts with `linux` add the word replace the argument `ro` with the argument `rw init=/bin/bash` (see image below for reference) and then press `ctrl-x` to boot.
+   ![deb1grub](/static/img/deb1grub.png)
+3. Using your arrow keys, scroll down to the line that starts with `linux` and replace the argument `ro` with the argument `rw init=/bin/bash` (see image below for reference) and then press `ctrl-x` to boot.
 
-![deb1grubinit](/img/deb1grubinit.png)
+![deb1grubinit](/static/img/deb1grubinit.png)
 
-5. The system should boot directly into a bash shell as the user **root** without prompting for root's password.
+4. The system should boot directly into a bash shell as the user **root** without prompting for root's password.
 
-> ![caution](/img/caution.png) **Obviously this has serious security implications!**
+> ![caution](/static/img/caution.png) **Obviously this has serious security implications!**
 >
 > 2 Things to consider:
 >
 > 1. Without physical security our servers are not secure.
 > 2. GRUB itself can be password protected which would provide an additional layer of protection.
 
-6. Issue the command `ps -ef | head` to list the first 10 processes running.
+5. Issue the command `ps -ef | head` to list the first 10 processes running.
 
 Note that PID 1 is your bash shell, on a normal boot systemd would be PID 1
 
-7. Issue the command: `passwd` in order to change your root password (press **ctrl-c** if you wish to abort - i.e. not change password).
+6. Issue the command: `passwd` in order to change your root password (press **ctrl-c** if you wish to abort - i.e. not change password).
 
-8. To restart normally booting into graphical mode, simply enter the command `reboot`.
+7. To restart normally, booting into graphical mode, the command `reboot` will not work as it communicates with **systemd**
+8. From **debhost** use the command `virsh destroy deb1` to force the shutdown of **deb1**
 
 ### Catastrophic Boot Problems
 
@@ -178,14 +179,14 @@ An archive file is essentially a file that contains other files. We use the `tar
 
 1. Boot up your **deb3** VM.
 2. Change your working directory to **/usr/share/doc/sudo**
-3. Use the tar (tape archiver) command to create an archive file named "/tmp/archive1.tar" that contains the contents of this directory.
+3. Use the tar (tape archiver) command to create an archive file named **archive1.tar** in your home directory that contains the contents of this directory.
 
 ```bash
 # Archive contents of pwd
-tar cvf /tmp/archive1.tar .
+tar cvf ~/archive1.tar .
 ```
 
-> ![caution](/img/caution.png) > **Warning!**
+> ![caution](/static/img/caution.png) > **Warning!**
 >
 > Don't miss the `.` at the end of the `tar` command (where indicated). It specifies what should be added into the archive. (the contents of the current directory).
 
@@ -195,7 +196,7 @@ tar cvf /tmp/archive1.tar .
 
 ```bash
 # Compress file in place
-gzip /tmp/archive1.tar
+gzip ~/archive1.tar
 ```
 
 7. Record the archive file size after compression.
@@ -206,11 +207,11 @@ We can also create the archive file and compress it at the same time. `tar` has 
 
 ```bash
 # Create a compressed archive file
-tar cvzf /tmp/archive2.tar.gz .
+tar cvzf ~/archive2.tar.gz .
 ```
 
 9. What does the **z** option do?
-10. Compare the sizes of **/tmp/archive1.tar.gz** and **/tmp/archive2.tar.gz**. Why are they so close in size?
+10. Compare the sizes of **archive1.tar.gz** and **archive2.tar.gz**. Why are they so close in size?
 11. Check the man page for the **tar** command. What other types of compression does **tar** support?
 
 ### Part 2: Restoring Files From an Archive
@@ -218,9 +219,9 @@ tar cvzf /tmp/archive2.tar.gz .
 **Perform the following steps:**
 
 1. Remain in your **deb3** VM.
-2. Create the directory **/tmp/extract1**
-3. Change to the **/tmp/extract1** directory.
-4. Move the file **archive1.tar.gz** to your current directory.
+2. Create the directory **~/extract1**
+3. Change to the **~/extract1** directory.
+4. Move the file **archive1.tar.gz** to **extract1**.
 5. Uncompress the first archive you created by issuing the command:
 
 ```bash
@@ -236,14 +237,14 @@ tar xvf archive1.tar
 ```
 
 7. Are all the files there?
-8. Compare **/tmp/extract1/README.md** and **/usr/share/doc/sudo/README.md**. Are they exactly the same? Why?
-9. Create the directory **/tmp/extract2**
-10. Move the file **archive2.tar.gz** to the **/tmp/extract2** directory.
-11. Extract the files from the second archive by issuing the following command:
+8. Compare **~/extract1/README.md** and **/usr/share/doc/sudo/README.md**. Are they exactly the same? Why?
+9. Create the directory **~/extract2**
+10. Move the file **archive2.tar.gz** to the **extract2** directory.
+11. Change to the **extract2** directory and extract the files from the second archive by issuing the following command:
 
 ```bash
 # Extract and uncompress contents of an archive file (tarball)
-tar xvzf /tmp/extract2/archive2.tar.gz
+tar xvzf archive2.tar.gz
 ```
 
 12. Note that this time a separate `gunzip` command was not needed. Why?
@@ -258,7 +259,7 @@ tar xvzf /tmp/extract2/archive2.tar.gz
 
 We will learn how to install software packages with the **apt** utility. This command is useful for installing software since it automatically resolves software dependencies prior to installing the software. Upon your Debian install, links to software repositories are automatically made to allow for easy software updates and installs from online repositories.
 
-> ![caution](/img/caution.png)**Internet Connection**
+> ![caution](/static/img/caution.png)**Internet Connection**
 >
 > In order for the **apt** command to work you require a connection to the Internet.
 
@@ -337,7 +338,7 @@ sudo apt remove elinks
 sudo apt install ./hexchat*.deb
 ```
 
-![hexchat](/img/hexchat.png)
+![hexchat](/static/img/hexchat.png)
 Was the command successful?
 
 > While it is possible to install a package directly from a package file, it does present some difficulties.
@@ -347,6 +348,8 @@ Was the command successful?
 > - Conflicts, if you install an alternate package from an outside source as well as the same software from the repo then they can conflict with each other.
 >
 > That doesn't mean we can't install software not included in the repos. We should just try to avoid unofficial .deb packages.
+
+13. Install **hexchat** normally from the repositories
 
 ### Part 2: Installing flatpak Applications
 
@@ -419,7 +422,7 @@ In order to build software from source code, you must have the appropriate softw
 10. Once extracted you will have a new directory that contains the source code for this game. Change to that directory.
 11. List the contents
 
-![lbreakoutsrc](/img/lbreakoutsrc.png)
+![lbreakoutsrc](/static/img/lbreakoutsrc.png)
 
 There are a number of files of significance:
 
@@ -456,7 +459,7 @@ make
 
 2. When the compile is complete the next step is to install all of the files to the correct directories on the system.
 
-> ![caution](/img/caution.png) > `./configure` and `make` do not require root privileges. Installing all of the compiled files to the correct locations on the system does require root privileges
+> ![caution](/static/img/caution.png) `./configure`and `make` do not require root privileges. Installing all of the compiled files to the correct locations on the system does require root privileges
 
 ```bash
 # Install the compiled software
@@ -470,7 +473,7 @@ sudo make install
 lbreakout2 &
 ```
 
-![lbreakout2run](/img/lbreakout2run.png)
+![lbreakout2run](/static/img/lbreakout2run.png)
 
 **Using && and \|\| Conditional Statements**
 
@@ -508,11 +511,11 @@ We will continue with using commands to create a Software Information Report tha
 **Perform the following steps:**
 
 1. Use your **debhost** VM for this section.
-2. Open a Bash terminal and run the command:
+2. Open a terminal and run the command:
 
 ```bash
 # Display status information about select packages
-dpkg-query -s tar gedit wget gnome
+dpkg-query -s tar wget gnome
 ```
 
 - Notice that using the **-s** option with **dpkg-query** displays status information about installed packages.
@@ -522,14 +525,116 @@ dpkg-query -s tar gedit wget gnome
 
 ```bash
 # Use sed to filter for only package name and dependencies
-dpkg-query -s tar gedit wget gnome | sed -n -e '/^Package:/ p' -e '/Depends:/ p'
+dpkg-query -s tar wget gnome | sed -n -e '/^Package:/ p' -e '/Depends:/ p'
 ```
 
 5. Try modifying that command to display only the package Name and Description.
 
 **Answer the Investigation 3 observations / questions in your lab log book.**
 
-## Investigation 4: ANSIBLE STUFF
+## Investigation 4: Generating Software Package Information with Shell Scripts
+
+We will continue by using commands to create a Software Information Report that filters output generated by the **dpkg-query** command. The **sed** and **awk** commands are very useful tools in shell scripting to filter and process text. In this lab, we will be using **sed** to allow the user to select certain parts of the output from the **dpkg-query** command.
+
+**Please see the [Bash Shell Scripting Tips](/C-ExtraResources/bash-shell-scripting-tips.md) for this part of the lab before proceeding with the steps below**
+
+**Perform the following steps:**
+
+1. Use your **debhost** VM for this section.
+2. Open a terminal and use a text editor create a bash script called: **packageInfo.bash** in the **~/bin** directory.
+3. Enter the following text into your file:
+
+```bash
+#!/bin/bash
+
+# packageInfo.bash
+# Purpose: Generates a report to include specific package information
+#
+# USAGE: ./packageInfo.bash [package-name]
+#
+# Author: *** INSERT YOUR NAME ***
+# Date: *** CURRENT DATE ***
+
+# Test for sudo
+user=$(whoami)
+if [ $user != "root" ]
+then
+ echo "You must run this script with root privileges. Please use sudo" >&2
+ exit 1
+fi
+```
+
+4. Save your file, but remain in the text editor.
+
+This code will check that the script is being run with a single command argument. Which should be a package name.
+
+It will also generate the report title and current date.
+
+5. Add the following code
+
+```bash
+# Test for argument
+if [ $# -ne 1 ]
+then
+  echo "Your command must have a package-name as an argument" >&2
+  echo "USAGE: $0 [package-name]" >&2
+  exit 2
+fi
+
+# Create report title
+# (echo with -e option allows newline \n character to be used)
+reportPath="/home/YourRegularUserName/bin"
+echo -e "SOFTWARE PACKAGE INFORMATION REPORT" > ${reportPath}/package-info.txt
+echo -e "Date: $(date +'%A %B %d, %Y (%H:%M:%p)')\n\n " >> ${reportPath}/package-info.txt
+```
+
+6. Save your file, but remain in the text editor.
+
+The code below uses a bash technique called the "Here-Document" to redirect **stdin** from within the script itself.
+
+It uses the `<< <LABEL>` syntax to say, take the input from the text below as pre-formatted text until you find the LABEL.
+
+The **read** command will store the different information report items as words (separated by a space).
+
+The **sed** command is used to convert the spaces used as delimiters to pipes (|) and stored the text into another variable.
+
+The 2nd **sed** command uses extended regular expressions to print the output elements that were selected.
+
+7.  Add the following code
+
+```bash
+# Clear screen and use Here Document to display select on report items to read into variable
+clear
+cat <<+
+Available Package Information Items:
+
+Package
+Status
+Section
+Maintainer
+Version
+Homepage
++
+read -p "Enter word(s) shown above separated by spaces: " choice
+
+# Convert spaces to pipe symbol (|)
+processedChoice=$(echo $choice | sed 's/ /|/g')
+
+# Use sed with extended regular expressions to only print those matching report elements
+dpkg-query -s $1 | sed -r -n "/^($processedChoice)/ p" >> ${reportPath}/package-info.txt
+
+cat <<+
+File "${reportPath}/package-info.txt" has been created
++
+```
+
+8. Save the file, set permissions, and then run that script for the package **gnome**.
+9. Did it create that report?
+10. Run the script without an argument - What did it do?
+
+\*\*You have completed lab3. Proceed to the instructions for "Lab Sign-Off".
+
+**Answer the Investigation 4 observations / questions in your lab log book.**
 
 ## Lab 3 Sign-Off (Show Instructor)
 
@@ -546,25 +651,12 @@ If you have successfully completed this lab, make a new backup of your virtual m
 3. Download the Lab 3 check script:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main/lab3-check.bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab3-check.bash
 ```
 
 4. Give the **lab3-check.bash** file execute permissions (for the file owner).
 5. Run the shell script with `sudo`, and if any warnings appear, fix the issues noted by the script and rerun the check until you receive the "Congratulations!" message.
-6. Arrange proof of the following on the screen:
-
-- [x] **deb3**:
-
-  - Archived files **created**
-  - Archive files **restored**
-
-- [x] **debhost**:
-
-  - Run the **lab3-check.bash** script (must have all `OK` messages)
-
-- [x] **Lab 3** logbook pages filled out.
-
-7. Upload a screen of the proof from the previous step, along with the file generated by **lab3-check.bash**, your log book, and your **tarchiver.py** script to blackboard.
+6. Submit the lab according to your Professors instructions.
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
@@ -575,12 +667,9 @@ wget https://raw.githubusercontent.com/OPS245/labs/main/lab3-check.bash
 5. What is the purpose of a repository?
 6. What is source code?
 7. How do you build software from source code?
-8. What does yum do that compiled source code does not?
+8. What does apt do that compiled source code does not?
 9. Other than running an installed package, what commands can you issue to verify that the package was installed?
-10. List the steps to remove a package via yum command.
-11. List the steps to install a package using the yum command.
-12. List the steps to add a repository to be used with yum.
-13. What is the command to list all repositories associated with the yum command?
-14. What is the command to view all repositories that have been added to-date?
-15. How do you use the **sed** command to modify text?
-16. What is the **Here-Document**, and how can it be used in issuing command and shell scripting?
+10. List the steps to remove a package via the apt command.
+11. List the steps to install a package using the apt command.
+12. What is the command to list all repositories associated with the apt command?
+13. What is the **Here-Document**, and how can it be used in bash scripting?
