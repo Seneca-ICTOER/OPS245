@@ -437,7 +437,7 @@ The installer should start and will perform an auto install using the informatio
 
 ```bash
 # Create the user
-sudo useradd -m -c "Full Name" <username>
+sudo useradd -m -s /bin/bash -c "Full Name" <username>
 
 # Set the users password
 sudo passwd <username>
