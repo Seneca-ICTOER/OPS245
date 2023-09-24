@@ -35,7 +35,7 @@ There are a variety of tools available for linux systems that allows sysadmins a
 - **Start, Restart and Stop services** on a Linux system.
 - **Enable and Disable services** on a Linux system.
 - Display the **status of running services** on a Linux system.
-- Create an Ansible shell script to **generate multiple user accounts** from a text user database file
+- Create a bash shell script to **generate multiple user accounts** from a text user database file
 
 ### Minimum Required Materials
 
@@ -489,10 +489,10 @@ Requiring the use of **sudo** to access elevated permissions means that there is
 
 The **sudo** group is very useful for senior admins who should be able to run any command, but what about admins who haven't demonstrated the responsibility necessary to wield that power yet? We can use the **sudo** config files to give them privileges to run some commands, but not all. Note: While this could be done in the main **/etc/sudoers** file, the better practice is to create supplemental config files. Supplemental config files are stored in the **/etc/sudoers.d** directory.
 
-1. Login as your **ops245_2** account. Try to run the command
+1. Login as to **deb1** as your **ops245_2** account. Try to run the command
 
 ```bash
-systemctl restart ssh
+sudo systemctl restart ssh
 ```
 
 If successful, that command would restart the ssh service on that machine, but that user does not have permission to do that.
@@ -540,6 +540,7 @@ On most Linux distributions the first process started (PID #1) is called **syste
 In the output above we see that the **PID 1** process is called **init** not **systemd**
 
 ![deb1systemd](/img/deb1systemd.png)
+
 But if we examine the listing for **/sbin/init** we can see that it is a symbolic link to **systemd**.
 
 > ![caution](/img/caution.png)
@@ -641,7 +642,9 @@ systemctl get-default
 > When we switch to multi-user TTY7 doesn't display anything.
 > To see the text based login we need to switch to TTY1.
 > If **deb1** was installed directly on physical hardware we would switch to TTY1 with the key combination **CTRL-ALT-F1**. Because we are running as a VM we will use the VM Viewer.
-> Click on **Send Key** --> **CTRL-ALT-F1** > ![deb1tty](/img/deb1tty.png)
+> Click on **Send Key** --> **CTRL-ALT-F1**
+>
+> ![deb1tty](/img/deb1tty.png)
 
 5. Login as your regular user and reboot your **deb1** VM. It should return to the graphical login screen.
 
@@ -656,52 +659,160 @@ It just changed or switched the current target.
 
 **Answer INVESTIGATION 3 observations / questions in your lab log book.**
 
+## Investigation 4: User Management with a bash scripting
+
+**Before proceeding with Investigation 4, please review the [Bash Shell Scripting Tips here](/C-ExtraResources/bash-shell-scripting-tips.md)**
+
+### Using getopts Function & case statement
+
+We will now use shell scripting to help automate the task for a Linux administrator to create regular user accounts.
+
+**Perform the following steps:**
+
+1. You will be using your **debhost** machine for this section.
+2. Open a shell terminal, as your regular user.
+3. Change to the **~/bin** directory.
+4. Download, study, and run the following shell script. Issue the command:
+
+```bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/user-create.bash
+```
+
+5. Try to understand what this bash script does, and then run the script using **sudo** to create just one user called **test**. After running the shell script, view the contents of the **/home** directory to confirm.
+
+Although the **zenity** command is a "user-friendly" way to run shell scripts, Linux administrators usually create shell scripts that resemble common Linux commands. In this lab, you will learn to create a shell script using the getopts function to make your shell script behave more like actual Linux commands (including the use of options). Refer to the notes section on the right-hand-side for reference about the **case** statement and the **getopts** function.
+
+6. Change to the **~/bin** directory.
+7. Use the wget command to download the input file called user-data.txt by issuing the command:
+
+```bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/user-data.txt
+```
+
+9. View the contents on the user-data.txt file to confirm there are 3 fields (username, fullname, and e-mail address)which are separated by the colon **:** symbol.
+10. Use a text editor to create a bash script called: **createUsers.bash**` in the ~/bin directory.
+11. Enter the following text content into your text-editing session:
+
+```bash
+#!/bin/bash
+
+# createUsers.bash
+# Purpose: Generates a batch of user accounts from a text file
+#
+# USAGE: sudo ./createUsers.bash [-i {input-path}]
+#
+# Author: *** INSERT YOUR NAME ***
+# Date: *** CURRENT DATE ***
+
+# Test for sudo
+user=$(whoami)
+if [ $user != "root" ]
+then
+    echo "You must run this script with root privileges. Please use sudo" >&2
+    exit 1
+fi
+
+# Test for argument
+if [ "$#" -eq 0 ] # if no arguments after command
+then
+ echo "You must enter an argument" >&2
+ echo "USAGE: $0 [-i {input-path}]" >&2
+ exit 2
+fi
+```
+
+12. Save your editing session, but remain in the text editor.
+13. The code displayed below uses the getopt function to set the input file pathname or check for invalid options or missing option text. Add the following code
+
+```bash
+outputFlag="n"
+while getopts i: name
+do
+ case $name in
+   i) inputFile=$OPTARG ;;
+   :) echo "Error: You need text after options requiring text"
+       exit 3 ;;
+   \?) echo "Error: Incorrect option"
+        exit 3 ;;
+ esac
+done
+```
+
+14. Save your editing session, but remain in the text editor.
+15. The code displayed below uses logic to exit the script if the input file does not exist. Command substitution is used to store each line of the input file as a positional parameter. There is one subtle problem here: The full names of the users contain spaces which can create havoc when trying to set each line as a separate positional parameter. In this case the sed command is used to convert spaces to plus signs (+), which will be converted back later. Finally, a **for** loop is used to create each account (**useradd**) and display their account information. Add the following code:
+
+```bash
+# Test for inputFile
+if [ ! -f $inputFile ]
+then
+  echo "The file pathname \"$inputFile\" is empty or does not exist" >&2
+  exit 4
+fi
+
+# Temporarily convert spaces to + for storing lines as positional parameters
+set $(sed 's/ /+/g' $inputFile)
+
+for x
+do
+    userPassWd=$(date | md5sum | cut -d" " -f1)
+    useradd -m \
+        -c "$(echo $x | cut -d":" -f2 | sed 's/+/ /g')" \
+        -s "/bin/bash" \
+        -p $userPassWd \
+        $(echo $x | cut -d":" -f1)
+
+    cat <<+
+    Server Account Information
+    Here is your server account information:
+    servername: myserver.senecacollege.ca
+    username: $(echo $x | cut -d":" -f1)
+    password: $userPassWd
+    email: $(echo $x | cut -d":" -f3)
+
++
+done
+
+echo -e "\n\nAccounts have been created\n\n"
+exit 0
+```
+
+16. Save, set permissions, and then run that shell script for the input text file **user-data.txt**. Did it work? Try running the script without an argument - What did it do?
+17. You have completed lab4. Proceed to Completing The Lab, and follow the instructions for "lab sign-off".
+
+**Answer INVESTIGATION 4 observations / questions in your lab log book.**
+
 ## Lab 4 Sign-Off (Show Instructor)
 
-Follow the submission instructions for lab 4 on Blackboard.
+Follow your Professors submission instructions for lab 4 on Blackboard.
 
-**Time for a new backup!**
-
-If you have successfully completed this lab, make a new backup of your virtual machines as well as your host machine.
+**Time for a new backup!:** If you have successfully completed this lab, make a new backup of your virtual machines as well as your host machine.
 
 **Perform the Following Steps:**
 
-1. Make certain that your **debhost**, **deb1** and **deb2** VMs are running.
+1. Make certain that your **debhost**, **deb1** VM are running.
 2. Switch to your **debhost** VM.
-3. Open a shell terminal, and change to your **bin** directory.
+3. Open a shell terminal, and change to the **~/bin** directory.
 4. Issue the Linux command:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main/lab4-check.bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab4-check.bash
 ```
 
 5. Give the **lab4-check.bash** file execute permissions (for the file owner).
-6. Run the shell script and if any warnings, make fixes and re-run shell script until you receive "congratulations" message.
-7. Arrange proof of the following on the screen:
-
-- [x] **deb1** VM:
-
-  - Demonstrate that this VM 's current run-level is set to **5**.
-
-- [x] **debhost** machine
-
-  - Run the **lab4-check.bash** script (must have all `OK` messages)
-
-- [x] **Lab4** log-book filled out.
-
-8. Take a screenshot of the proof in the previous step, and upload it, your tarchiver2.py script, your log book, and the file generated by **lab4-check.bash** to blackboard.
+6. Run the shell script using **sudo** and if any warnings, make fixes and re-run shell script until you receive "congratulations" message.
+7. Follow your Professors instrtuctions for submitting the lab
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
-1. Describe all of the field in `/etc/passwd`
+1. Describe all of the fields in `/etc/passwd`
 2. What is the command to create a user? What option to create a home directory for that user?
 3. What is the command to change the full name of an already-created user?
 4. What is the command to delete a user account? What option allows for the user's home directory to be removed as well?
 5. What is the command to create a group? What is the command (or steps) to include a user in a newly-created group?
 6. What is the purpose of `/etc/shadow`?
 7. What is the purpose of `/etc/skel`?
-8. What does the term run-level mean?
-9. How to set the run-level of a Linux system to text-based only? How to set to graphical mode?
+8. What does the term target mean?
+9. How to set the target of a Linux system to text-based only? How to set to graphical mode?
 10. What is the command to view the status of running services?
 11. What is the command to start a service (like httpd, or sshd)?
 12. What is the command to stop a service (like httpd, or sshd)?
