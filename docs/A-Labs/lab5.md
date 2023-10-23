@@ -23,35 +23,35 @@ Linux system administrators need to schedule Linux shell scripts and commands (v
 
 **Main Objectives**
 
-  - Monitoring Disk Space with utilities such as **ssm list**, **df -h**, and **du -ah**.
-  - Use the **crontab** utility to automatically schedule the execution of a shell script to "flag" low disk space.
-  - Use **LVM** to **resize partitions via command-line utilities**.
-  - Create, partition and format **virtual hard disks** to increase the size of file systems.
-  - Manually connect and disconnect directories (mount points) to existing partitions (**mount**, **umount**).
-  - Edit the **/etc/fstab** file to automatically mount partitions upon Linux server boot-up, and test the configuration prior to Linux server boot-up.
+- Monitoring Disk Space with utilities such as **ssm list**, **df -h**, and **du -ah**.
+- Use the **crontab** utility to automatically schedule the execution of a shell script to "flag" low disk space.
+- Use **LVM** to **resize partitions via command-line utilities**.
+- Create, partition and format **virtual hard disks** to increase the size of file systems.
+- Manually connect and disconnect directories (mount points) to existing partitions (**mount**, **umount**).
+- Edit the **/etc/fstab** file to automatically mount partitions upon Linux server boot-up, and test the configuration prior to Linux server boot-up.
 
 ### Minimum Required Materials
 
-  - **Solid State Drive**
-  - **USB key** (for backups)
-  - **Lab5 Log Book**
+- **Solid State Drive**
+- **USB key** (for backups)
+- **Lab5 Log Book**
 
 ### Linux Command Reference
 
 **LVM Information**
 
 | [vgs](http://man7.org/linux/man-pages/man8/vgs.8.html) | [pvs](http://man7.org/linux/man-pages/man8/pvs.8.html) | [lvs](http://man7.org/linux/man-pages/man8/lvs.8.html) | [vgdisplay](http://man7.org/linux/man-pages/man8/vgdisplay.8.html) | [pvdisplay](http://man7.org/linux/man-pages/man8/pvdisplay.8.html) | [lvdisplay](http://man7.org/linux/man-pages/man8/lvdisplay.8.html) | [ssm](http://manpages.ubuntu.com/manpages/trusty/man8/ssm.8.html) |
-| --- | --- | --- | --- | --- | --- | --- |
+| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ----------------------------------------------------------------- |
 
 **LVM Management**
 
 | [lvextend](http://man7.org/linux/man-pages/man8/lvextend.8.html) | [lvcreate](http://man7.org/linux/man-pages/man8/lvcreate.8.html) | [lvreduce](http://man7.org/linux/man-pages/man8/lvreduce.8.html) | [pvcreate](http://man7.org/linux/man-pages/man8/pvcreate.8.html) | [vgextend](http://man7.org/linux/man-pages/man8/vgextend.8.html) |
-| --- | --- | --- | --- | --- |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
 
 **Miscellaneous**
 
 | [mount](http://man7.org/linux/man-pages/man8/mount.8.html) | [umount](http://man7.org/linux/man-pages/man8/umount.8.html) | [df](http://man7.org/linux/man-pages/man1/df.1.html) | [du](http://man7.org/linux/man-pages/man1/du.1.html) | [awk](http://man7.org/linux/man-pages/man1/awk.1p.html) | [fdisk](http://tldp.org/HOWTO/Partition/fdisk_partitioning.html) | [mkfs](http://www.cyberciti.biz/faq/howto-format-create-linux-filesystem/) | [/etc/fstab](http://man7.org/linux/man-pages/man5/fstab.5.html) | [Using crontab](http://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-8800) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ---------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 
 ## Investigation 1: Monitoring Hard Disk Space
 
@@ -61,97 +61,143 @@ Another essential duty of a Linux system administrator is to anticipate problems
 
 Therefore, we are going to learn in this section how to monitor disk space activity to help take corrective action.
 
-![Disk Usage](/img/Disk_usage.png)
+![dfdh](/img/dfdh.png)
 
 The **df** and **du** commands are useful tools for Linux system administrators to flag disk space issues and investigate their causes.
 
 **Perform the following steps:**
 
-  1. Launch your **c7host** and **centos2** VMs.
-  2. Switch to your **centos2** machine.
-  3. Open a terminal.
-  4. Issue the command:
+1. Launch your **debhost** and **deb2** VMs.
+2. Switch to your **deb2** machine.
+3. Open a terminal.
+4. Issue the command:
 
 ```bash
 df -h
 ```
 
-  5. Note the disk space usage for the **/** and **/home** partitions.
-  6. If a partition is running out of available space, the Linux System Administrator can reallocate space among partitions or add another disk and grow the file system. The administrator can also investigate the cause of low disk space. Two examples immediately come to mind: excessive use of space from users, and potential penetration from hackers.
-  7. To investigate excessive disk usage by regular users, you can obtain a total amount of disk usage for that user by issuing the command:
+5. Note the disk space usage for the **/** and **/home** partitions.
+6. If a partition is running out of available space, the Linux System Administrator can reallocate space among partitions or add another disk and grow the file system. The administrator can also investigate the cause of low disk space. Two examples immediately come to mind: excessive use of space from users, and potential penetration from hackers.
+7. To investigate excessive disk usage by regular users, the following commands would be useful, try these commands on both **debhost** and **deb2**:
 
 ```bash
-du -ha ~<username> | more
+# Display the total space used in each users home directories
+du -sh /home/*
+
+# Display the total space used by a directory
+du -sh /home
+
+# Display the largest files in a users home directory sorted by size
+du -a ~<username> | sort -rn | head
+
+# Display the files in a users home directory that are larger than 10M
+find ~<username> -size +10M
 ```
 
-  8. If there is a recurring space usage problem with regular users, the Linux system administrator can impose quotas (caps on disk usage). This method is not taught in this course.
-  9. The methods to monitor potential penetration to a Linux system are too numerous, and are taught in other courses (for example: SEC520). One method of monitoring potential penetration is use the find command (Note that **find** relies on the permissions of the user currently running it. Compare the results of running this command with and without sudo):
+8. Read the man page for the `du` command, make a note of the options `-s -a -h`
+9. Read the man page for the `find` command, make a note of the usage of the `-size` option
+10. If there is a recurring space usage problem with regular users, the Linux system administrator can impose quotas (caps on disk usage). This method is not taught in this course.
+11. There are a variety of methods to monitor potential penetration of a Linux system, and are taught in other courses. One method of monitoring potential penetration is use the find command (Note that **find** relies on the permissions of the user currently running it. Compare the results of running this command with and without sudo):
 
 ```bash
-find -P / -size +100000k
+find / -size +100000k
 ```
 
-  10. The next section will apply some of these tools we have discussed into a shell script and crontab entry to periodically monitor and contact the system administrator of potential disk space issues (before they become a serious problem).
+12. The next section will apply some of these tools we have discussed into a shell script and crontab entry to periodically monitor and contact the system administrator of potential disk space issues (before they become a serious problem).
 
 ### Part 2: Using crontab to Automatically Alert System Administrator of Low Hard Disk Space
 
-This section focuses on how to automatically run shell scripts without the Linux system administrator being there to issue that shell script. It would be highly unlikely to expect a system administrator to stay up late (eg. 2 a.m.) to manually run a shell script to terminate processes or to re-boot Linux servers. Database files (tables) are used to provide instructions on how frequent shell scripts or commands can be run.
+This section focuses on how to schedule shell scripts to run automatically without the Linux system administrator having to interact with the script. It would be highly unlikely to expect a system administrator to stay up late (eg. 2 a.m.) to manually run a script to terminate processes or to re-boot Linux servers. **`cron`** tables are used to schedule scripts to run automatically.
 
-The **cron** daemon is used to refer to these shell scripts (or other commands or programs) and to run them on a pre-determined basis. The term **cron** comes from the old word **chronograph** meaning a special type of watch (actually a _stop-watch_) to help monitor and schedule routine tasks.
+The **cron** daemon (service) is used to refer to these tables and to run the scheduled tasks. The term **cron** comes from the old word **chronograph** meaning a special type of watch (actually a _stop-watch_).
 
 **Please review these [Bash Shell Scripting Tips](/C-ExtraResources/bash-shell-scripting-tips.md) before proceeding with the following steps**
 
 **Perform the following steps:**
 
-  1. Perform this section in your **c7host** machine
-  2. Change to your **bin** directory.
-  3. Download the following shell script by issuing the following command:
+1. Perform this section in your **debhost** machine
+2. Change to your **bin** directory.
+3. Download the following shell script by issuing the following command:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main/monitor-disk-space.py
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/monitor-disk-space.bash
 ```
 
-  4. Try to understand what this script does (refer to man pages for the **awk** command), and then run the script with elevated permissions.
-  5. Give execute permissions and run this shell script. This script is supposed to notify the root user by email if there are any potential partition size issues.
-  6. Issue the follow command: 
+4. Try to understand what this script does (refer to the man pages for the **awk** and **cut** commands).
+5. This script is supposed to email the root user if there are any potential partition size issues.
+6. We will need to install the **bsd-mailx** package:
 
 ```bash
-sudo mail -u root
+sudo apt install bsd-mailx
 ```
 
-   - If you get an error, install email by issuing the command:
+7. Add execute permissions to the script and run it as your regular user
+
+> ![caution](/img/caution.png)
+> Debian does not allow email to be delivered to root
+> (unlike most distributions)
+>
+> Instead mail to root will be redirected to the mail box of your regular user
+
+8. To check and read your local mail we will user the **mail** (mailx) command
 
 ```bash
-yum install mailx
+# To run the local mail client
+mail
+
+# mail is an interactive tool
+# Some mail commands you can enter at the & prompt:
+
+# List mailbox
+t
+
+# Read message 1
+1
+
+# Delete message 3
+d3
+
+# Delete messages 2-5
+d2-5
+
+# Quit mail
+q
+
+# View help
+help
+
 ```
 
-   - Check to see if there are any mail messages. If there are mail messages, they do not relate to this script execution. Remove all mail messages by typing d immediately followed by a mail message number range (eg. to remove all messages. For example, if there are 5 messages, type **d1-5** and then press **ENTER** and enter **q** to exit the mail application).
+9. Check to see if there are any mail messages. If there are mail messages, they do not relate to this script execution. Remove all mail messages by typing d immediately followed by a mail message number range (eg. to remove all messages. For example, if there are 5 messages, type **d1-5** and then press **ENTER** and enter **q** to exit the mail application).
 
-  7. Edit the **monitor-disk-space.py** script, and set the `ALERT=90` value to `ALERT=10`. Then save your editing session, and re-run this script.
-  8. Run the **mail** command. Do you have a mail message? Enter the mail message number to view the message. If there is a message, what is the purpose of this message?
-  9. Exit from the mail command.
-  10. The script as it is currently written will send the email to root, but we won't be logged in as root most of the time. Change the ADMIN variable in the script to your own username.
-  11. Run the script again and make sure the email message gets delivered to your normal user.
+10. Edit the **monitor-disk-space.bash** script, and set the `alert=90` value to `alert=10`. Then save your editing session, and re-run this script.
+11. Run the **mail** command. Do you have a mail message? Enter the mail message number to view the message. If there is a message, what is the purpose of this message?
+12. Exit from the mail command.
+13. The script as it is currently written will send the email to root. Change the `admin` variable in the script to your own username.
+14. Run the script again and make sure the email message gets delivered to your normal user.
 
-In order to automatically run the above-mentioned script periodically, you use the scheduler in Linux called **crontab**. The term crontab stands for **Chronograph Tables**, where a chronograph is the old term for a timepiece (the forerunner of the modern stop-watch). You can run the crontab command to schedule commands and shell script to be run in a number of different ways.
+In order to automatically run the script on a schedule, you can use the scheduler service in Linux called **crontab**. The term crontab stands for **Chronograph Tables**, where a chronograph is the old term for a timepiece (the forerunner of the modern stop-watch). You can run the crontab command to schedule commands and shell script to be run in a number of different ways.
 
-  12. Quickly view the tutorial about the [Using crontab](http://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-8800) file to understand the purpose of this file and how to basically set up a schedule to run a shell script.
-  13. Issue the following command to setup a crontab entry for root:
+15. Quickly [view the tutorial about the Using crontab](http://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-8800) file to understand the purpose of this file and how to basically set up a schedule to run a shell script.
+16. This particular script does not require root permissions so we can run it from our regular users **crontab**. Issue the following command to setup a crontab entry:
 
 ```bash
+# Confirm the cron service is enabled and active
+systemctl status cron
+
+# Every user has their own cron table
+# Edit the current users cron table
 crontab -e
 ```
 
-  14. Enter the following line in order to run at 6:00 on the first day of every month:
+17. Enter the following line in order to run at 6:00 on the first day of every month:
 
-```bash
-0 6 1 * * /home/<YOURUSERNAME>/bin/monitor-disk-space.py #Runs first day of each month (6:00 am)
-```
+![crontab](/img/crontab.png)
 
-   - Note: Make sure you put your own username in that entry.
+- Note: Make sure you put your own username in that entry.
 
-  15. **Save** the crontab entry.
-  16. Confirm that the entry was properly saved by issuing the following command:
+18. **Save** the crontab entry.
+19. Confirm that the entry was properly saved by issuing the following command:
 
 ```bash
 crontab -l
@@ -161,318 +207,408 @@ crontab -l
 
 ## Investigation 2: Managing Hard Disk Space Using LVM
 
-An application called **LVM** is a very useful tool for Linux system administrators to easily manage file systems, in some cases, even when the computer system is running!
+An technology called **Logical Volume Management (LVM)** is a very useful tool for Linux system administrators to easily manage the changing needs of disk storage, in some cases, even when the computer system is running!
 
-**LVM (Logical Volume Management)** is used to manage hard disk drives / partitions for Linux and Unix systems. LVM provides more flexibility than just partitioning hard disks. **Volume Groups** are areas used to define **Physical Volumes** (i.e. hard disks, disk partitions, or other forms of storage devices). **Logical Volumes** are then used to relate directories (mount points) to a specific physical volume or for a "range" or "span" of physical volumes.
+**LVM (Logical Volume Management)** is used to manage disk storage for Linux and Unix systems. LVM provides more flexibility than traditional disk partitioning.
 
-LVM allows more flexibility and growth potential for Linux systems (for example, having Logical volumes span multiple hard disks). CentOS uses LVM by default upon installation. Other Linux distributions may provide the capacity to install LVM.
+**Volume Groups** are pools of storage space provided by one or more **Physical Volumes** (i.e. hard disks, disk partitions, or other forms of storage devices).
+
+**Logical Volumes** are then created from available space in a **Volume Group**, formatted with a filesystem (ie ext4), and then mounted on a particular directory in our filesystem hierarchy.
+
+![lvm](/img/lvm.png)
+
+LVM allows more flexibility and growth potential for Linux systems (for example, having Logical volumes span multiple hard disks). We chose to configure our Debian VM's with LVM by during installation. Other Linux distributions may provide the capacity to install LVM.
 
 ### Part 1: Managing File System Size with Existing Hard Drive
 
-We will now use LVM in order to grow and reduce our file system, using extra unallocated space on our existing (default) virtual hard disk for our centos2 VM.
+We will now use LVM in order to grow and reduce our file system, using extra unallocated space on our existing (default) virtual hard disk for our deb2 VM.
 
-![Ssm](/img/Ssm.png)
+There are a variety of tools both graphical and CLI based for managing LVM storage, we will focus on the traditional LVM command line tools such as:
 
-Graphical programs like **system-config-lvm** are **deprecated**, and no longer come bundled with Centos. There are other graphical LVM programs, but are for the KDE desktop environment as opposed to Gnome. Command-line tools such as **ssm** (System Storage Manager), **fdisk**, **mkfs**, **pvcreate**, **lvextend**, and **lvreduce** are sufficient to resize file systems when using LVM.
+```bash
+# List Logical Volumes
+lvs
+
+# List Physical Volumes
+pvs
+
+# List Volume Groups
+vgs
+
+# More detailed information
+lvdisplay
+pvdisplay
+vgdisplay
+
+# Partition a physical disk
+fdisk
+
+# Format a device with a filesystem
+mkfs
+
+# Some commands for making LVM changes
+pvcreate
+vgcreate
+vgextend
+vgreduce
+lvcreate
+lvextend
+lvreduce
+```
 
 **Perform the following steps:**
 
-  1. Remain in your **centos2** VM for this section.
-  2. Issue the command: 
+1. Remain in your **deb2** VM for this section.
+2. Launch an interactive sudo shell:
 
 ```bash
-sudo ls /dev/vd*
+# List the virtual disk devices
+ls /dev/vd*
+
+# List the LV's
+lvs
+
+# List the VG's
+vgs
+
+# List the PV's
+pvs
+
+# List the mounted storage devices
+df -h
 ```
 
-   - **NOTE**: If nothing displays, issue the command: **sudo ls /dev/sd\*** and use that device pathname **/dev/sda** instead, and notify your instructor when about to run your lab5-check.bash shell script at the end of this lab.
+![deb2vda](/img/deb2vda.png)
 
-  3. Issue the following command to install the **ssm** command:
+You can see that we have a single virtual disk (vda) which has 3 partitions (vda1, vda2, vda5)
+
+![deb2lvm](/img/deb2lvm.png)
+
+You can see we have 3 LV's (home, root, swap_1) that come from the same VG (deb2-vg).
+
+You can see we have a single PV (/dev/vda5) that has been added to the deb2-vg VG.
+
+You can see we have a single VG (deb2-vg) that has a single PV and 3 LV's
+
+![deb2dfh](/img/deb2dfh.png)
+
+You can see that the **home** and **root** LV's are mounted on **/home** and **/** directories. **Make note of the filenames and path of the LV devices**
+
+You can also see that the partition **/dev/vda1** is mounted on **/boot**
+
+> ![caution](/img/caution.png)
+>
+> The **/boot** directory contains all of the files required to boot the operating system. These files must be stored on a traditional partition because the LVM devices are unavailable until after the system boots
+
+3. Check to see if there is any remaining space on your existing hard disk. Can you see any?
 
 ```bash
-sudo yum install system-storage-manager
+# List partitions on /dev/vda
+fdisk -l /dev/vda
 ```
 
-  4. Issue the command: 
+![deb2fdiskl](/img/deb2fdiskl.png)
+
+You can see that all of the space has been allocated to existing partitions, so we will add a 2nd Virtual Disk to the VM.
+
+4. Click on the View menu in the virt-viewer and select Details...
+
+![deb2diskadd](/img/deb2diskadd.png)
+
+5. Add a 3G Storage disk image
+6. Switch back to Console view
+7. List the virtual disk devices in /dev
 
 ```bash
-sudo ssm list
+# List virtual disk devices
+ls /dev/vd*
 ```
 
-   - Take a few moments to note the volume group, physical volume and logical volume sections of the command output.
-  
-  5. Compare this output from the ssm command with these other lvm commands: 
+![deb2vdb](/img/deb2vdb.png)
+
+You can see a new device **/dev/vdb**
+
+8. Create new partitions on /dev/vdb using **fdisk**
 
 ```bash
-sudo lvs
+fdisk /dev/vdb
 ```
+
+9. In **fdisk**...
+
+   - Type **n** to create a new partition
+   - Type **p** for primary
+   - Type **1** for partition number
+   - Hit enter for the default First sector
+   - Type **+2G** for Last sector
+   - Type **n** to create a new partition
+   - Type **p** for primary
+   - Type **2** for partition number
+   - Hit enter for the default First sector
+   - Hit enter for the default Last sector
+   - Type **p** to display the partition table
+   - Type **w** to save the changes to the partition table
+
+10. You should now have 2 new partitions on **/dev/vdb**
+
+![deb2vdbfdisk](/img/deb2vdbfdisk.png)
+![deb2vdbls](/img/deb2vdbls.png)
+
+11. Now label **/dev/vdb1** as a Physical Volume and add it to the existing Volume Group (deb2-vg)
 
 ```bash
-sudo pvs
+# Label /dev/vdb1 as a PV
+pvcreate /dev/vdb1
+
+# Add /dev/vdb1 to the deb2-vg VG
+vgextend deb2-vg /dev/vdb1
 ```
+
+12. Now there should be an additional 2G of space available in the VG. Confirm the changes using the commands above
+
+![deb2vgextend](/img/deb2vgextend.png)
+
+13. Check the man page for the **lvcreate** command, make note of the -L and -n options
+14. Create a new logical volume by issuing the following command:
 
 ```bash
-sudo vgs
+# Create new LV archive
+lvcreate -L 1G -n archive deb2-vg
 ```
 
-   - Which method do you prefer to use?
+> **NOTE:** Logical volumes are represented by a couple of different filenames below **/dev** which are themselves symlinks to a more obscsure name
+>
+> ![deb2lvfn](/img/deb2lvfn.png)
 
-  6. Check to see if there is any remaining space on your existing hard disk. Can you see any?
-  7. You can create a partition by using the fdisk command. Issue the following command:
+15. Check the output of **lvs**, **pvs**, and **vgs** commands. You can see that your **deb2-vg** still has 1G of space free.
+16. Format your newly-created LV as ext4 by issuing the command:
 
 ```bash
-sudo fdisk /dev/vda
+mkfs -t ext4 /dev/deb2-vg/archive
 ```
 
-   - (or fdisk /dev/sda if there is no /dev/vda).
+17. Read the man page for **lvreduce** and check for the -L option. What is the significance of prefixing the size with **"+"** or **"-"**?
 
-  8. At the **fdisk** prompt, issue the command: `p`. What does this do?
-  9. Now issue the commands `n` (new partition), `p` (primary partition), `3` (i.e. next available partition number). When prompted for initial block, press **enter** to accept the default beginning block, and type: `+3G` at ending block (create a 3GB partition) and press **enter**.
-  10. At the fdisk prompt, issue the command `p` to review the partition information.
-  11. Enter the command `w` to save partition table and exit (read the WARNING message).
+> Note: **lvextend** and **lvreduce** can make relative changes to an LV's size by adding to or subtracting from the current size. Omitting these prefixes will **set** the LV size to what you specified.
 
-**You MUST reboot your centos2 VM**
-
-You MUST now reboot your centos2 VM before proceeding!
-
-  12. You **must restart** your centos2 VM to allow changes to take effect.
-  13. Verify that you created this partition by issuing the following command: 
+18. Attempt to reduce the archive LV size by issuing the command: **DO NOT SAY 'y' to confirm the command!!**
 
 ```bash
-sudo fdisk -l /dev/vda
+lvreduce -L -0.5G deb2-vg/archive
 ```
 
-  14. Re-issue the **ssm list** command. Do you see a new /dev/vda3 partition under Physical Volumes?
-  15. To add the newly created partition, you need to add it into LVM to be used. Issue the following command to add the partition into LVM:
+> ![deb2lvreduce](/img/deb2lvreduce.png)
+>
+> The 1G archive LV contains an ext4 filesystem that is also 1G in size to fill the device. When the LV size is reduced, the filesystem format on it also needs to be resized, or it will be corrupted.
+>
+> Also if an LV is increased in size with **lvextend** the filesystem on it also needs to extended to make the new space usable.
+>
+> Both the **lvextend** and **lvreduce** commands have a **-r** option which causes the filesystem format to also be resized
+
+19. Reduce the archive LV with the command:
 
 ```bash
-sudo pvcreate /dev/vda3
+lvreduce -r -L -0.5G deb2-vg/archive
 ```
 
-   - (or _pvcreate /dev/sda3_ ) (enter **y** to proceed - ignore warning)
+20. Issue commands to confirm the change
 
-**Check your VG name**
-
-Run **vgs** to determine your Volume Group name. If it is just **centos** or **cl**, replace **centos_centos2** with **centos** or **cl** for the rest of the following commands in this lab. Do **NOT** try to rename your volume group.
-
-  16. Issue the following command to add your new-created and formatted partition called /dev/vda3 to your volume group:
+21. Now increase the size of the archive LV with the command:
 
 ```bash
-sudo vgextend centos_centos2 /dev/vda3
+lvextend -r -L +1G deb2-vg/archive
 ```
 
-  17. Create a new logical volume by issuing the following command:
+22. Confirm the change
+
+One of the benefits of using LVM for storage is that often changes can be made to storage even while the system is running and in use. Currently the **home** LV is mounted on **/home** and in use but we can increase its size anyway. You still have 0.5G of space free in the **deb2-vg**.
+
+Imagine you have received an email from the **monitor-disk-space.bash** informing you that the **home** LV is almost out of space. We can quickly add additional space to the LV
+
+23. Check the current usage of **/home** with the `df -h` command
+24. Increase the size of the **home** LV by adding all of the available space with the command:
 
 ```bash
-sudo lvcreate -L 2G -n archive centos_centos2
+lvextend -r -l +100%FREE deb2-vg/home
 ```
 
-  18. Format your newly-created partition by issuing the command: 
+> When you set a size using the **-L** option you are using standard storage units. (Gigabytes, Terabytes, etc) that is recalculated to the closest number of **extents**. **Extents** are a lower level unit of measurement for storage.
+>
+> **-l +100%FREE**, using a lowercase **-l** changes the size by extents. In this case it will add all of the free extents remaining in the VG to the **home** LV
 
-```bash
-sudo mkfs -t ext4 /dev/centos_centos2/archive
-```
+25. Exit your sudo shell
 
-  19. Issue the **ssm list** command to view the new physical volume and logical volume information.
+### Part 2: Manually & Automatically Mount Partitions
 
-**Pay attention to syntax**
+We take for granted that when our system boots, all of the storage volumes will be successfully mounted on to the filesystem. During installation when we configured the storage devices they were added to the table of automatic filesystem mounts (**/etc/fstab**) by the installer. Now that we have added a new LV (**archive**), we need to mount it to make use of its space. We will also configure the system to mount it automatically at boot time. We will do this by editing the file system table (**/etc/fstab**). This file contains entries to mount various file systems automatically upon start-up of the Linux system.
 
-Note that the prefixed "+" or "-" in lvextend and lvreduce will add or subtract from the current size. Omitting these prefixes will **set** the LV size to what you specified.
-
-  20. Reduce the file-size by issuing the command: 
-
-```bash
-sudo lvreduce -r -L -0.5G centos_centos2/archive
-```
-
-  21. Issue the **ssm list** command to verify.
-  22. Increase the file-size by issuing the command: 
-
-```bash
-sudo lvextend -r -L +1G centos_centos2/archive
-```
-
-  23. Issue the **ssm list** command to verify.
-
-### Part 2: Adding Additional Virtual Hard Drives
-
-What if your have noted while monitoring disk space, that you starting to run-out of space on your **home** file-system, although you **do NOT have any available space on your current hard disk**? You could obtain an additional hard-drive. We can **add a new virtual hard-drive** (which will serve as a physical volume to the volume group), and extend the **home** logical volume to make use of the new available space. Creating virtual hard drives is not only inexpensive, but a great way for students to learn now to simulate growing the size of the file system!
-
- Add Virtual Disk (add link here when ready)
-
-You can add virtual hard disks for a VM by changing to the Details section for the VM (as opposed to console), click Add Hardware, fill information in the Add New Virtual Hardware dialog box and clicking Finish. **Notice that I have my original storage in the background so I know what type of disk to select for this second device. They should match**.
-
-**Perform the following steps:**
-
-  1. Remain in your **centos2** VM for this section.
-  2. Run the following commands and make note of the output of the commands:
-
-```bash
-sudo ls /dev/vd*
-```
-
-```bash
-sudo ssm list
-```
-
-```bash
-sudo df -h
-```
-
-  3. Record the size of the volume group and the amount of free space
-  4. At the top of your KVM window for **centos2**, click the **view** menu and change view from **Console** to **Details**.
-  5. At the bottom left-hand corner, click **Add Hardware** and add a new storage device of **2GBs**, make sure the **Bus type** is selected **using the same type as your first drive that's already there**. If your first drive is SATA, IDE, or VirtIO, select that.
-  6. Click the **VM** menu again, and return to the **console** view to access your centos2 VM display.
-  7. Issue the command: 
-
-```bash
-sudo ls /dev/vd*
-```
-
-   - what has changed?
-
-  8. Use **fdisk** (_refer to how to use in Part 1_) to create a new single **primary** partition for **/dev/vdb** that fills the _entire_ disk, save partition table (accepting default prompts would work and **type w to write your changes**!), restart your **centos2** VM.
-  9. Format your new _vdb1_ partition with file type: **ext4**
-  10. Now we'll make the new device a **physical volume**, add it to the **volume group** by issuing the following commands:
-
-```bash
-sudo pvcreate /dev/vdb1
-```
-
-   - (enter **y** to proceed - ignore warning)
-
-```bash
-sudo vgextend centos_centos2 /dev/vdb1
-```
-
-   - **NOTE**: If you experience an error message, issue the **sudo ssm list** command, and check the **volume group name** under the "**pool**" section. If the volume group name is different than **centos_centos2**, then use that volume group name for all remaining commands that use "centos_centos2"
-
-  11. Re-issue the **sudo ssm list** command to see if there is any change.
-  12. Issue the following command to extend the logical volume for the home file-system: 
-
-```bash
-sudo lvextend -r centos_centos2/home --size +2G
-```
-
-  13. Record the size of the volume group and the amount of free space. What has changed and what caused those changes?
-  14. Issue the **sudo ssm list** command. Note that your home file-system is now 2GB bigger, and you have not even rebooted your machine since you used fdisk to create a partition!
-  15. **Reboot** your centos2 VM
-  16. Record the LVM Management commands in your lab log-book.
-
-### Part 3: Manually & Automatically Mount Partitions
-
-We take for granted that a file-system must be mounted (for example, the root partition) in order for a Linux system to be usable upon system start-up. We need to learn how to do this manually by editing or adding an entry in the file system table (**/etc/fstab**). This file contains entries to mount various file systems automatically upon start-up of the Linux system.
-
-![Mount](/img/Mount.png)
+![deb2mount](/img/deb2mount.png)
 
 The Linux system administrator also has the ability to manually **mount** (connect) and **un-mount** (disconnect) partitions in order to perform maintenance on the file system (for example, un-mounting the **/home** partition to install software and prevent users from logging in during that process).
 
-**Perform the following steps:**
+To mount a storage volume we need to provide the device name, the filesystem format, and the mount point.
 
-  1. Perform this part in your **centos2** VM.
-  2. Issue the following command to create a mount-point (directory to connect /dev/dva3 partition to):
+A mount point is just a directory in the filesystem hierarchy. The directory SHOULD be empty. If a storage volume is mounted on a directory that is not empty, then the original contents of the directory will be inaccessible until the device is unmounted.
 
-```bash
-sudo mkdir /archive
-```
+**Perform the following steps to mount the archive LV**
 
-  3. Issue the following command to mount the partition:
-
-```bash
-sudo mount -t ext4 /dev/centos_centos2/archive /archive
-```
-
-  4. Use the **ls** command to view the contents of the /archive directory. What do you see?
-  5. Issue the **mount** command (without arguments) to confirm it has been mounted.
-  6. Unmount the **/archive** directory by issuing the following commmand: 
+1. Perform this part in your **deb2** VM.
+2. Start an interactive sudo shell
+3. Create the "mount point", which is just a directory.
 
 ```bash
-sudo umount /archive
+mkdir /archive
 ```
 
-  7. Issue the mount command (without arguments) to confirm it has been unmounted.
+> **Note:** The mount point name does not have to match the LV name, but it can make it easier to remember how they are associated. 4. For demonstration purposes only, create a couple of empty files in **/archive**.
 
-We will now edit the /etc/fstab file in order to have the /dev/vda3 partition automatically mounted to the /archive directory upon system boot-up
+```bash
+# You should remember the touch command
+touch /archive/file1 /archive/file2
 
-  8. View the contents of the file-system table **/etc/fstab** by issuing the following command:
+ls -l /archive
+```
+
+4. Use the mount command to mount the archive LV:
+
+```bash
+# View the currently mounted filesystems
+mount
+
+# Mount the archive LV as an ext4 filesystem on the directory /archive
+mount -t ext4 /dev/deb2-vg/archive /archive
+
+# You can use either pathname for the device
+# This command would also work
+mount -t ext4 /dev/mapper/deb2--vg-archive /archive
+
+# Confirm the device is mounted
+mount
+
+# Also verify with df
+df -h
+```
+
+5. Now that the device is mounted, what happened to the contents of **/archive**?
+6. List the contents of **/archive**
+7. Are the empty files listed?
+
+The files have not been deleted or damaged. Instead they have been "covered up" by the contents of the **archive** LV. They are no longer visible or accessible.
+
+8. Now manually unmount the archive LV using the **umount** command. (Note the spelling of the **umount** command)
+
+```bash
+# Unmount using device name
+umount /dev/mapper/deb2--vg-archive
+
+# OR
+
+# Unmount using mount point name
+umount /archive
+
+# Confirm with mount or df
+```
+
+9. List the contents of the /archive directory. What do you see?
+
+The empty files are now visible once again. Reminding us that mount points should be empty directories.
+
+In order to have the **archive** LV mounted automatically when the system boots, the filesystem table (**/etc/fstab**) must be edited. The **mount** command reads and works with the contents of **/etc/fstab** to determine what devices are automatically at system boot-up
+
+10. View the contents of the file-system table **/etc/fstab** by issuing the following command:
 
 ```bash
 cat /etc/fstab
 ```
 
-  9. use `sudo vi /etc/fstab` to add an entry to automatically mount the /archive directory upon bootup:
+![deb2fstab](/img/deb2fstab.png)
+
+Notice that the entries in the table include fields for device name, mount point, and format type, followed by other options.
+
+You can also see 2 different methods of identifying devices. Either by pathname under **/dev/** or by UUID. (Universally Unique ID)
+
+Other useful commands for working with storage:
 
 ```bash
-/dev/centos_centos2/archive /archive ext4 defaults 1 2
+# List all block (storage) devices
+lsblk
+
+# List the UUID information for storage devices
+blkid
 ```
 
-   - Note: do not alter any of the lines that are already in that file.
+11. Edit the **/etc/fstab** file to add an entry to automatically mount the /archive directory upon booting:
 
-  10. Issue the command `sudo mount -a` to see if the entry in **/etc/fstab** works correctly. If there are any errors you must correct them before rebooting your machine.
-  11. Reboot the machine and make sure the **/archive** directory is automatically mounted when the machine boots.
+> ![caution](/img/caution.png)
+>
+> Errors in the /etc/fstab file can cause your system to fail to boot!
+>
+> Edit this file VERY CAREFULLY!
+
+12. Add the following line to the **/etc/fstab** file
+
+```bash
+/dev/deb2-vg/archive /archive ext4 defaults 1 2
+```
+
+> Note: do not alter any of the other lines that are already in that file.
+
+13. Before rebooting we should test the new entry with the command:
+
+```bash
+# Mount all automount devices in /etc/fstab
+mount -a
+```
+
+14. The filesystem table file **/etc/fstab** is read by **systemd** at boot time. After changing the file, **systemd** needs to be reloaded:
+
+```bash
+# Reload systemd
+systemctl daemon-reload
+
+# Mount all automount devices in /etc/fstab
+mount -a
+```
+
+If there are any errors you must correct them before rebooting **deb2**.
+
+15. Reboot **deb2** and confirm that the **archive** is correctly mounted.
+16. Perform a system update on deb2 and shutdown
 
 **Answer the INVESTIGATION 2 observations / questions in your lab log book.**
 
-## Investigation 3: Scripting
+![caution](/img/caution.png)
 
-The script used to monitor disk space earlier in the lab is very useful but has a noticeable flaw: You have to manually change the script to modify the percentage of disk space usage that will trigger a warning. It also will only ever send the email to root (unless you manually change the script).
-
-  1. Make a copy of of "monitor-disk-space.py" called **disk-monitor.py** and place it in your user's bin directory.
-  2. Keep the original preamble comments in the script, but add a line indicating that you modified it (and when you did so). Make sure you indicate the change in script name too.
-  3. Modify the script so that it will use **argparse** to accept command line input from the user for their preferred values for who to send the email to, and what percentage of use is worth sending an email over.
-
-        - You may choose the letters for each of these options, just document your choice in the comments in the script.
-        - Make sure your script keeps the original values as defaults, in case the user doesn't specify one of them (i.e. if they don't use the option to set who to send the email to, just continue to use root).
-
-  4. Test your script with both good and bad data to make sure it works.
-  5. When you are confident your script works, you are ready to submit the lab.
+Both the configuration of the deb2 VM and the contents of the disk image have changed. Remember to backup both the XML and disk image of deb2
 
 ## Lab 5 Sign-Off (Show Instructor)
 
-**Time for a new backup!**
-
-If you have successfully completed this lab, make a new backup of your virtual machines as well as your host machine.
-
 **Perform the Following Steps:**
 
-  1. Make certain that your **c7host** and **centos2** VMs are running.
-  2. Switch to your **c7host** machine.
-  3. Open a shell terminal, change to your user's **bin** directory.
-  4. Issue the Linux command: 
+1. Make certain that your **debhost** and **deb2** VMs are running.
+2. Switch to your **debhost** machine.
+3. Open a shell terminal, change to your user's **bin** directory.
+4. Issue the Linux command:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main//lab5-check.bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab5-check.bash
 ```
 
-  5. Give the **lab5-check.bash** file execute permissions (for the file owner).
-  6. Run the shell script (with elevated permissions) and if there are any warnings, make fixes and re-run shell script until you receive "congratulations" message.
-  7. Arrange proof of the following on the screen:
-
-- [x] **centos2** VM:
-
-     + Output from **sudo ssm list** command.
-     + Proof that **/archive** has been mounted
-
-- [x] **c7host** Machine:
-
-     + Proof of creation of the shell script: **monitor-disk-space.py**
-     + Crontab entry for **root** account
-     + Run the **lab5-check.bash** script in front of your instructor (must have all  `OK`  messages)
-
-- [x] **Lab5** log-book filled out.
-
-8. Upload a screen of the proof from the previous step, along with the file generated by **lab5-check.bash**, your log book, and your disk-monitior.py script to blackboard.
+5. Give the **lab5-check.bash** file execute permissions (for the file owner).
+6. Run the shell script (with elevated permissions) and if there are any warnings, make fixes and re-run shell script until you receive "congratulations" message.
+7. Follow the submission instructions of your Professor.
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
-  1. What is a VG? PV? LV?
-  2. What is the total size of the "main" VG on your system?
-  3. How do you create an LV?
-  4. How do resize an LV?
-  5. How would you add the disk partition **/dev/sdb7** to your volume group "main"?
-  6. How would you increase the size of the root filesystem by 50 MB?
-  7. How can you determine if a partition has been mounted onto a system?
-  8. How can you unmount an existing partition from the file-system?
-  9. How can you temporarily mount a partition on a file-system?
-  10. How can you permanently mount a partition on a file-system upon boot-up?
-  11. What are the separate elements (fields) of the **/etc/fstab** file?
-  12. Describe the tools that a Linux system administrator have to monitor disk space usage.
+1. What is a VG? PV? LV?
+2. What is the total size of the "deb2-vg" VG on your system?
+3. How do you create an LV?
+4. How do resize an LV?
+5. How would you add the disk partition **/dev/sdb7** to your volume group "deb2-vg"?
+6. How would you increase the size of the root filesystem by 50 MB?
+7. How can you determine if a partition has been mounted onto a system?
+8. How can you unmount an existing partition from the file-system?
+9. How can you temporarily mount a partition on a file-system?
+10. How can you permanently mount a partition on a file-system upon boot-up?
+11. What are the separate elements (fields) of the **/etc/fstab** file?
+12. Describe the tools that a Linux system administrator have to monitor disk space usage.
