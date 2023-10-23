@@ -17,7 +17,7 @@ The purpose of this lab is to demonstrate how a Linux system administrator can m
 
 Monitoring Disk Space can fix problems **before** they become a crisis (like running low on hard disk space). We will use LVM to easily resize Linux file-systems.
 
-![Crontab](/img/Crontab.png)
+![cron](/img/cron.png)
 
 Linux system administrators need to schedule Linux shell scripts and commands (via **crontab**) to automatically run in order to be more productive.
 
