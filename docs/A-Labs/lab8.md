@@ -15,11 +15,11 @@ description: TBD
 
 There are different ways in which computers can be networked together. Some computer networks (such as computer labs) configure their workstations for **static IP addresses for security and to provide other interesting features such as WOL** (Wake Up on Lan) which allows a signal from a computer system to remotely start all or specified workstations within the lab.
 
-![DHCP Pic](/img/Dhcp-pic.png)
+![DHCP Pic](/static/img/Dhcp-pic.png)
 
-**Hot-spots (such as cafes or airport lounges) offer the ability for users to connect to the Internet (via** DHCP) f**rom their mobile devices (notebooks, netbooks, tablets, or smart phones). Finally, there are** hybrid **solutions that may offer both fixed IP address (computer workstations) and allow for wireless connections (via DHCP) to a mobile devices (like at your Seneca computer labs).**
+WiFi Hot-spots offer the ability for users to connect to the Internet (via **DHCP**) from their mobile devices (notebooks, netbooks, tablets, or smart phones). Finally, there are **hybrid** networks consisting of computers configured with static IP addresses, usually servers, and computers configured via **DHCP** usually desktop computers and mobile devices.
 
-In lab6, you learned to connect your VMs to a network using a fixed IP Address. In this final lab, you will learn to set-up a **DHCP server** to automatically assign IP Addresses upon connection requests.
+In lab6, you learned to connect your VMs to a network using a fixed IP Address. In this final lab, you will learn to set-up a **DHCP server** to automatically assign IP Addresses to our various VM's.
 
 **Main Objectives**
 
@@ -27,21 +27,23 @@ In lab6, you learned to connect your VMs to a network using a fixed IP Address. 
   - To obtain log information from DHCP server including lease address information.
   - To lease the same IP address every-time from VM boot-up (instead of having DHCP server randomly assign IP address).
 
+> **Note:**  The [Internet Software Consortium](https://www.isc.org/) has recently deprecated the **ISC DHCP Server** and provides the modern **Kea DHCP Server** as the suggested software to replace it. For now we will learn about the Legacy version as it remains widely deployed. You can expect that over time that the newer to become widely used.
+
 ### Minimum Required Materials
 
   - **Solid State Drive**
   - **USB key** (for backups)
-  - **Lab8 Log Book**
+  - **Lab 8 Log Book**
 
 ### Linux Command Reference
 
 **Networking Utilities**
 
-- [dhcpd](http://linux.die.net/man/8/dhcpd)
+- [dhcpd](https://manpages.debian.org/bookworm/isc-dhcp-server/dhcpd.8.en.html)
 
 **Managing Services**
 
-- [systemctl](http://www.dsm.fordham.edu/cgi-bin/man-cgi.pl?topic=systemctl)
+- [systemctl](https://manpages.debian.org/bookworm/systemctl/systemctl.1.en.html)
 
 **Additional Utilities**
 
@@ -49,16 +51,15 @@ In lab6, you learned to connect your VMs to a network using a fixed IP Address. 
 
 **Configuration Files**
 
-- [dhcpd.conf](https://www.freebsd.org/cgi/man.cgi?query=dhcpd.conf&sektion=5&apropos=0&manpath=FreeBSD+9.0-RELEASE+and+Ports)
-- [dhcpd-options](http://linux.die.net/man/5/dhcp-options)
-- [dhcpd.leases](http://linux.die.net/man/5/dhcpd.leases)
-- [Configuring a DHCP Server](http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-dhcp-configuring-server.html)
+- [dhcpd.conf](https://manpages.debian.org/bookworm/isc-dhcp-server/dhcpd.conf.5.en.html)
+- [Configuring a DHCP Server](https://wiki.debian.org/DHCP_Server)
+
 
 ## Investigation 1: Install And Configure A DHCP Server
 
-This lab will demonstrate setting up a DHCP server. The term **DHCP** stands for **Dynamic Host Configuration Protocol**. DHCP allows computers (eg. workstations, notebooks, smart-phones) to be automatically configured so that they can communicate over a network. This automatic configuration has gained popularity over the years, especially as the need for detecting and configuring portable computer devices increases. DHCP configuration allows for various setups including: **Dynamic**, **Automatic**, and **Static** allocation.
+This lab will have you configure a DHCP server. The term **DHCP** stands for **Dynamic Host Configuration Protocol**. DHCP allows computers (eg. workstations, notebooks, smart-phones) to be automatically configured to communicate over the TCP/IP network. This automatic configuration is absolutely required on any network with mobile devices. Other network devices such as Wireless Routers can provide dynamic configuration. This should be taken into account when designing your network. DHCP configuration allows for various setups including: **Dynamic**, **Automatic**, and **Static** allocation.
 
-![DORA](/img/Dora.png)
+![DORA](/static/img/Dora.png)
 
 The term **DORA** best describes how DHCP Works:
 
@@ -69,234 +70,296 @@ The term **DORA** best describes how DHCP Works:
 | **R**equest | After receiving a **DHCPOFFER**, the DHCP client broadcasts a message **request for acceptance** (**DHCPREQUEST**) to all DHCP servers and, in doing so, the DHCP client notifies all DHCP servers which DHCP server this DHCP client is requesting acceptance from. |
 | **A**cknowledgement | The DHCP server identified in the **DHCPREQUEST** sends a **message of acceptance to the client** and the client then receives from that DHCP server a **packet of information** containing the lease duration and other configuration information. |
 
-### Part 1: Installation of a DHCP
+### Part 1: Installation of the DHCP Server
 
-**VM Backups and Yum Updates**
+**VM Backups and Systen Updates**
 
-Before proceeding with this lab make certain that you have backed-up from lab7, and then perform a **yum update** on all machines (including your VMs)
+> ![caution](/static/img/caution.png)
+> 
+> **Before proceeding with this lab make certain that you have backed-up your VM's from lab7, and then perform a update on all VMs**
 
 **Perform the following steps:**
 
-  1. Launch your c7host machine and your centos3 VM.
-  2. Switch to your **centos3** VM.
+  1. Launch your debhost machine and your deb3 VM.
+  2. Switch to your **deb3** VM and start a sudo shell.
 
-        - The version of DHCP server that comes with CentOS is maintained and distributed by the **Internet Software Consortium** (https://www.isc.org/). The source package that you can download from ISC includes not only the DHCP server, but also a DHCP client and a DHCP relay agent. CentOS separates it into two RPM packages: the DHCP client package and the DHCP server package. The DHCP client package is installed by default by the workstation installation.
+        - The version of DHCP server that comes with Debian is maintained and distributed by the **Internet Software Consortium** (https://www.isc.org/). The source package that you can download from ISC includes not only the DHCP server, but also a DHCP client and a DHCP relay agent. Debian separates it into two .deb packages: the **isc-dhcp-client** package and the **isc-dhcp-server** package. The client package is installed by default by the workstation installation.
 
-  3. To check that you have **dhcp** installed, enter the command:
-
-```bash
-rpm -qa dhcp
-```
-
-  4. If there are no files displayed, then issue the following command to install the dhcp server package:
+  3. To check if you have the packages installed:
 
 ```bash
-sudo yum install -y dhcp
-```
+# To check if you have the server package installed
+dpkg -l isc-dhcp-server
 
-  5. Again, enter the command to list all the files installed from the DHCP server package by issuing the command:
+# To check if you have the client package installed
+dpkg -l isc-dhcp-client
+```
+  4. Install the dhcp server package:
 
 ```bash
-rpm -qla dhcp
+# Install dhcp server
+apt install isc-dhcp-server
 ```
 
-  6. Which file appears to be a sample (example) **configuration file for dhcpd.conf**?
-  7. While you could copy the **dhcpd.conf.example** file to the **/etc/dhcp/dhcpd.conf**, it is recommended that you start a new **/etc/dhcp/dhcpd.conf** from scratch.
+**The service will attempt to start right away but will fail because it is not configured properly.**
+
+  5. Find out what your network interface is called
+  
+
+```bash
+# Display network interfaces
+ip --brief link
+```
+
+  6. Edit the file **/etc/default/isc-dhcp-server** and add your interface  
+
+  ```bash
+  INTERFACESv4="enp1s0"
+  ```
+  7. List the files installed by the package 
+
+  ```bash
+  # List files installed from a package
+  dpkg -L isc-dhcp-server | less
+  ```
+
+  ![deb3dhcpfiles](/static/img/deb3dhcpfiles.png)
+ 
+  You can see the location of the IPv4 config file and you can also see that in the documnetation directory there is an example file.
+
+  It is worthwhile to investigate the documentation directory of a package. They often contain useful information about the package including Debian specific information.
+
 
 ### Part 2: Configuring the DHCP Server
 
 **Perform the following steps:**
 
-  1. Remain in your **centos3** VM for this section.
-  2. Click on the following link to access the online manual page for the following DHCP items to gain an understanding:
+  1. Remain in your **deb3** VM for this section.
+  2. Click on the following link to access the online manual page for the **dhcpd.conf** file to gain an understanding of the parameters being modified
+       - [dhcpd.conf](https://manpages.debian.org/bookworm/isc-dhcp-server/dhcpd.conf.5.en.html)
 
-       - [dhcpd](http://linux.die.net/man/8/dhcpd)
-       - [dhcpd.conf](https://www.freebsd.org/cgi/man.cgi?query=dhcpd.conf&sektion=5&apropos=0&manpath=FreeBSD+9.0-RELEASE+and+Ports)
-       - [dhcpd-options](http://linux.die.net/man/5/dhcp-options)
-       - [dhcpd.leases](http://linux.die.net/man/5/dhcpd.leases)
-
-  3. Study the sample **dhcpd.conf** file to see examples of how these options are used.
-  4. Review the contents of **/etc/dhcp/dhcpd.conf** file (see the picture) and examine the top section of the file.
-  5. Be advised: "**option** definitions common to all supported networks". Change the existing global options with the newer values shown below, if the **dhcpd.conf** file is empty, add them manually:
-
-```bash
-option domain-name "ops245.org";
-option domain-name-servers 192.168.245.1;
-default-lease-time 1200;
-max-lease-time 3600;
-```
-
-   - **Note**: Any values for time are stated in seconds.
-
-  6. View your editing sessions for typos (check for missing semicolons), then save and exit your editing session.
-
-![DHCP Config](/img/Dhcp-config.png)
-
-The **dhcpd.config** file allows the Linux system administrator to customize the DCHP server. Generally in this file are **global settings** (options that apply throughout entire network) and **subnet declarations** (options that apply only to that subnet). Whenever changes are made to this file, the **DCHP service needs to be restarted** to allow new settings to take effect.
+The **dhcpd.conf** file allows the Linux system administrator to customize the DCHP server. Generally, this file contains **global settings** (options that apply throughout the entire network) and **subnet declarations** (options that apply only to that subnet). Whenever changes are made to this file, the **DCHP service will need to be reloaded** to allow new settings to take effect.
 
 **NOTE: Any errors in this file (such as typos or missing semi-colons) can cause the DHCP server not to restart!**
 
-### Part 3: Configuring DHCP Server for Static IP Addresses
+  3. Edit the **/etc/dhcp/dhcpd.conf** file and examine the top section of the file.
 
-**Recall Secure SSH Connection Method from Lab7**
+  Change the existing global options with the newer values shown below, if the **dhcpd.conf** file is empty, add them manually:
 
-Do not forget that you made ssh more secure in the previous lab. Therefore, you will need to use the same command in lab7 to securely connect to your VM.
+```bash
+# option definitions common to all supprted networks...
+option domain-name "ops245.org";
+option domain-name-servers 192.168.245.1;
+default-lease-time 600;
+max-lease-time 3600;
+```
+   - **Note**: Any values for time are stated in seconds.
+   - **Note**: Carefully check for errors (check for missing semicolons). 
+
+### Part 3: Configuring the DHCP Server to lease dynamic addresses to our network 
 
 **Perform the following steps:**
 
-  1. Remain in your **centos3** VM for this section.
-  2. Edit **/etc/dhcp/dhcpd.conf** for a second time.
-  3. View this file for existing subnet declarations. Note the syntax and the directive for **range** and the option for **routers** (gateway).
-  4. Now, add a new subnet declaration for your virtual network:
+  1. Remain in your **deb3** VM for this section. (and in a sudo shell)
+  2. Edit **/etc/dhcp/dhcpd.conf** 
+  3. Review the file for example subnet declarations. 
+  4. Note the syntax and the directive for **range**, and the option for **routers** (gateway).
+  
+  ![basicsubnet](/static/img/basicsubnet.png)
 
-      - The network address is: **192.168.245.0/255.255.255.0**
-      - range of host addresses should be from: **51 to 60**
-      - default gateway (routers) for the virtual network is: **192.168.245.1**
+  At a minimum, the subnet declaration must include:
+  
+      - Subnet address
+      - Subnet Netmask
+      - Default Gateway Address (option routers)
+      - A range of valid addresses that can be leased to DHCP clients
 
-  5. Save your editing session, and exit the text editor.
-  6. Open another terminal window (**Tip**: **ssh** into your **centos3** VM from your **c7host** as **root**) and issue the following command:
+  **NOTE:** When declaring ranges of addresses it is important to consider that often there are multiple DHCP servers on the network. Each should be configured with unique ranges. In other words the ranges cannot overlap or you could have 2 clients recieve the same address.
+
+  ![dhcpsubnet](/static/img/dhcpsubnet.png)
+
+  Subnet declarations can also supply additional **options** or override **global parameters and options**
+
+  5. Now, add a new subnet declaration for your virtual network:
+
+      - The network address/netmask is: **192.168.245.0/24**
+      - The range of available host addresses should be from: **51 to 60**
+      - The Default Gateway (routers) for the virtual network is: **192.168.245.1**
+
+  6. Save your editing session, and exit the text editor.
+
+  Before attempting to start the service, in another terminal, monitor the system journal, displaying entries as they are added in real time.
+
+  If there are any errors in the **dhcp.conf** file when you start the service they will be recorded in the system journal.
+
+  7. Open another terminal window (**Tip**: **ssh** into your **deb3** VM from your **debhost** and start a sudo shell) and issue the following command:
 
 ```bash
-tail -f /var/log/messages
+# Monitor system journal in real time
+journalctl -f -u isc-dhcp-server
 ```
+   - This will show you the last entries for the unit isc-dhcp-server and continue to display new entries as they are added to the journal for confirmation and troubleshooting.
 
-   - (This will show you the last lines of **/var/log/messages** continue to display new lines as they are added to the log for confirmation and troubleshooting.)
+  8. In your **deb3** terminal, attempt to start the **isc-dhcp-service** service.
+  9. You should see new lines being added to the journal.
 
-  7. In your **centos3** terminal, attempt to start the **dhcpd** service.
-  8. You should see new lines being added to the messages file.
-  9. If the **dhcpd** service fails to start any error messages will be logged in the messages file. Read the errors and attempt to fix your configuration file.
-  10. If the **dhcpd** service starts successfully you should see success messages in the log.
-  11. If your **dhcpd** service starts successfully, try to generate errors by editing the configuration file and introduce an error by removing a semicolon or closing curly bracket.
-  12. Restart your **dhcpd** service and observe the error messages generated. This is good practice to learn how to trouble-shoot and solve dhcpd errors.
-  13. Make certain that you have corrected those errors, and that your dhcpd service works properly.
-  14. Once the dhcpd service has is running, use the **systemctl** command to see if the dhcpd service is enabled (Hint: use a pipeline command using **grep** to detect the pattern: **enabled**). If it is not enabled, use the **systemctl** command to enable the dhcpd service so it started automatically upon boot-up.
+  ![dhcpstart](/static/img/dhcpstart.png)
 
-**Troubleshooting Tip:**
+  10. If the service starts successfully you should see success messages in the journal.
+  11. If the service fails to start any error messages will be added to the journal. 
 
-Troubleshooting produces the best results when you are methodical in your approach. Try to fix the first error mentioned before fixing subsequent errors. Often the first error may cause multiple error messages as the configuration file is parsed. When you think you have fixed the first error try to start your service and if it fails check the log again. Fix one error at a time.
+> **Troubleshooting Tip:**
+>
+> Troubleshooting produces the best results when you are methodical in your approach. 
+>
+> Often a single error can generate multiple error messages as the configuration file is parsed:
+> - Troubleshoot the first error message before working on subsequent errors.
+> - When you think you have fixed the first error try to start your service and if it fails again check the journal for the next error message.
+> - Fix one error at a time and try again until all errors are resolved.
 
-### Part 4: How do I test my dhcpd service on my virtual network?
+  12. If your service failed, read the errors and attempt to fix your configuration file.
+  13. If your service starts successfully, try to generate errors by editing the configuration file and introduce an error by removing a semicolon and closing curly bracket.
+  
+  ![dhcperrors](/static/img/dhcperrors.png)
+
+  **Note:** When a line number is identified as the source of the error, it doesn't mean that the error is actually on that line. This is the line it was parsing when it decided that there was an error. The error could be on a preceding line. So start at the line and read up when searching for the error.
+
+  14. Restart your service and observe the error messages generated. This is good practice to learn how to trouble-shoot and solve errors.
+  15. Make certain that you have corrected all errors, and that your service starts properly.
+  16. Reboot **deb3** and start a sudo shell
+  17. Confirm that the service successfuly started at boot time.
+
+  ![dhcpd](/static/img/dhcpd.png)
+
+  The process that actually is running is called **dhcpd**
+
+  18. Check the status of your network ports to see which port is being used by the **dhcpd** process.
+  ```bash
+  # Show active tcp/udp ports
+  ss -atunp
+  ```
+![dhcpdports](/static/img/dhcpdports.png)
+
+### Part 4: Testing the DHCP server
 
 **Identifying DHCP Lease Transaction Information**
 
-These messages record the DHCP lease transaction that consists of 4 broadcast packets, DISCOVER, OFFER, REQUEST and ACKNOWLEDGE. Try researching on the internet how this transaction differs from a DHCP lease renewal.
+  Recall that the initial DHCP lease transaction consists of 4 broadcast packets, DISCOVER, OFFER, REQUEST and ACKNOWLEDGE. A DHCP lease renewal transaction consists of just 2 unicast packets, REQUEST and ACKNOWLEDGE. You can monitor the system journal for evidence of these transactions.
 
 **Perform the following steps:**
 
-  1. Use your **centos1** and **centos3** VMs for this section.
-  2. On your **centos3** terminal window (via ssh from your c7hsot machine) make sure that the command below is running
+  1. Use your **deb1** and **deb3** VMs for this section.
+  2. Connect to **deb3** via ssh from **debhost** and monitor the journal
 
 ```bash
-tail -f /var/log/messages
+# Monitor journal for dhcp entries
+sudo journalctl -f -u isc-dhcp-server
 ```
 
-  3. On your **centos1** VM, Graphically change the configuration of **eth0** (or your interface name) to receive dynamic address configuration (i.e. via graphical application, for IVP4 tab, change _Address_ from **Manual** to **DHCP**, and **Apply** settings) ([Refer to Lab6, Investigation1, Part2](/A-Labs/lab6.md#part-2-configuring-network-for-centos1-vm)).
+  3. On your **deb1** VM, Graphically change the configuration of your network interface to receive dynamic address configuration and **Apply** 
+  4. Logout and restart your **deb1** VM.
+  5. Observe the messages that get added to the journal **deb1** VM starts. You should see output similar to the following:
 
-       - Note: if you are configuring via command line, make certain to restart the network for centos1.
+  ![dhcplease](/static/img/dhcplease.png)
 
-  4. Logout and restart your **centos1** VM.
-  5. Observe the messages that get logged from the tail -f command as your centos1 VM starts. You should see output similar to the following:
-
-```bash
-Mar 22 02:09:49 centos3 dhcpd: DHCPDISCOVER from 52:54:00:7c:85:13 via eth0
-Mar 22 02:09:50 centos3 dhcpd: DHCPOFFER on 192.168.245.51 to 52:54:00:7c:85:13 (centos1) via eth0
-Mar 22 02:09:50 centos3 dhcpd: DHCPREQUEST for 192.168.245.51 (192.168.245.13) from 52:54:00:7c:85:13 (centos1) via eth0
-Mar 22 02:09:50 centos3 dhcpd: DHCPACK on 192.168.245.51 to 52:54:00:7c:85:13 (centos1) via eth0
-```
-
-  6. On your **centos1** VM, open a terminal, andconfirm the IP address assignment using
+  6. On your **deb1** VM, open a terminal, and confirm the IP address assignment using
 
 ```bash
 ip address show
 ```
-
   7. Has the IP Address changed? If so, how has the IP Address been assigned according to the **dhcpd.conf** file settings?
+  8. Because the setting for **default-lease-time** was set to 600 seconds. (10 minutes) address renewal should occur every 5 minutes (50% of lease time)
+  9. Continue to monitor the journal until you see the **REQUEST** and **ACK** message of a renewal.
 
-**Answer INVESTIGATION 1 observations / questions in your lab log book.**
+  ![dhcprenew](/static/img/dhcprenew.png)
 
-## Investigation 2: Obtaining Lease and Lease Permanent IP Address Information
-
-### Part 1: Obtaining Leased Address Infomation
-
-**Purpose of dhcpd.leases File**
-
-dhcpd records address leases in this file. If the service is restarted it reads in the file to know which addresses are currently leased and for how long.
-
-**Perform the following steps:**
-
-  1. Remain in your **centos1** and **centos3** VMs for this section.
-  2. If your **centos3** DHCP server successfully issued the proper IP address configuration values to **centos1**, check the file called: **/var/lib/dhcpd/dhcpd.leases** in your **centos3** VM. You should get the similar contents:
-
-```bash
-lease 192.168.245.51 {
-   starts 1 2021/03/22 01:07:00;
-   ends 1 2021/03/22 01:27:00;
-   cltt 1 2021/03/22 01:07:00;
-   binding state active;
-   next binding state free;
-   rewind binding state free;
-   hardware ethernet 52:54:00:ba:75:a8;
-}
-```
-
-  3. On the client **centos1** check the contents of the **/var/lib/dhclient** directory. The files in this directory is where the dhclient stores its record of leases.
-
-        - **NOTE**: If there are no files, then in a shell in your **centos1** VM issue the command: `sudo dhclient eth0`
-        - Then check to see if there is file containing lease information in that directory. You should get the similar contents:
-
-```bash
-lease {
-   interface "eth0";
-   fixed-address 192.168.245.52;
-   option subnet-mask 255.255.255.0;
-   option routers 192.168.245.1;
-   option dhcp-lease-time 1200;
-   option dhcp-message-type 5;
-   option domain-name-servers 192.168.245.1;
-   option dhcp-server-identifier 192.168.245.13;
-   option domain-name "ops245.org";
-   renew 2 2021/03/22 02:23:06;
-   rebind 2 2021/03/22 02:31:52;
-   expire 2 2021/03/22 02:34:22;
-}
-```
-
-**Answer Part 1 observations / questions in your lab log book.**
-
-### Part 2: Configuring DHCP server to Continually Lease Same IP Address
+### Part 5: Configuring the DHCP server to continually lease the same IP Address to the client
 
 **Reserving IP Addresses with DHCP**
+
+Devices on a DHCP network will often be configured with different leased IP addresses. Especially mobile devices. Sometimes however it is better to configure a host with an address that does not change. Allowing for DNS registrations for example. 
 
 Even though DHCP gives out IP address dynamically, it also has the ability to reserve an IP address for a certain computer. In this sense it's almost as if the client computer has a static IP even though it uses DHCP to get it. This is useful if you want to be able to put entries in your /etc/hosts file and not have to worry about the entry becoming invalid over time. In Linux we refer to this as supplying a fixed address to a host. Microsoft calls it a reservation.
 
 **Perform the following steps:**
 
-  1. Remain in your **centos1** and **cento3** VMs for this section.
-  2. Make certain that you are located in your **centos3** virtual machine.
-  3. Edit the dchpd.conf file and make the following changes:
+  1. Remain in your **deb1** and **deb3** VMs for this section.
+  2. On the **deb3** VM in a sudo shell edit the **/etc/dhcp/dchpd.conf** file
+  3. Examine the file and look for the examples of a **host** declaration
 
-       - Create a **host** declaration with the name: **centos1** (tip: search for the key-word "**host**" in the text editor to see an example, if it is empty, do a little research on the Internet).
-       - Set the **hardware ethernet** option for the MAC address of the eth0 on your **centos1** VM.
+  ![dhcphostex1](/static/img/dhcphostex1.png)
+
+  DHCP **host** declarations allow individual DHCP client devices on the network to receive configuration settings that are specific to that device. For example, a reserved IP address, but also other settings.
+
+  ![dhcpfixedaddress](/static/img/dhcpfixedaddress.png)
+
+  When a DHCP client requests an address from DHCP server part of the request packet includes the clients Hardware or MAC address as an identifying value. This allows a DHCP server to deliver specific configurations to specific devices.
+
+
+  4. Get the hardware (MAC) address of **deb1**
+
+  ```bash
+  # Show network interfaces
+  ip --brief link
+  ```
+  
+  ![macaddr](/static/img/macaddr.png)
+
+  5. Create a **host** declaration with the name: **deb1** 
+
+       - Set the **hardware ethernet** option for the MAC address of your **deb1** VM.
        - Set the **fixed-address** option to the ip address: **192.168.245.42**
-       - **Note**: When supplying fixed-address it is important that the address assigned is exclusive of any ranges that have been declared. Otherwise it may be possible for 2 different hosts to receive the same address.
 
-  4. Restart the dhcpd service and test the address assignment by releasing your current address on **centos1** and then requesting a new address. Use the following commands on **centos1**:
+  **Note**: When supplying fixed-address it is important that **the address assigned is exclusive of any ranges that have been declared**. Otherwise it may be possible for 2 different hosts to receive the same address.
 
-```bash
-ifdown eth0
-```
+  ![dhcpdconf](/static/img/dhcpdconf.png)
 
-```bash
-ifup eth0
-```
+  6. Restart the **isc-dhcp-server** service
+  7. Test the address assignment by disconnecting and reconnecting your interface on **deb1** using the following commands:
 
-  5. Confirm that you received the fixed address you were supposed to.
+  ```bash
+  # Bring the interface down
+  sudo ip link set enp1s0 down
+
+  # Bring the interface up
+  sudo ip link set enp1s0 up
+
+  # Show IP address
+  ip --brief address 
+  ```
+  ![deb1fixedip](/static/img/deb1fixedip.png)
+
+**Answer INVESTIGATION 1 observations / questions in your lab log book.**
+
+## Investigation 2: Obtaining Lease Records on the Server and Client
+
+### Part 1: Obtaining Leased Address Infomation on the server
+
+**Purpose of dhcpd.leases File**
+
+The **dhcpd** processs records address leases records in the file **/var/lib/dhcp/dhcpd.leases**. If the service is restarted it reads in the file contents to know which addresses are currently leased and for how long.
+
+**Perform the following steps:**
+
+  1. Remain in your **deb1** and **deb3** VMs for this section.
+  2. If your **deb3** DHCP server successfully issued the proper IP address configuration values to **deb1**, check the file called: **/var/lib/dhcp/dhcpd.leases** in your **deb3** VM. You should get the similar contents:
+
+  ![dhcpdleases](/static/img/dhcpdleases.png)
+
+### Part 2: Obtaining Leased Address Infomation on the client
+
+  1. On the client **deb1** check the contents of the **/var/lib/dhcp** directory. The **dhclient.leases** file in this directory is where the **dhclient** stores its record of leases.
+
+        - **NOTE**: If there are no files, then in a shell in your **deb1** VM issue the command: `sudo dhclient enp1s0`
+        - Then check to see if there is file containing lease information in that directory. You should get the similar contents:
+
+  ![dhclientleases](/static/img/dhclientleases.png)
 
 **Answer INVESTIGATION 2 observations / questions in your lab log book.**
 
 ## Lab 8 Sign-Off (Show Instructor)
 
-Follow the submission instructions for lab 8 on Blackboard.
+Follow the submission instructions from your Professor for lab 8 on Blackboard.
 
 **Time for a new backup!**
 
@@ -304,32 +367,17 @@ If you have successfully completed this lab, make a new backup of your virtual m
 
 **Perform the Following Steps:**
 
-  1. Make certain ALL of your **centos1** and **centos3** VMs are running.
-  2. Switch to your **c7host** VM and change to your user's **bin** directory.
+  1. Make certain ALL of your **deb1** and **deb3** VMs are running.
+  2. Switch to your **debhost** VM and change to your user's **bin** directory.
   3. Issue the Linux command:
 
 ```bash
-wget https://raw.githubusercontent.com/OPS245/labs/main/lab8-check.bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab8-check.bash
 ```
 
   4. Give the **lab8-check.bash** file execute permissions (for the file owner).
   5. Run the shell script and if any warnings, make fixes and re-run shell script until you receive "congratulations" message.
-  6. Arrange proof of the following on the screen:
-
-- [x] **centos1** VM:
-
-    + **ip address show** shows IP address **192.168.245.42**
-    + DHCP client lease file
-
-- [x] **centos3** VM:
-
-    + DHCP server log file showing a lease occuring
-    + DHCP server configuration file showing subnet and host declaration
-    + DHCP server lease file
-
-- [x] **Lab8** log-book filled out.
-
-7. Upload a screenshot of the proof from the previous step along with your logbook, and the file generated by **lab8-check.bash**.
+  6. Follow your Professors instructions for submitting the lab.
 
 ## Practice For Quizzes, Tests, Midterm, and Final Exam
 
