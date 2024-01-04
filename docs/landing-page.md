@@ -69,19 +69,27 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 ## Course Faculty
 
-**During the Fall 2023 semester, OPS245 is taught by:**
+**During the Winter 2024 semester, OPS245 is taught by:**
+
+![Peter Callaghan](/img/Petercallaghan.jpg)
+
+**[Peter Callaghan](mailto:peter.callaghan@senecapolytechnic.ca)** \| Section **NAA, NBB**
 
 ![Brian Gray](/img/bgray.png)
 
-**[Brian Gray](mailto:brian.gray@senecacollege.ca)** \| Section **NAA, NBB**
+**[Brian Gray](mailto:brian.gray@senecapolytechnic.ca)** \| Section
 
-![Hans Heim](/img/hans.jpg)
+![Hans Heim](/img/hheim.jpg)
 
-**[Hans Heim](mailto:hans.heim@senecacollege.ca)** \| Section **NDD, NEE**
+**[Hans Heim](mailto:hans.heim@senecapolytechnic.ca)** \| Section **NEE**
 
-![Jason Carman](/img/JasonCarman.jpg)
+![Saso Kovec]
 
-**[Jason Carman](mailto:jason.carman@senecacollege.ca)** \| Section **NFF**
+**[Saso Kovec](mailto:saso.kovec@senecapolytechnic.ca)** \| Section **ZAA**
+
+![Azzad Kara]
+
+**[Azzad Kara](mailto:azzad.kara@senecapolytechnic.ca)** \| Section **ZBB**
 
 ## Evaluation
 
