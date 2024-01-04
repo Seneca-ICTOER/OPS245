@@ -74,11 +74,11 @@ In this section, you will learn how to configure an SSH server and restart the s
 
 Some tasks in this part of the investigation **require you to be connected to Seneca's VPN**.
 
-- If you are running your installation through VMWare, then you can use the [instructions provided by ITS](https://students.senecacollege.ca/spaces/186/it-services/wiki/view/1025/student-vpn) to connect to it from your Windows machine (your debhost and its nested VMs will use the VPN through the windows machine without further configuration).
+- If you are running your installation through VMWare, then you can use the [instructions provided by ITS](https://students.senecapolytechnic.ca/spaces/186/it-services/wiki/view/1025/student-vpn) to connect to it from your Windows machine (your debhost and its nested VMs will use the VPN through the windows machine without further configuration).
 - If you installed your debhost **directly onto a machine without using VMWare** as an intermediary (or the steps above do not work for you), use the following instructions:
 
   - Install the package openconnect
-  - Run the following command as root (or with sudo): `openconnect --protocol=gp studentvpn.senecacollege.ca -b`
+  - Run the following command as root (or with sudo): `openconnect --protocol=gp studentvpn.senecapolytechnic.ca -b`
   - This should prompt you for your username and password (you could also put the user name in the command with -p)
   - You'll know it is working if you check your ip address and see something in the 10.0.0.0/8 range.
   - To disconnect, as root (or with sudo): `killall openconnect`
@@ -92,7 +92,7 @@ Once you have connected to the VPN with either method you may continue
 
 ```bash
 # Copy file to remote host
-scp myfile.txt yourmatrixid@matrix.senecacollege.ca:/home/yourmatrixid
+scp myfile.txt yourmatrixid@matrix.senecapolytechnic.ca:/home/yourmatrixid
 ```
 
 - (followed by your Matrix password)
@@ -102,7 +102,7 @@ scp myfile.txt yourmatrixid@matrix.senecacollege.ca:/home/yourmatrixid
 
 ```bash
 # Connect to remote host to execute a single command to confirm copy
-ssh yourmatrixid@matrix.senecacollege.ca ls /home/yourmatrixid/myfile.txt
+ssh yourmatrixid@matrix.senecapolytechnic.ca ls /home/yourmatrixid/myfile.txt
 ```
 
 - (followed by your Matrix password)
@@ -111,7 +111,7 @@ ssh yourmatrixid@matrix.senecacollege.ca ls /home/yourmatrixid/myfile.txt
 
 ```bash
 # Connect to remote host and display the contents of the file
-ssh yourmatrixid@matrix.senecacollege.ca cat /home/yourmatrixid/myfile.txt
+ssh yourmatrixid@matrix.senecapolytechnic.ca cat /home/yourmatrixid/myfile.txt
 ```
 
 - How do these commands differ from using issuing the ssh command without the ls or cat command? How is this useful?
