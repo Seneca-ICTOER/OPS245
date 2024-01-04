@@ -77,7 +77,7 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 ![Brian Gray](/img/bgray.png)
 
-**[Brian Gray](mailto:brian.gray@senecapolytechnic.ca)** \| Section
+**[Brian Gray](mailto:brian.gray@senecapolytechnic.ca)** \| Section **NCC, NDD**
 
 ![Hans Heim](/img/hheim.jpg)
 
