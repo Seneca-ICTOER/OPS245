@@ -83,11 +83,11 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 **[Hans Heim](mailto:hans.heim@senecapolytechnic.ca)** \| Section **NEE**
 
-![Saso Kovec]
+![Saso Kovec](/img/Petercallaghan.jpg)
 
 **[Saso Kovec](mailto:saso.kovec@senecapolytechnic.ca)** \| Section **ZAA**
 
-![Azzad Kara]
+![Azzad Kara](/img/Petercallaghan.jpg)
 
 **[Azzad Kara](mailto:azzad.kara@senecapolytechnic.ca)** \| Section **ZBB**
 
