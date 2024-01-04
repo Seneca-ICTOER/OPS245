@@ -83,6 +83,9 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 **[Hans Heim](mailto:hans.heim@senecapolytechnic.ca)** \| Section **NEE**
 
+![Chris Johnson](/img/Petercallaghan.jpg)
+**[Chris Johnson](mailto:chris.johnson@senecapolytechnic.ca)** \| Section **NFF, NGG**
+
 ![Saso Kovec](/img/Petercallaghan.jpg)
 
 **[Saso Kovec](mailto:saso.kovec@senecapolytechnic.ca)** \| Section **ZAA**
