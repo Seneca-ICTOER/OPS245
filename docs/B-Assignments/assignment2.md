@@ -5,7 +5,16 @@ sidebar_position: 2
 description: TBD
 ---
 
-# Assignment 2 
+# Assignment 2
+
+> ![caution](/img/caution.png)
+>
+> ***Do NOT start working on this assignment unless specifically told to do so by your Professor!!***
+>
+> - This assignment is currently out of date
+> - Your Professor may choose to use a different assignment
+>
+
 
 ## Instructions
 

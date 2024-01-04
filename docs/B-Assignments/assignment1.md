@@ -7,6 +7,13 @@ description: TBD
 
 # Assignment 1
 
+> ![caution](/img/caution.png)
+>
+> **_Do NOT start working on this assignment unless specifically told to do so by your Professor!!_**
+>
+> - This assignment is currently out of date
+> - Your Professor may choose to use a different assignment
+
 The purpose of OPS245 assignments is to showcase your abilities in the course thus far, and conduct a bit of independent research. Some of what you'll be asked to complete will be familiar to you, while other parts will require you to think a bit and do some light Googling. It's expected you won't have all the answers right away, but you can find them. **As a result, unlike labs, your professor cannot provide any help or troubleshooting for your assignment.**
 
 This assignment will be completed inside your local c7host virtual machine using additional KVM/QEMU nested VMs.
@@ -60,18 +67,18 @@ Submit screenshots that show you've completed the work.
 
 ## Rubric
 
-| Task |	Maximum mark |	Actual mark |
-| --- | --- | --- |
-| New CentOS VM installed (Seneca username) |	1	| |
-| Correct hostname (Seneca username) |	1	| |
-| Using LVM (run lsblk to check) |	1	| |
-| Add, run, and removal of a rpm package |	1	| |
-| Adding EPEL to list of available repositories |	1	| |
-| RPM integrity verification command |	2	| |
-| Command to display repository information |	2	| |
-| Using Cinnamon |	2	| |
-| Modified ISO Master about dialog box |	2	| |
-| Second VM installed and running Linux Mint |	2	| |
-| Second VM using proper hostname |	1	| |
-| Screenshots clearly show you've completed the work |	4	| |
-| **Total** |	20	| |
+| Task                                               | Maximum mark | Actual mark |
+| -------------------------------------------------- | ------------ | ----------- |
+| New CentOS VM installed (Seneca username)          | 1            |             |
+| Correct hostname (Seneca username)                 | 1            |             |
+| Using LVM (run lsblk to check)                     | 1            |             |
+| Add, run, and removal of a rpm package             | 1            |             |
+| Adding EPEL to list of available repositories      | 1            |             |
+| RPM integrity verification command                 | 2            |             |
+| Command to display repository information          | 2            |             |
+| Using Cinnamon                                     | 2            |             |
+| Modified ISO Master about dialog box               | 2            |             |
+| Second VM installed and running Linux Mint         | 2            |             |
+| Second VM using proper hostname                    | 1            |             |
+| Screenshots clearly show you've completed the work | 4            |             |
+| **Total**                                          | 20           |             |
