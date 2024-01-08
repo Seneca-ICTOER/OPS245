@@ -1,5 +1,5 @@
 ---
-id: lab1-vmware
+id: lab1-vmware-graphic-install
 title: Lab 1 - VMware Version (Graphical Install)
 sidebar_position: 3
 description: Lab 1 - VMware Version (Graphical Install)
