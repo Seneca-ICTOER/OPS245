@@ -1,11 +1,11 @@
 ---
 id: lab1-vmware
-title: Lab 1 - VMware Version
-sidebar_position: 2
-description: Lab 1 - VMware Version
+title: Lab 1 - VMware Version (Graphical Install)
+sidebar_position: 3
+description: Lab 1 - VMware Version (Graphical Install)
 ---
 
-# Lab 1: Installing Debian 12 with VMware Workstation
+# Lab 1: Installing Debian 12 with VMware Workstation (Graphical Install)
 
 ## Lab Preparation
 
@@ -17,6 +17,7 @@ In order to save money and resources when learning to install, to manage, and to
 - **Lab 2**: Install a **Virtualization program package** on your **Debian 12 Host virtual machine** called **KVM** which will be used to create 3 remaining Virtual Machines (VMs) that you will use to learn about Linux system administration for the remainder of this course.
 
 The virtualization software will allow you to create and administer **4 different virtual machines** (**VMs**) on your computer system.
+
 ![labenv](/img/labenv.png)
 
 It is ESSENTIAL to have a **Solid State Drive (SSD) with a minimum storage capacity of 240 GB** or **240 GB available on your own computer** for you to perform the lab work and provide storage for your Debian 12 host and other VMs that you will create in Lab 2. **Due to space requirements, you are NOT permitted to share this SSD drive with any other course material than our OPS245 course.**
@@ -59,27 +60,24 @@ It is ESSENTIAL to have a **Solid State Drive (SSD) with a minimum storage capac
 | [grep](http://man7.org/linux/man-pages/man1/grep.1.html) | [wc](http://man7.org/linux/man-pages/man1/wc.1.html) | [pwd](http://man7.org/linux/man-pages/man1/pwd.1.html) | [ls](http://man7.org/linux/man-pages/man1/ls.1.html) | [more](http://man7.org/linux/man-pages/man1/more.1.html) | [file](http://man7.org/linux/man-pages/man1/file.1.html) | [wget](http://man7.org/linux/man-pages/man1/wget.1.html) | [chmod](http://man7.org/linux/man-pages/man1/chmod.1.html) | [vi](https://ss64.com/vi.html) |
 | -------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------ |
 
-**Matrix on-line tutorials**
+**Matrix Interactive Tutorials**
 
 - Linux Basics: **/home/ops235/linux-basics**
 - Using the vi Text Editor: **/home/ops235/vi-tutorial**
 - Shell Scripting - Part I (Scripting Basics): **/home/ops235/scripting-1**
 
-## Investigation 1: Create And Install Your First Virtual Machine (debhost)
+## Investigation 1: Create Your First Virtual Machine (debhost)
 
 In this lab, you will learn how to install your **Debian 12 VM** using the **VMware Workstation** application.
 
-### Part 1: Using VMware Workstation to Create a New Virtual Machine (VM)
 
-**debhost VM Details:**
+**debhost VM Details**
 
-- **Name**: debhost
-- **Boot media / Installation**: Debian 12 Net Installer install DVD (image file)
+| Name: | Boot media / Installation: | Disk Space: | CPUs: |
+| ----- | -------------------------- | ----------- | ----- |
+| debhost | [Debian 12 NetInstaller Image File](https://www.debian.org/download) | 240GB | 1 CPU, 4 cores |
 
-  - [Download netinst image](https://www.debian.org/download)
-
-- **Disk space**: 240GB
-- **CPUs**: 1 CPU, 4 cores **(Do not mix and match! Always use 1 CPU, and multiples of 2 for cores.)**
+### Part 1: Format External SSD for exFAT
 
 > ![Caution](/img/caution.png)**If you are using an external SSD drive on a Seneca Lab Computer you _must_ FORMAT it AS exFAT.**
 >
@@ -88,9 +86,13 @@ In this lab, you will learn how to install your **Debian 12 VM** using the **VMw
 
 ![Format exFAT](/img/Format_ExFAT.png)
 
+### Part 2: Confirm External SSD Is Recognized
+
 **Confirm External SSD Device is Recognized as a Drive in Windows Explorer**
 
 It is essential that your Windows machine recognizes your SSD device with a drive letter on your Windows machine. Open up file explorer in Windows and examine the properties of your SSD Device. (Make note of its drive letter and path)
+
+### Part 3: Enabling Virtualization (Non-Seneca Computers)
 
 > ![Caution](/img/caution.png)**Enabling Virtualisation on your Home Computer:**
 >
@@ -99,41 +101,46 @@ It is essential that your Windows machine recognizes your SSD device with a driv
 > - **RAM Size considerations**: Your Seneca Lab Workstations have **16GB** of RAM. Your own computer should have also have at least that much RAM in order to function efficiently.
 > - **Enable Virtualisation in home computer's BIOS**: Many home computers do not have Virtualisation enabled in their computer's BIOS. In your machines BIOS/UEFI: Enable the options VT-X(required) and VT-D(only if available)
 
+### Part 4: Downloading Debian
+
 **The Debian Web Site**
 
-Open up <https://www.debian.org/> in your browser. To get the latest copy of the Debian 12 netinstaller ISO click on the "Download" button.
-While you are on the site lets explore...
+Open up <https://www.debian.org/> in your browser. To get the latest copy of the Debian 12 NetInstaller ISO click, on the *Download* button.
+
+While you are on the site, lets explore...
 
 One of the most important skills you should graduate with is the ability to teach yourself something new. You will not always have the luxury of attending a training course to learn something new, so we must be prepared to learn independently. This often means reading official documentation. Official documentation is also one of the primary sources of information you should use when troubleshooting or configuring a system. Along with user forums and wiki's. Google searches can often produce results that are not specific to your Linux distribution or version, so they can produce inaccurate results.
 
 Reading documentation, like any skill, requires practice. Reading `man` pages for example is often very confusing for new users as it hard to understand all of the terminology. However, the more time you spend reading the documentation the easier it will become.
 
-Click on the "User Support" link. Take a look at some of the support options available. Find the links to the documentation and forums. Take a look around. Bookmark the page. (The Debian website is well known for being difficult to navigate.)
+Click on the *User Support* link. Take a look at some of the support options available. Find the links to the documentation and forums. Take a look around. Bookmark the page. (The Debian website is well known for being difficult to navigate.)
 
-**Creating the VM in VMware Workstation**
+### Part 5: Creating the VM in VMware Workstation
 
 Before you can install your Debian Linux OS, you must first create a storage container which is a virtual machine (VM) using VMware Workstation on your **host** computer.
 
-if you will be completing the course work on your own computer then you should download and install VMware Workstation from the [VMware IT Academy Website](https://itacademy.brightspace.com/d2l/login)
+if you will be completing the course work on your own computer then you should download and install VMware Workstation from the [VMware IT Academy Website](https://itacademy.brightspace.com/d2l/login).
 
 > You may have done this already in first semester.
 >
 > If not your Professor can send a request to enroll you on the IT Academy
+>
+> ![Caution](/img/caution.png) > **DO NOT use the MyApps version of VMware Workstation on your personal computer _even once_. It will break the version we give you.**
 
-If you will be completing the course work on Seneca Lab computers you will need to run VMware Workstation from "MyApps"
+If you will be completing the course work on Seneca Lab computers you will need to run VMware Workstation from "MyApps".
 
 > ![Caution](/img/caution.png) > **Please use VMware Workstation 17.x**
 
 **Perform the Following Steps:**
 
-1.  Power up the computer in your Seneca lab in **Windows**. (or your own device)
-2.  If you haven't already downloaded the Debian 12 netinstaller DVD ISO, then do so now.
+1.  Power up the computer in your Seneca Lab in **Windows**. (or your own device)
+2.  If you haven't already downloaded the Debian 12 NetInstaller DVD/ISO, then do so now.
 3.  If you are using an external SSD drive, connect it to the computer and note the drive letter for that device.
 4.  If you will be working on Seneca Lab computers, format your SSD to use exFAT, **not NTFS**. Open _My Computer_, right-click on the SSD, and select _Format_.... The dialog box should have the **exFAT** option selected. Once selected, click _Start_.
 5.  Create a folder called: **Virtual Machines** on your SSD device or internal storage device. The storage device should have 240GB of usable space.
 6.  Launch VMware Workstation.
 
-![vmware1](/img/vmware1.png) 7. Click the Edit menu, then select Preferences.
+![vmware1](/img/vmware1.png) 7. Click the *Edit* menu, then select *Preferences*.
 
 8. Set the default location for virtual machines to the correct location for Virtual Machines, enter the pathname for the newly created folder in your SSD or internal device, and click OK.
 
@@ -143,187 +150,243 @@ If you will be completing the course work on Seneca Lab computers you will need 
 
     We will just be creating a "shell" for the VM to contain our Debian 12 Linux operating system. This will allow us to configure the VM properly so it will boot-up properly in our Seneca labs.
 
-10. Select Custom --> Next
-11. Set Hardware Compatibility: Workstation 17.x --> Next
-12. Select I will install the operating system later --> Next
-13. Select Linux and Version Debian 11.x 64 bit --> Next
-14. Virtual Machine Name: debhost
+10. Select: **Custom** --> Next
+11. Set Hardware Compatibility: **Workstation 17.x** --> Next
+12. Select: **I will install the operating system later** --> Next
+13. Select: **Linux and Version Debian 11.x 64 bit** --> Next
+14. Virtual Machine Name: **debhost**
 15. Check the location --> Next
 
 ![vmware3](/img/vmware3.png)
 
-16. Number of processors: 4 --> Next
-17. Memory for Virtual Machine: 8192 MB --> Next
-18. Network type: "Use network address translation (NAT)" --> Next
-19. SCSI Controller: LSI Logic (Recommended) --> Next
-20. Select Create a new virtual disk --> Next
-21. Set the Maximum disk size to 240GB --> Next
-22. Disk file: debhost.vmdk --> Next
+16. Number of processors: **4** --> Next
+17. Memory for Virtual Machine: **8192 MB** --> Next
+18. Network type: **Use network address translation (NAT)** --> Next
+19. SCSI Controller: **LSI Logic (Recommended)** --> Next
+20. Select **Create a new virtual disk** --> Next
+21. Set the *Maximum disk size* to **240GB** --> Next
+22. Disk file: **debhost.vmdk** --> Next
 23. Review the settings and click on Finish
-24. Before you start the VM we need to make some changes
-25. Click on Edit the virtual machine settings
-26. Select Processors and check "Virtualize Intel VT-x/EPT or AMD-V/RVI"
+24. ***Caution:*** Before you start the VM we need to make some changes
+25. Click on *Edit* the virtual machine settings
+26. Select *Processors* and check: **Virtualize Intel VT-x/EPT or AMD-V/RVI**
 
 ![vmware5](/img/vmware5.png)
 
-27. Select New CD/DVD (IDE)
-28. Select Use ISO image file and Browse to your Debian ISO
+27. Select: **New CD/DVD (IDE)**
+28. Select: **Use ISO image file** and *Browse* to your downloaded Debian ISO
 
 ![vmware6](/img/vmware6.png)
 
-29. Select the Options tab at the top
-30. Select Advanced and select Firmware type: UEFI
-31. Click Save
+29. Select the *Options* tab at the top
+30. Select Advanced and select *Firmware type*: **UEFI** (***Do not skip this step!***)
+31. Click *Save*
 
-**Installing Debian 12**
+## Investigation 2: Install Debian 12 in your Virtual Machine (debhost)
+
+### Part 1: Basic System Settings
 
 1. Start the **debhost** VM
-2. When the Installer Boot Screen appears, Select "Advanced options..."
-3. Select "Expert install"
+2. When the Installer Boot Screen appears, select: **Graphic install**
+3. Wait for the installer options screen to appear. This may take a few seconds.
 
-> ![Caution](/img/caution.png)**Possible installer problem:**
->
-> If the installer starts but it does not correctly display in the window, either with a black or grey screen...
->
-> - Close and restart the VM
-> - When the Installer Boot Screen appears, Select "Advanced Options"
-> - Highlight but don't hit enter on the "Expert install" option
-> - Type 'e' to edit the boot options
-> - Add the boot parameter `fb=false` to the linux line as shown below
-> - Type ctrl-x to boot
->   ![grup fb option](/img/debinstfb.png)
+    > ![Caution](/img/caution.png) **Possible installer problem:**
+    >
+    > If the installer starts but it does not correctly display in the window, either with a black or grey screen...
+    >
+    > - Close and restart the VM
+    > - Follow the instructions from [Lab 1's Expert Install version](A-Labs/lab1-vmware.md). (Look for the **Installing Debian 12** header section and start from there.)
 
-4.  Select "Choose Language"
-5.  Set your language to English and your location/locale to Canada
-6.  Select "Continue" to skip additional locales
-7.  Select "Configure the keyboard" and choose "American English"
-8.  Select "Detect and mount installation media" and "Continue"
-9.  Select "Load installer components from installation media" and "Continue"
-10. Select "Detect network hardware"
-11. Select "Configure the network" and "Yes" to Auto-configure the network
-12. Set the Hostname to be "debhost"
-13. Leave the Domain name: as blank
-14. Select "Set up users and passwords"
+Each step below is its own screen. Select the following options on that screen and click *Continue* to move to the next page:
 
-The installation of Debian 12 provides 2 methods of achieving administrative access to the system.
+4. Select a language: **English**
+5. Select your location: **Canada**
+6. Configure the keyboard: **American English**
+7. Wait as the installer detects your hardware, network, and other settings.
+8. Configure the network > Hostname: **debhost**
+9. Configure the network > Domain name: ***(Leave blank)***
+10. Set up users and passwords > Root password: ***(Leave both blank)***
 
-- If you enable the "root" account and provide it with a password then to get admin access you need to login as root or use the `su` command to switch to root. No other accounts will have admin access.
-- If you leave the "root" account disabled then the first regular account that you create will be able to access administrative privileges by using the `sudo` command.
+    > **Explanation:** The installation of Debian 12 provides two methods of achieving administrative access to the system:
+    > 
+    > - If you enable the "root" account and provide it with a password, then to get admin access you need to login as root or use the `su` command to switch to root. *No other accounts will have admin access by default.*
+    > - If you leave the "root" account disabled during installation, then the first regular account that you create will be able to access administrative privileges by using the `sudo` command.
+    > 
+    > Generally the second option is considered to be better, especially in environments where multiple users may need admin access to the system. You can always configure root account access after installation if you want both options available.
 
-Generally the 2nd option is considered to be better, especially in environments where multiple users may need admin access to the system. You can always enable root account access after installation if you want both options available.
+11. Set up users and passwords > Full name for the new user: ***(Use your full name)***
+12. Set up users and passwords > Username for your account: ***(Use your SenecaID)***
 
-> ![Caution](/img/caution.png) > **WARNING: Do not login to a Graphical User Interface as the "root" account. Most Linux distributions prevent this.**
+    > Your *SenecaID* is the first part of your Seneca e-mail address.
+    >
+    > **Example:** jsmith31@myseneca.ca becomes *jsmith31*)
 
-15. Choose "No" to prevent "root" from being enabled
-16. Enter your full name for the initial user account and then "Continue"
-17. Set your Username. At this point you can edit the username to be the same as your Seneca account name to make it easier to remember. (not required)
+13. Set up users and passwords > Choose a password for the new user: Set a password *you can remember* (we'll reuse this password again). You will need to enter it in both fields on this screen.
 
-    > As we progress through the course and create our other VM's we are going to use the same username with the same password on all of our VM's. This is a requirement for running the Lab Check scripts.
+    > ![Caution](/img/caution.png) **"P@ssw0rd" is NOT a secure password!**
 
-18. Set a password for your account. You will need to enter it twice.
+14. Configure the clock: **Eastern**
+15. Wait as the installer detects disks and sets up the partition configure wizard.
 
-    > ![Caution](/img/caution.png)**"P@ssw0rd" is NOT a secure password!**
+### Part 2: Physical Partitioning
 
-19. Select "Configure the clock" and "Yes" to use NTP to set the clock and "Continue" to accept the NTP server.
-20. Select the "Eastern" time zone:
-21. Select "Detect disks"
-22. Select "Partition disks" and choose the "Manual" partitioning method.
+16. Partition disks > Partitioning method: **Manual**
 
-> ![Caution](/img/caution.png)**It is very important that you setup disk partitioning correctly.
-> A mistake at this point in the lab could cause problems in future labs.**
+    > ![Caution](/img/caution.png) **It is very important that you setup disk partitioning correctly.
+    > A mistake at this point in the lab could cause problems in future labs and cause you to redo this *entire installation*.**
 
-23. Select the "SCSI3" device which is the virtual disk for this VM.
-24. Choose "Yes" to create a new empty partition table on the device.
-25. Choose a "gpt" partition table
-26. Choose the "Free Space"
-27. Choose "Create a new partition"
-28. Enter a size of 500 MB and locate the partition at the beginning of the device
-29. Change the "Use as: " to "EFI System Partition" and leave the "Bootable flag: on"
-30. Choose the "Free Space"
-31. Choose "Create a new partition"
-32. Enter a size of 500 MB and locate the partition at the beginning
-33. Change the "Mount Point" to /boot and leave the remaining defaults
-34. Choose the "Free Space"
-35. Choose "Create a new partition"
-36. Enter a size of 190 GB and locate the partition at the beginning
-37. Change the "Use as: " to "physical volume for LVM" and leave the remaining defaults
-38. Choose the "Free Space"
-39. Choose "Create a new partition"
-40. Enter a size of 16 GB and locate the partition at the beginning
-41. Change the "Use as: " to "swap area" and leave the remaining defaults
+17. Partition disks: **SCSI3** (Note: This is the virtual disk for this VM.)
+18. Partition disks > *Create a new empty partition table on this device?* : **Yes**
 
-The remaining storage will be configured using "Logical Volume Management (LVM)"
+#### EFI System Partition
+19. Partition disks > SCSI3: **257.7 GB FREE SPACE**
+20. Partition disks > How to use this free space: **Create a new partition**
+21. Partition disks > New partition size: **500 MB**
+22. Partition disks > Location for new partition: **Beginning**
+23. Partition disks > Partition settings:
+    * Name: *(leave blank)*
+    * Use as: **EFI System Partition**
+    * Bootable flag: **on**
+    * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
 
-42. Choose "Configure the Logical Volume Manager"
-43. Compare your settings with the image below, make sure they are correct and choose "yes" to write those changes to disk
+#### Boot Partition
+24. Partition disks > SCSI3: **257.2 GB FREE SPACE**
+25. Partition disks > How to use this free space: **Create a new partition**
+26. Partition disks > New partition size: **500 MB**
+27. Partition disks > Location for new partition: **Beginning**
+28. Partition disks > Partition settings:
+    * Name: *(leave blank)*
+    * Use as: **Ext4 journaling file system**
+    * Mount point: **/boot**
+    * Bootable flag: **off**
+    * Keep all other options at their defaults (ie. don't change them)
+    * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
+
+#### Physical Volume for LVM Partition
+29. Partition disks > SCSI3: **256.7 GB FREE SPACE**
+30. Partition disks > How to use this free space: **Create a new partition**
+31. Partition disks > New partition size: **190 GB**
+32. Partition disks > Location for new partition: **Beginning**
+33. Partition disks > Partition settings:
+    * Name: *(leave blank)*
+    * Use as: **physical volume for LVM**
+    * Bootable flag: **off**
+    * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
+
+#### Swap Partition
+34. Partition disks > SCSI3: **66.7 GB FREE SPACE**
+35. Partition disks > How to use this free space: **Create a new partition**
+36. Partition disks > New partition size: **16 GB**
+37. Partition disks > Location for new partition: **Beginning**
+38. Partition disks > Partition settings:
+    * Name: *(leave blank)*
+    * Use as: **swap area**
+    * Bootable flag: **off**
+    * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
+
+### Part 3: Logical Partitioning with LVM
+
+The remaining storage will be configured using **Logical Volume Management (LVM)**.
+
+39. Partition disks: **Configure the Logical Volume Manager**
+40. Partition disks: Compare your settings with the image below, make sure they are correct, and ***then*** choose **yes** to write those changes to disk. (If not correct, go back and fix your mistakes *before choosing yes*.)
 
 > ![caution](/img/caution.png)
 > The image shows a device of "SCSI1" yours will have "SCSI3"
 
 ![debgpt](/img/debgpt.png)
 
-44. Choose "Create volume group" and set Volume group name to "vg_debhost"
-45. Select "/dev/sda3" as the new device for the volume group and then continue
-46. Choose "Create logical volume"
-47. Select "vg_debhost" for the "Volume Group"
-48. Set the Logical volume name to "lv_root"
-49. Set the Logical volume size to "30G"
-50. Choose "Create logical volume"
-51. Select "vg_debhost" for the "Volume Group"
-52. Set the Logical volume name to "lv_home"
-53. Set the Logical volume size to "40G"
-54. Choose "Create logical volume"
-55. Select "vg_debhost" for the "Volume Group"
-56. Set the Logical volume name to "lv_images"
-57. Set the Logical volume size to "100G"
-58. Choose "Finish"
-59. Choose the lv_home device
-    ![deblvm1](/img/deblvm1.png)
-60. Change the "Use as: " to "Ext4 journalling filesystem"
-61. Change the "Mount point:" to "/home" and leave the remaining defaults
-62. Choose the lv_images device
-63. Change the "Use as: " to "Ext4 journalling filesystem"
-64. Change the "Mount point:" to a manual entry of "/var/lib/libvirt/images" and leave the remaining defaults
-65. Choose the lv_root device
-66. Change the "Use as: " to "Ext4 journalling filesystem"
-67. Change the "Mount point:" to "/" and leave the remaining defaults
+#### LVM Volume Group: vg_debhost
+41. Partition disks > LVM configuration action: **Create volume group**
+42. Partition disks > Volume group name: **vg_debhost**
+43. Partition disks > Devices for the new volume group: Select checkbox for **/dev/sda3 189999MB** and continue.
 
-**Carefully review your partition settings before choosing "Finish partitioning and write changes to disk"
-Choose "Yes" to write the changes to disk**
+#### LVM Logical Volume: Root
+44. Partition disks > LVM configuration action: **Create *logical* volume**
+45. Partition disks > Volume group: **vg_debhost**
+46. Partition disks > Logical volume name: **lv_root**
+47. Partition disks > Logical volume size: **30G**
+
+#### LVM Logical Volume: Home
+48. Partition disks > LVM configuration action: **Create *logical* volume**
+49. Partition disks > Volume group: **vg_debhost**
+50. Partition disks > Logical volume name: **lv_home**
+51. Partition disks > Logical volume size: **40G**
+
+#### LVM Logical Volume: KVM Images
+Partition disks > LVM configuration action: **Create *logical* volume**
+
+52. Partition disks > Volume group: **vg_debhost**
+53. Partition disks > Logical volume name: **lv_images**
+54. Partition disks > Logical volume size: **100G**
+
+#### Apply LVM settings
+55. Partition disks > LVM configuration action: **Finish**
+
+### Part 4: Formatting LVM Partitions
+We will now configure and format the LVM logical volumes we just created.
+
+#### LVM Partition: Home (/home)
+56. Partition disks > LVM VG vg_debhost, LV lv_home - 40.0 GB Linux device-mapper (linear): **#1 40.0 GB**
+
+    ![deblvm1](/img/deblvm1.png)
+
+57. Partition disks > Partition settings:
+    * Use as: **Ext4 journaling file system**
+    * Mount point: **/home**
+    * Keep all other options at their defaults (ie. don't change them)
+    * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
+
+#### LVM Partition: Images (/var/lib/libvirt/images)
+58. Partition disks > LVM VG vg_debhost, LV lv_images - 100.0 GB Linux device-mapper (linear): **#1 100.0 GB**
+
+59. Partition disks > Partition settings:
+    * Use as: **Ext4 journaling file system**
+    * Mount point: **Enter manually**
+        * Mount point for partition: **/var/lib/libvirt/images**
+    * Keep all other options at their defaults (ie. don't change them)
+    * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
+
+#### LVM Partition: Root (/)
+60. Partition disks > LVM VG vg_debhost, LV lv_root - 30.0 GB Linux device-mapper (linear): **#1 30.0 GB**
+
+61. Partition disks > Partition settings:
+    * Use as: **Ext4 journaling file system**
+    * Mount point: **/**
+    * Keep all other options at their defaults (ie. don't change them)
+    * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
+
+#### Review and Apply Partition Settings
+**Carefully review your partition settings before moving to the next step.**
+
+62. Partition disks: **Finish partitioning and write changes to disk**
+
+Do your partition settings look like this? **If not, go back.**
+
 ![debgptlvm](/img/debgptlvm-10.png)
 
-68. Choose "Install the base system"
-69. Select the default kernel suggested
-70. Select "generic" drivers
-71. Choose "Configure the package manager"
-72. Choose "No" to "Scan extra installation media"
-73. Choose "Yes" to "Use a network mirror"
-74. Select "http"
-75. Select "Canada"
-76. Accept the default archive mirror or the uwaterloo.ca mirror
-77. Leave HTTP Proxy blank
-78. Choose "Yes" to "Use non-free firmware"
-79. Choose "No" to "Use non-free software"
-80. Choose "No" to "Use contrib software"
-81. Choose "No" to "Enable source repositories in APT"
-82. Leave the default "Services to use:" selections
-83. Select "Select and install software"
-84. Choose "no automatic updates" (We will update manually)
-85. Choose "no" to the package usage survey
-86. On the Software Selection screen make sure that the **Debian Desktop Environment** and **Gnome** are selected and add the "SSH Server" to the default selections
-    ![tasksel](/img/tasksel.png)
-87. Select "Install the GRUB boot loader"
-88. Choose "No" to "Force GRUB installation to the EFI removable media path"
-89. Choose "Yes" to "Update NVRAM variables"
-90. Choose "No" to "Run os-prober automatically"
-91. Select "Finish the installation"
-92. Choose "Yes" to "Is the system clock set to UTC"
-93. Choose "Continue" to reboot
+63. Partition disks > *Write the changes to disks?* : **Yes**
 
-When the system reboots you will be presented a graphical login screen
-login and enter your password
+### Part 5: Choosing Installation Packages
+64. Wait for the installer to finish writing the *base system* files.
+65. Configure the package manager > *Scan extra installation media?* : **No**
+66. Configure the package manager > Debian archive mirror country: **Canada**
+67. Configure the package manager > Debian archive mirror: **deb.debian.org**
+68. Configure the package manager > HTTP proxy information (blank for none): ***(Leave blank)***
+69. Wait as more software is installed.
+70. Configuring popularity-contest > *Participate in the package usage survey?* : **No**
+71. Software Selection > Choose software to install: *(Select checkboxes for the following)*
+    * **Debian desktop environment**
+    * **GNOME**
+    * **SSH server**
+    * **standard system utilities**
+72. Wait as the installer writes the rest of the system files.
+73. Finish the installation > Installation complete: **Continue** to reboot.
 
-Then you will be presented with the "Welcome" application
+### Part 6: First Run
+When the system reboots you will be presented a graphical login screen login and enter your password.
+
+You will then be presented with the "Welcome" application:
 
 - "Next" for English
 - "Next" keyboard layout
@@ -331,7 +394,7 @@ Then you will be presented with the "Welcome" application
 - "Skip" connecting your online accounts
 - Click "Start Using Debian GNU/Linux"
 
-## Investigation 2: Common Post-Installation Tasks
+## Investigation 3: Common Post-Installation Tasks
 
 **VMware Workstation Tips**
 
@@ -483,7 +546,7 @@ An installation log file called `/var/log/installer/status` has been created to 
   - `sudo systemctl disable apparmor`
 - We will learn more about these commands later
 
-## Investigation 3: Using Shell Commands to Generate System Information Reports
+## Investigation 4: Using Shell Commands to Generate System Information Reports
 
 It is very common for System Administrators to keep records regarding their installed computer systems. For example, it is necessary to have a record of all the hardware information for each machine in order to help fix computer hardware problems, and to assist when purchasing additional consistent computer hardware.
 
@@ -524,7 +587,7 @@ mkdir ~/bin
 
 **Answer Investigation 3 observations (all parts and questions) in your lab log book.**
 
-## Investigation 4: Using BASH Scripting to Generate System Information Reports
+## Investigation 5: Using BASH Scripting to Generate System Information Reports
 
 You may have learned about creating and running Bash Shell Scripts in your ULI101 course. Shell scripts help Linux users and system administrators to automate repetitive tasks to become more efficient and to help them save time. We can take what we have learned from the commands above and put them into a bash script to generate information reports for your newly-installed Linux host machine.
 

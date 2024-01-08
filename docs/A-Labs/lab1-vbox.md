@@ -2,7 +2,7 @@
 id: lab1-vbox
 title: Lab 1 - VirtualBox Version
 sidebar_position: 1
-description: TBD
+description: Lab 1 - VirtualBox Version
 ---
 
 # Lab 1: Installing Debian 12 with VirtualBox

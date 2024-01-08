@@ -1,8 +1,8 @@
 ---
 id: lab3
 title: Lab 3
-sidebar_position: 4
-description: TBD
+sidebar_position: 5
+description: Lab 3
 ---
 
 # Lab 3: Troubleshooting, Archiving, and Packages

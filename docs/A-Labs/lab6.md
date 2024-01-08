@@ -1,7 +1,7 @@
 ---
 id: lab6
 title: Lab 6
-sidebar_position: 7
+sidebar_position: 8
 description: Lab 6
 ---
 
