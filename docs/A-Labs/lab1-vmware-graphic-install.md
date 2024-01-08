@@ -105,7 +105,7 @@ It is essential that your Windows machine recognizes your SSD device with a driv
 
 **The Debian Web Site**
 
-Open up <https://www.debian.org/> in your browser. To get the latest copy of the Debian 12 NetInstaller ISO click, on the *Download* button.
+Open up <https://www.debian.org/> in your browser. To get the latest copy of the Debian 12 NetInstaller ISO, click on the *Download* button.
 
 While you are on the site, lets explore...
 
@@ -187,8 +187,8 @@ If you will be completing the course work on Seneca Lab computers you will need 
 ### Part 1: Basic System Settings
 
 1. Start the **debhost** VM
-2. When the Installer Boot Screen appears, select: **Graphic install**
-3. Wait for the installer options screen to appear. This may take a few seconds.
+1. When the Installer Boot Screen appears, select: **Graphic install**
+1. Wait for the installer options screen to appear. This may take a few seconds.
 
     > ![Caution](/img/caution.png) **Possible installer problem:**
     >
@@ -200,61 +200,61 @@ If you will be completing the course work on Seneca Lab computers you will need 
 Each step below is its own screen. Select the following options on that screen and click *Continue* to move to the next page:
 
 4. Select a language: **English**
-5. Select your location: **Canada**
-6. Configure the keyboard: **American English**
-7. Wait as the installer detects your hardware, network, and other settings.
-8. Configure the network > Hostname: **debhost**
-9. Configure the network > Domain name: ***(Leave blank)***
-10. Set up users and passwords > Root password: ***(Leave both blank)***
+1. Select your location: **Canada**
+1. Configure the keyboard: **American English**
+1. Wait as the installer detects your hardware, network, and other settings.
+1. Configure the network > Hostname: **debhost**
+1. Configure the network > Domain name: ***(Leave blank)***
+1. Set up users and passwords > Root password: ***(Leave both blank)***
 
     > **Explanation:** The installation of Debian 12 provides two methods of achieving administrative access to the system:
     > 
     > - If you enable the "root" account and provide it with a password, then to get admin access you need to login as root or use the `su` command to switch to root. *No other accounts will have admin access by default.*
-    > - If you leave the "root" account disabled during installation, then the first regular account that you create will be able to access administrative privileges by using the `sudo` command.
+    > - If you leave the "root" account disabled during installation, then the first regular account that you create will be able to access administrative privileges by using the `sudo` command. 
     > 
     > Generally the second option is considered to be better, especially in environments where multiple users may need admin access to the system. You can always configure root account access after installation if you want both options available.
 
-11. Set up users and passwords > Full name for the new user: ***(Use your full name)***
-12. Set up users and passwords > Username for your account: ***(Use your SenecaID)***
+1. Set up users and passwords > Full name for the new user: ***(Use your full name)***
+1. Set up users and passwords > Username for your account: ***(Use your SenecaID)***
 
     > Your *SenecaID* is the first part of your Seneca e-mail address.
     >
     > **Example:** jsmith31@myseneca.ca becomes *jsmith31*)
 
-13. Set up users and passwords > Choose a password for the new user: Set a password *you can remember* (we'll reuse this password again). You will need to enter it in both fields on this screen.
+1. Set up users and passwords > Choose a password for the new user: Set a password *you can remember* (we'll reuse this password again). You will need to enter it in both fields on this screen.
 
     > ![Caution](/img/caution.png) **"P@ssw0rd" is NOT a secure password!**
 
-14. Configure the clock: **Eastern**
-15. Wait as the installer detects disks and sets up the partition configure wizard.
+1. Configure the clock: **Eastern**
+1. Wait as the installer detects disks and sets up the partition configure wizard.
 
 ### Part 2: Physical Partitioning
 
-16. Partition disks > Partitioning method: **Manual**
+1. Partition disks > Partitioning method: **Manual**
 
     > ![Caution](/img/caution.png) **It is very important that you setup disk partitioning correctly.
     > A mistake at this point in the lab could cause problems in future labs and cause you to redo this *entire installation*.**
 
-17. Partition disks: **SCSI3** (Note: This is the virtual disk for this VM.)
-18. Partition disks > *Create a new empty partition table on this device?* : **Yes**
+1. Partition disks: **SCSI3** (Note: This is the virtual disk for this VM.)
+1. Partition disks > *Create a new empty partition table on this device?* : **Yes**
 
 #### EFI System Partition
-19. Partition disks > SCSI3: **257.7 GB FREE SPACE**
-20. Partition disks > How to use this free space: **Create a new partition**
-21. Partition disks > New partition size: **500 MB**
-22. Partition disks > Location for new partition: **Beginning**
-23. Partition disks > Partition settings:
+4. Partition disks > SCSI3: **257.7 GB FREE SPACE**
+1. Partition disks > How to use this free space: **Create a new partition**
+1. Partition disks > New partition size: **500 MB**
+1. Partition disks > Location for new partition: **Beginning**
+1. Partition disks > Partition settings:
     * Name: *(leave blank)*
     * Use as: **EFI System Partition**
     * Bootable flag: **on**
     * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
 
 #### Boot Partition
-24. Partition disks > SCSI3: **257.2 GB FREE SPACE**
-25. Partition disks > How to use this free space: **Create a new partition**
-26. Partition disks > New partition size: **500 MB**
-27. Partition disks > Location for new partition: **Beginning**
-28. Partition disks > Partition settings:
+9. Partition disks > SCSI3: **257.2 GB FREE SPACE**
+1. Partition disks > How to use this free space: **Create a new partition**
+1. Partition disks > New partition size: **500 MB**
+1. Partition disks > Location for new partition: **Beginning**
+1. Partition disks > Partition settings:
     * Name: *(leave blank)*
     * Use as: **Ext4 journaling file system**
     * Mount point: **/boot**
@@ -263,22 +263,22 @@ Each step below is its own screen. Select the following options on that screen a
     * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
 
 #### Physical Volume for LVM Partition
-29. Partition disks > SCSI3: **256.7 GB FREE SPACE**
-30. Partition disks > How to use this free space: **Create a new partition**
-31. Partition disks > New partition size: **190 GB**
-32. Partition disks > Location for new partition: **Beginning**
-33. Partition disks > Partition settings:
+14. Partition disks > SCSI3: **256.7 GB FREE SPACE**
+1. Partition disks > How to use this free space: **Create a new partition**
+1. Partition disks > New partition size: **190 GB**
+1. Partition disks > Location for new partition: **Beginning**
+1. Partition disks > Partition settings:
     * Name: *(leave blank)*
     * Use as: **physical volume for LVM**
     * Bootable flag: **off**
     * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
 
 #### Swap Partition
-34. Partition disks > SCSI3: **66.7 GB FREE SPACE**
-35. Partition disks > How to use this free space: **Create a new partition**
-36. Partition disks > New partition size: **16 GB**
-37. Partition disks > Location for new partition: **Beginning**
-38. Partition disks > Partition settings:
+19. Partition disks > SCSI3: **66.7 GB FREE SPACE**
+1. Partition disks > How to use this free space: **Create a new partition**
+1. Partition disks > New partition size: **16 GB**
+1. Partition disks > Location for new partition: **Beginning**
+1. Partition disks > Partition settings:
     * Name: *(leave blank)*
     * Use as: **swap area**
     * Bootable flag: **off**
@@ -288,8 +288,8 @@ Each step below is its own screen. Select the following options on that screen a
 
 The remaining storage will be configured using **Logical Volume Management (LVM)**.
 
-39. Partition disks: **Configure the Logical Volume Manager**
-40. Partition disks: Compare your settings with the image below, make sure they are correct, and ***then*** choose **yes** to write those changes to disk. (If not correct, go back and fix your mistakes *before choosing yes*.)
+1. Partition disks: **Configure the Logical Volume Manager**
+1. Partition disks: Compare your settings with the image below, make sure they are correct, and ***then*** choose **yes** to write those changes to disk. (If not correct, go back and fix your mistakes *before choosing yes*.)
 
 > ![caution](/img/caution.png)
 > The image shows a device of "SCSI1" yours will have "SCSI3"
@@ -297,50 +297,50 @@ The remaining storage will be configured using **Logical Volume Management (LVM)
 ![debgpt](/img/debgpt.png)
 
 #### LVM Volume Group: vg_debhost
-41. Partition disks > LVM configuration action: **Create volume group**
-42. Partition disks > Volume group name: **vg_debhost**
-43. Partition disks > Devices for the new volume group: Select checkbox for **/dev/sda3 189999MB** and continue.
+3. Partition disks > LVM configuration action: **Create volume group**
+1. Partition disks > Volume group name: **vg_debhost**
+1. Partition disks > Devices for the new volume group: Select checkbox for **/dev/sda3 189999MB** and continue.
 
 #### LVM Logical Volume: Root
-44. Partition disks > LVM configuration action: **Create *logical* volume**
-45. Partition disks > Volume group: **vg_debhost**
-46. Partition disks > Logical volume name: **lv_root**
-47. Partition disks > Logical volume size: **30G**
+6. Partition disks > LVM configuration action: **Create *logical* volume**
+1. Partition disks > Volume group: **vg_debhost**
+1. Partition disks > Logical volume name: **lv_root**
+1. Partition disks > Logical volume size: **30G**
 
 #### LVM Logical Volume: Home
-48. Partition disks > LVM configuration action: **Create *logical* volume**
-49. Partition disks > Volume group: **vg_debhost**
-50. Partition disks > Logical volume name: **lv_home**
-51. Partition disks > Logical volume size: **40G**
+10. Partition disks > LVM configuration action: **Create *logical* volume**
+1. Partition disks > Volume group: **vg_debhost**
+1. Partition disks > Logical volume name: **lv_home**
+1. Partition disks > Logical volume size: **40G**
 
 #### LVM Logical Volume: KVM Images
 Partition disks > LVM configuration action: **Create *logical* volume**
 
-52. Partition disks > Volume group: **vg_debhost**
-53. Partition disks > Logical volume name: **lv_images**
-54. Partition disks > Logical volume size: **100G**
+14. Partition disks > Volume group: **vg_debhost**
+1. Partition disks > Logical volume name: **lv_images**
+1. Partition disks > Logical volume size: **100G**
 
 #### Apply LVM settings
-55. Partition disks > LVM configuration action: **Finish**
+17. Partition disks > LVM configuration action: **Finish**
 
 ### Part 4: Formatting LVM Partitions
 We will now configure and format the LVM logical volumes we just created.
 
 #### LVM Partition: Home (/home)
-56. Partition disks > LVM VG vg_debhost, LV lv_home - 40.0 GB Linux device-mapper (linear): **#1 40.0 GB**
+1. Partition disks > LVM VG vg_debhost, LV lv_home - 40.0 GB Linux device-mapper (linear): **#1 40.0 GB**
 
     ![deblvm1](/img/deblvm1.png)
 
-57. Partition disks > Partition settings:
+1. Partition disks > Partition settings:
     * Use as: **Ext4 journaling file system**
     * Mount point: **/home**
     * Keep all other options at their defaults (ie. don't change them)
     * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
 
 #### LVM Partition: Images (/var/lib/libvirt/images)
-58. Partition disks > LVM VG vg_debhost, LV lv_images - 100.0 GB Linux device-mapper (linear): **#1 100.0 GB**
+3. Partition disks > LVM VG vg_debhost, LV lv_images - 100.0 GB Linux device-mapper (linear): **#1 100.0 GB**
 
-59. Partition disks > Partition settings:
+1. Partition disks > Partition settings:
     * Use as: **Ext4 journaling file system**
     * Mount point: **Enter manually**
         * Mount point for partition: **/var/lib/libvirt/images**
@@ -348,9 +348,9 @@ We will now configure and format the LVM logical volumes we just created.
     * **When all options above are complete**, select *Done setting up this partition*, then click the *Continue* button to apply your changes.
 
 #### LVM Partition: Root (/)
-60. Partition disks > LVM VG vg_debhost, LV lv_root - 30.0 GB Linux device-mapper (linear): **#1 30.0 GB**
+5. Partition disks > LVM VG vg_debhost, LV lv_root - 30.0 GB Linux device-mapper (linear): **#1 30.0 GB**
 
-61. Partition disks > Partition settings:
+1. Partition disks > Partition settings:
     * Use as: **Ext4 journaling file system**
     * Mount point: **/**
     * Keep all other options at their defaults (ie. don't change them)
@@ -359,32 +359,32 @@ We will now configure and format the LVM logical volumes we just created.
 #### Review and Apply Partition Settings
 **Carefully review your partition settings before moving to the next step.**
 
-62. Partition disks: **Finish partitioning and write changes to disk**
+![debgptlvm](/img/debgptlvm-10.png)
 
 Do your partition settings look like this? **If not, go back.**
 
-![debgptlvm](/img/debgptlvm-10.png)
+7. Partition disks: **Finish partitioning and write changes to disk**
 
-63. Partition disks > *Write the changes to disks?* : **Yes**
+1. Partition disks > *Write the changes to disks?* : **Yes**
 
 ### Part 5: Choosing Installation Packages
-64. Wait for the installer to finish writing the *base system* files.
-65. Configure the package manager > *Scan extra installation media?* : **No**
-66. Configure the package manager > Debian archive mirror country: **Canada**
-67. Configure the package manager > Debian archive mirror: **deb.debian.org**
-68. Configure the package manager > HTTP proxy information (blank for none): ***(Leave blank)***
-69. Wait as more software is installed.
-70. Configuring popularity-contest > *Participate in the package usage survey?* : **No**
-71. Software Selection > Choose software to install: *(Select checkboxes for the following)*
+1. Wait for the installer to finish writing the *base system* files.
+1. Configure the package manager > *Scan extra installation media?* : **No**
+1. Configure the package manager > Debian archive mirror country: **Canada**
+1. Configure the package manager > Debian archive mirror: **deb.debian.org**
+1. Configure the package manager > HTTP proxy information (blank for none): ***(Leave blank)***
+1. Wait as more software is installed.
+1. Configuring popularity-contest > *Participate in the package usage survey?* : **No**
+1. Software Selection > Choose software to install: *(Select checkboxes for the following)*
     * **Debian desktop environment**
     * **GNOME**
     * **SSH server**
     * **standard system utilities**
-72. Wait as the installer writes the rest of the system files.
-73. Finish the installation > Installation complete: **Continue** to reboot.
+1. Wait as the installer writes the rest of the system files.
+1. Finish the installation > Installation complete: **Continue** to reboot.
 
 ### Part 6: First Run
-When the system reboots you will be presented a graphical login screen login and enter your password.
+When the system reboots, you will be presented a graphical login screen. Login with the username and password you configured during installation.
 
 You will then be presented with the "Welcome" application:
 
