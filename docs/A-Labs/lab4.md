@@ -659,11 +659,11 @@ It just changed or switched the current target.
 
 **Answer INVESTIGATION 3 observations / questions in your lab log book.**
 
-## Investigation 4: User Management with a bash scripting
+## Investigation 4: User Management with Bash Scripting
 
 **Before proceeding with Investigation 4, please review the [Bash Shell Scripting Tips here](/C-ExtraResources/bash-shell-scripting-tips.md)**
 
-### Using getopts Function & case statement
+### Using *getopts* Function & *case* statement
 
 We will now use shell scripting to help automate the task for a Linux administrator to create regular user accounts.
 

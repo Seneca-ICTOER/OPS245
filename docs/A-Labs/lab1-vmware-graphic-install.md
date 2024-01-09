@@ -314,14 +314,13 @@ The remaining storage will be configured using **Logical Volume Management (LVM)
 1. Partition disks > Logical volume size: **40G**
 
 #### LVM Logical Volume: KVM Images
-Partition disks > LVM configuration action: **Create *logical* volume**
-
-14. Partition disks > Volume group: **vg_debhost**
+14. Partition disks > LVM configuration action: **Create *logical* volume**
+1. Partition disks > Volume group: **vg_debhost**
 1. Partition disks > Logical volume name: **lv_images**
 1. Partition disks > Logical volume size: **100G**
 
 #### Apply LVM settings
-17. Partition disks > LVM configuration action: **Finish**
+18. Partition disks > LVM configuration action: **Finish**
 
 ### Part 4: Formatting LVM Partitions
 We will now configure and format the LVM logical volumes we just created.
