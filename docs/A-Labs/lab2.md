@@ -450,6 +450,8 @@ sudo usermod -aG sudo <username>
 4. Test **sudo** access using the command `sudo whoami`
 5. Follow the same process as you did for previous VM's to enable the **root** account, perform an update, and disable the apparmor service
 
+## Investigation 3: Managing Virtual Machines (KVM)
+
 **Root Privileges**
 
 As part of this investigation you will learn how to switch over to the root account in order to run several privileged commands in sequence. It can be tempting to just use this technique all the time, and never have to worry about sudo, but do **not** do so. It undermines the security of your system. Use it only when you need it.
@@ -625,7 +627,7 @@ exit
 
 **Answer INVESTIGATION 2 observations / questions in your lab log book.**
 
-## Investigation 3: Using Shell Scripts for VM Backup & Management
+## Investigation 4: Using Shell Scripts for VM Backup & Management
 
 You will continue our use of Bash Shell scripting by first creating a Bash Shell script that will allow the Linux sysadmin to select their created VMs for backup. Afterwards you will download, view and run a couple of Bash Shell scripts that use the virsh command to start and stop your virtual machines.
 
