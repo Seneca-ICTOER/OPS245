@@ -161,6 +161,8 @@ sudo cat /sys/module/kvm_amd/parameters/nested
 
 You will be learning in the next investigations to perform 3 different types of Debian Linux installs.
 
+**Answer INVESTIGATION 1 observations / questions in your lab log book.**
+
 ## Investigation 2: Install Nested Virtual Machines (KVM)
 
 > ![caution](/img/caution.png)**Keep the root password the same for Host and VMs**
@@ -450,6 +452,8 @@ sudo usermod -aG sudo <username>
 4. Test **sudo** access using the command `sudo whoami`
 5. Follow the same process as you did for previous VM's to enable the **root** account, perform an update, and disable the apparmor service
 
+**Answer INVESTIGATION 2 observations / questions in your lab log book.**
+
 ## Investigation 3: Managing Virtual Machines (KVM)
 
 **Root Privileges**
@@ -625,7 +629,7 @@ exit
 
 - In order to fully back up a virtual machine, what information should be saved in addition to the virtual machine image?
 
-**Answer INVESTIGATION 2 observations / questions in your lab log book.**
+**Answer INVESTIGATION 3 observations / questions in your lab log book.**
 
 ## Investigation 4: Using Shell Scripts for VM Backup & Management
 
@@ -737,7 +741,7 @@ fi
 16. What happens if you enter an invalid answer to any of the prompts?
 17. You have completed lab2. Proceed to Completing The Lab, and follow the instructions for "lab sign-off".
 
-**Answer INVESTIGATION 3 observations / questions in your lab log book.**
+**Answer INVESTIGATION 4 observations / questions in your lab log book.**
 
 ## Lab 2 Sign-Off (Show Instructor)
 
