@@ -61,7 +61,7 @@ At the end of Lab 2, your hypervisor (VirtualBox or VMWare) application will con
 
 ### Part 1: Install KVM Virtualisation Application
 
-We will now install the KVM package in order to create our remaining "nested" VMs. We will also be starting several services (including iptables) and disabling the firewalld service. We will learn more about managing firewalls using iptables in Lab 6.
+We will now install the KVM package in order to create our remaining "nested" VMs. We will also be starting several services. We will learn more about managing firewalls in later labs.
 
 **Perform the following steps:**
 
@@ -184,7 +184,7 @@ ip address
 
 ![ipaddr](/img/ipaddr.png)
 
-2. Run the following command to list the current firewall/routing rules.
+2. Run the following command to list the current firewall/routing rules. (Note: Running *iptables* as a regular user without sudo will make it look like the command doesn't exist. It's there.)
 
 ```bash
 # List the iptables rules
