@@ -68,7 +68,8 @@ Use `apt` to accomplish the following:
 Look at the `useradd` man page to figure out how to create a default home directory structure for new users (hint: look at the -m & -k options). You will need to uncomment the *skel* variable in the useradd default values file.
 
 1. Create the following default home directory structure for new users:
-![Default Home Dir](/img/userhomea1.png)
+
+    ![Default Home Dir](/img/userhomea1.png)
 
 1. Create the following users their associated full names. Don't forget to assign each a default password for security purposes.
 
