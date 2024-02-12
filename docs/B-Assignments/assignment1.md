@@ -1,11 +1,11 @@
 ---
 id: assignment1
-title: Assignment 1
+title: Assignment 1 (Sections NFF/NGG)
 sidebar_position: 1
 description: TBD
 ---
 
-# Assignment 1
+# Assignment 1 (Sections NFF/NGG)
 
 > ![caution](/img/caution.png)
 >
