@@ -326,35 +326,39 @@ ls /dev/vd*
 
 ![deb2vdb](/img/deb2vdb.png)
 
-You can see a new device **/dev/vdb**
+You can see a new device **/dev/vdb**.
 
-8. Create new partitions on /dev/vdb using **fdisk**
+8. Create two new partitions on */dev/vdb* using **fdisk**:
 
 ```bash
 fdisk /dev/vdb
 ```
 
-9. In **fdisk**...
+9. In **fdisk**, create your first new partition:
 
    - Type **n** to create a new partition
    - Type **p** for primary
    - Type **1** for partition number
    - Hit enter for the default First sector
    - Type **+2G** for Last sector
-   - Type **n** to create a new partition
-   - Type **p** for primary
-   - Type **2** for partition number
-   - Hit enter for the default First sector
-   - Hit enter for the default Last sector
-   - Type **p** to display the partition table
-   - Type **w** to save the changes to the partition table
+   - Type **p** to display the partition table and check your work so far.
 
-10. You should now have 2 new partitions on **/dev/vdb**
+10. In **fdisk**, create your second new partition:
+
+    - Type **n** to create a new partition
+    - Type **p** for primary
+    - Type **2** for partition number
+    - Hit enter for the default First sector
+    - Hit enter for the default Last sector
+    - Type **p** to display the partition table to check your work and *confirm it matches the attached screenshot*. 
+    - Type **w** to save the changes to the partition table.
+
+11. You should now have 2 new partitions on **/dev/vdb**
 
 ![deb2vdbfdisk](/img/deb2vdbfdisk.png)
 ![deb2vdbls](/img/deb2vdbls.png)
 
-11. Now label **/dev/vdb1** as a Physical Volume and add it to the existing Volume Group (deb2-vg)
+12. Now label **/dev/vdb1** as a Physical Volume and add it to the existing Volume Group (deb2-vg)
 
 ```bash
 # Label /dev/vdb1 as a PV
@@ -364,12 +368,12 @@ pvcreate /dev/vdb1
 vgextend deb2-vg /dev/vdb1
 ```
 
-12. Now there should be an additional 2G of space available in the VG. Confirm the changes using the commands above
+13. Now there should be an additional 2G of space available in the VG. Confirm the changes using the commands above
 
 ![deb2vgextend](/img/deb2vgextend.png)
 
-13. Check the man page for the **lvcreate** command, make note of the -L and -n options
-14. Create a new logical volume by issuing the following command:
+14. Check the man page for the **lvcreate** command, make note of the -L and -n options
+15. Create a new logical volume by issuing the following command:
 
 ```bash
 # Create new LV archive
@@ -380,18 +384,18 @@ lvcreate -L 1G -n archive deb2-vg
 >
 > ![deb2lvfn](/img/deb2lvfn.png)
 
-15. Check the output of **lvs**, **pvs**, and **vgs** commands. You can see that your **deb2-vg** still has 1G of space free.
-16. Format your newly-created LV as ext4 by issuing the command:
+16. Check the output of **lvs**, **pvs**, and **vgs** commands. You can see that your **deb2-vg** still has 1G of space free.
+17. Format your newly-created LV as ext4 by issuing the command:
 
 ```bash
 mkfs -t ext4 /dev/deb2-vg/archive
 ```
 
-17. Read the man page for **lvreduce** and check for the -L option. What is the significance of prefixing the size with **"+"** or **"-"**?
+18. Read the man page for **lvreduce** and check for the -L option. What is the significance of prefixing the size with **"+"** or **"-"**?
 
 > Note: **lvextend** and **lvreduce** can make relative changes to an LV's size by adding to or subtracting from the current size. Omitting these prefixes will **set** the LV size to what you specified.
 
-18. Attempt to reduce the archive LV size by issuing the command: **DO NOT SAY 'y' to confirm the command!!**
+19. Attempt to reduce the archive LV size by issuing the command: **DO NOT SAY 'y' to confirm the command!!**
 
 ```bash
 lvreduce -L -0.5G deb2-vg/archive
@@ -405,28 +409,28 @@ lvreduce -L -0.5G deb2-vg/archive
 >
 > Both the **lvextend** and **lvreduce** commands have a **-r** option which causes the filesystem format to also be resized
 
-19. Reduce the archive LV with the command:
+20. Reduce the archive LV with the command:
 
 ```bash
 lvreduce -r -L -0.5G deb2-vg/archive
 ```
 
-20. Issue commands to confirm the change
+21. Issue commands to confirm the change
 
-21. Now increase the size of the archive LV with the command:
+22. Now increase the size of the archive LV with the command:
 
 ```bash
 lvextend -r -L +1G deb2-vg/archive
 ```
 
-22. Confirm the change
+23. Confirm the change
 
 One of the benefits of using LVM for storage is that often changes can be made to storage even while the system is running and in use. Currently the **home** LV is mounted on **/home** and in use but we can increase its size anyway. You still have 0.5G of space free in the **deb2-vg**.
 
 Imagine you have received an email from the **monitor-disk-space.bash** informing you that the **home** LV is almost out of space. We can quickly add additional space to the LV
 
-23. Check the current usage of **/home** with the `df -h` command
-24. Increase the size of the **home** LV by adding all of the available space with the command:
+24. Check the current usage of **/home** with the `df -h` command
+25. Increase the size of the **home** LV by adding all of the available space with the command:
 
 ```bash
 lvextend -r -l +100%FREE deb2-vg/home
@@ -436,7 +440,7 @@ lvextend -r -l +100%FREE deb2-vg/home
 >
 > **-l +100%FREE**, using a lowercase **-l** changes the size by extents. In this case it will add all of the free extents remaining in the VG to the **home** LV
 
-25. Exit your sudo shell
+26. Exit your sudo shell
 
 ### Part 2: Manually & Automatically Mount Partitions
 
