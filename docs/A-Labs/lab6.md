@@ -112,7 +112,7 @@ We will now reconfigure each of our VMs to use our new virtual network **network
 
 ![deb1vmnic](/img/deb1vmnic.png)
 
-## Part 2: Configuring deb1 with a static address on 'network1'
+### Part 2: Configuring deb1 with a static address on 'network1'
 
 In this section, we will be using the **Gnome Settings** graphical tool to connect our **deb1** VM to **network1**.
 
