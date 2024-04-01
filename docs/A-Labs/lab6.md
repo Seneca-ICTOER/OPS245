@@ -207,7 +207,7 @@ ip route
 sudo ip address add 192.168.245.13/24 dev enp1s0
 
 # Add a default gateway address
-sudo ip route add default via 192.168.245.1 enp1s0
+sudo ip route add default via 192.168.245.1 dev enp1s0
 
 # Make an interface down/up
 ip link set enp1s0 down
