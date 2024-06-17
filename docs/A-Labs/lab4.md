@@ -581,6 +581,7 @@ Running Linux servers in graphical mode can make the server vulnerable to penetr
 A **systemd** **"target"** is essentially a predefined state of the system that the we can "boot" or "switch" the system to. They are similar to an older concept called a "runlevel". The term "runlevel" is specific to the older SystemV init system.
 
 **List of Common Targets and Equivalent Runlevels**
+
 |Systemd Target|SystemV Runlevel|
 |--------------|----------------|
 |poweroff.target| 0 |
