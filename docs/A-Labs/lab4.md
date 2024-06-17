@@ -597,22 +597,34 @@ Consider the following commands:
 ```bash
 # Display the default target (boot target)
 systemctl get-default
+```
 
+```bash
 # Change the default target to text based only
 sudo systemctl set-default multi-user.target
+```
 
+```bash
 # Change the default target to graphical
 sudo systemctl set-default graphical.target
+```
 
+```bash
 # Change the current target to support only text based interfaces
 sudo systemctl isolate multi-user.target
+```
 
+```bash
 # Reboot the system
 sudo systemctl isolate reboot.target
+```
 
+```bash
 # Shutdown the system
 sudo systemctl isolate poweroff.target
+```
 
+```bash
 # Switch to single user or rescue mode
 sudo systemctl isolate rescue.target
 ```
