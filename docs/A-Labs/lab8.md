@@ -201,7 +201,7 @@ journalctl -f -u isc-dhcp-server
 
 - This will show you the last entries for the unit isc-dhcp-server and continue to display new entries as they are added to the journal for confirmation and troubleshooting.
 
-8. In your **deb3** terminal, attempt to start the **isc-dhcp-service** service.
+8. In your **deb3** terminal, attempt to start the **isc-dhcp-server** service.
 9. You should see new lines being added to the journal.
 
 ![dhcpstart](/img/dhcpstart.png)
