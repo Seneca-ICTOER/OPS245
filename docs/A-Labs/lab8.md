@@ -289,7 +289,7 @@ Even though DHCP gives out IP address dynamically, it also has the ability to re
 **Perform the following steps:**
 
 1. Remain in your **deb1** and **deb3** VMs for this section.
-2. On the **deb3** VM in a sudo shell edit the **/etc/dhcp/dchpd.conf** file
+2. On the **deb3** VM in a sudo shell edit the **/etc/dhcp/dhcpd.conf** file
 3. Examine the file and look for the examples of a **host** declaration
 
 ![dhcphostex1](/img/dhcphostex1.png)
