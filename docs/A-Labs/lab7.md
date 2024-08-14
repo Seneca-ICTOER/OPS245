@@ -74,7 +74,7 @@ In this section, you will learn how to configure an SSH server and restart the s
 
 Some tasks in this part of the investigation **require you to be connected to Seneca's VPN**.
 
-- If you are running your installation through VMWare, then you can use the [instructions provided by ITS](https://students.senecapolytechnic.ca/spaces/186/it-services/wiki/view/1025/student-vpn) to connect to it from your Windows machine (your debhost and its nested VMs will use the VPN through the windows machine without further configuration).
+- If you are running your installation through VMWare, then you can use the [instructions provided by ITS](https://students.senecapolytechnic.ca/spaces/186/it-services/wiki/view/1024/vpn) to connect to it from your Windows machine (your debhost and its nested VMs will use the VPN through the windows machine without further configuration).
 - If you installed your debhost **directly onto a machine without using VMWare** as an intermediary (or the steps above do not work for you), use the following instructions:
 
   - Install the package openconnect
