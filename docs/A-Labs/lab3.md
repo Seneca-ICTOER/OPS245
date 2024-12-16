@@ -98,7 +98,7 @@ You can only login to a TTY (text interface) as the user **root**.
 
 **Perform the following steps:**
 
-1. Launch the the **debhost** VM.
+1. Boot up your **debhost**.
 2. Login as as a regular user.
 3. Boot-up your **deb1** VM. **When the Grub Boot menu appears**, press the letter `e` (for "edit").
    ![deb1grub](/img/deb1grub.png)
@@ -297,7 +297,7 @@ Unfortunately, there is no guarantee that a particular software package is conta
 
 **Perform the following steps:**
 
-1. Make certain that you are in your **debhost** machine.
+1. Make certain that you are in your **debhost**.
 2. Search for the package **elinks** and then show its information
 
 ```bash
@@ -510,7 +510,7 @@ We will continue with using commands to create a Software Information Report tha
 
 **Perform the following steps:**
 
-1. Use your **debhost** VM for this section.
+1. Use your **debhost** for this section.
 2. Open a terminal and run the command:
 
 ```bash
@@ -540,7 +540,7 @@ We will continue by using commands to create a Software Information Report that 
 
 **Perform the following steps:**
 
-1. Use your **debhost** VM for this section.
+1. Use your **debhost** for this section.
 2. Open a terminal and use a text editor create a bash script called: **packageInfo.bash** in the **~/bin** directory.
 3. Enter the following text into your file:
 
@@ -646,8 +646,8 @@ If you have successfully completed this lab, make a new backup of your virtual m
 
 **Perform the Following Steps:**
 
-1. Make certain that your **debhost** and **deb3** VMs are running.
-2. Switch to your **debhost** machine, open a shell terminal as a regular user, and change to the directory: **~/bin**
+1. Make certain that your **debhost** and **deb3** VM is running.
+2. Switch to your **debhost**, open a shell terminal as a regular user, and change to the directory: **~/bin**
 3. Download the Lab 3 check script:
 
 ```bash
