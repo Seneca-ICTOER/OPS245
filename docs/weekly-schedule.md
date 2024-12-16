@@ -14,7 +14,6 @@ description: Weekly Schedule Page for OPS245
 | **Create a Debian Linux:**                                             | - [Welcome to OPS245](/slides/w1-l1.pptx) | [Lab 1: Installing Debian Linux](/A-Labs/lab1.md)                                                                  |
 | - Install Debian (Full Install)                                        | - [Installing Linux](/slides/w1-l2.pptx)  |                                                                                                                    |
 | - Obtain System Information                                            |                                           |                                                                                                                    |
-|                                                                        |                                           |                                                                                                                    |
 
 ## Week 2 - Jan 13 - Jan 17
 
