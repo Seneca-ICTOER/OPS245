@@ -1,7 +1,7 @@
 ---
 id: lab1-vbox
 title: Lab 1 - VirtualBox Version
-sidebar_position: 1
+sidebar_position: 11
 description: Lab 1 - VirtualBox Version
 ---
 
