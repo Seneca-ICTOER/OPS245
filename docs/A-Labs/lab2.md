@@ -11,7 +11,7 @@ description: Lab 2
 
 ### Purpose / Objectives of Lab 2
 
-In this lab, you will create 3 remaining virtual machines using another virtualisation program called **KVM** that will run in your debhost VM. These VMs will be used throughout the remainder of this course to learn how to administer them (installing software, managing services, networking, etc).
+In this lab, you will create 3 virtual machines using a virtualisation program called **KVM** that will run in your debhost system. These VMs will be used throughout the remainder of this course to learn how to administer them (installing software, managing services, networking, etc).
 
 While you are performing this lab, it is recommended to generally note the major differences in the different installation methods, and which method you prefer to use if you were a Linux system administrator in charge of installing many Linux distributions for an organization.
 
@@ -30,7 +30,7 @@ While you are performing this lab, it is recommended to generally note the major
 
 ![Lab Environment](/img/labenv.png)
 
-At the end of Lab 2, your hypervisor (VirtualBox or VMWare) application will contain **4 virtual machines** (**debhost** in your hypervisor application, and **deb1, deb2, deb3 VMs** in your **KVM** application). You will now have the option to run one virtual machine at a time, or run all machines simultaneously to learn about networking (covered in later labs)
+At the end of Lab 2, your **debhost** will contain **3 virtual machines** (**deb1, deb2, deb3 VMs** in your **KVM** application). You will now have the option to run one virtual machine at a time, or run all machines simultaneously to learn about networking (covered in later labs)
 
 ### Minimum Required Materials
 
@@ -61,7 +61,7 @@ At the end of Lab 2, your hypervisor (VirtualBox or VMWare) application will con
 
 ### Part 1: Install KVM Virtualisation Application
 
-We will now install the KVM package in order to create our remaining "nested" VMs. We will also be starting several services. We will learn more about managing firewalls in later labs.
+We will now install the KVM package in order to create our VMs. We will also be starting several services. We will learn more about managing firewalls in later labs.
 
 **Perform the following steps:**
 
@@ -138,7 +138,7 @@ sudo systemctl restart <servicename>
 sudo usermod -aG libvirt <username>
 ```
 
-7. **Restart your debhost virtual machine**. If you fail to do this, you may experience virtualization network problems and issues loading Virtual Machine Manager.
+7. **Restart your debhost**. If you fail to do this, you may experience virtualization network problems and issues loading Virtual Machine Manager.
 
 8. Once you've restarted, confirm your changes took affect by running the following as your regular user (don't use sudo):
 
@@ -149,38 +149,8 @@ The _libvirtd_ daemon should be running, and the _id_ command should show that y
 
 9. Start the graphical `virt-manager` tool by clicking "Activities " and searching for "virt-manager".
 10. Right click on the icon and "Pin to dash" and then run the application or by typing the command `virt-manager` (without sudo!)
-11. Confirm that "debhost" is configured to allow nested virtualisation:
-  * If you have an **Intel** CPU, run the following command. The output of this command should be "Y":
 
-    ```bash
-    sudo cat /sys/module/kvm_intel/parameters/nested
-    ```
-
-  * If you have an **AMD** CPU, run the following command. The output of this command should be "1":
-
-    ```bash
-    sudo cat /sys/module/kvm_amd/parameters/nested
-    ```
-
-12. If *neither* of these files outputs the Y or 1, or if you get a "No such file or directory" error, this means nested virtualization **has not been successfully enabled on debhost**.
-
-### Part 2: Troubleshooting Nested Virtualization
-If you confirmed nested virtualization works in debhost in *Part 1, Step 11* above, you can skip Part 2 and move on to Investigation 2.
-
-Let's run through some common reasons why nested virtualization may not be working for your computer, and how to go about fixing them. Keep in mind, this is not an exhaustive list, and *you may have more than one of these issues at the same time*. Just because you fixed one doesn't mean there aren't other problems.
-
-**Important Warning:** Nested virtualization is *REQUIRED* for this course.
-
-1. Double-check you haven't introduced any typos when running the commands from Part 1, Step 11.
-1. At the VMware Workstation level, open the settings for your debhost VM and check if **Virtualize Intel VT-x/EPT or AMD-V/RDI** is enabled. If not, enable it and try Part 1, Step 11 again. You'll need to fully shut down debhost to change this setting. (Refer to Lab 1, Investigation 1, Part 5, Step 26 for further details.)
-1. **On non-Seneca, personal computers running Windows 11:** If you get an error from VMware that "Virtualization is not supported" (or something similar), you will need to do a bit of online research to fix this issue, as we cannot officially provide tech support for non-Seneca hardware. That said, here are some good places to start:
-   * In Windows' Device Security settings, disable **Memory Integrity** and any other Core Isolation protections. (You are doing so at your own risk.) Restart your computer.
-   * In *Windows Features*, disable all Hyper-V related options. Restart your computer.
-1. **On non-Seneca, personal computers running macOS:** Due to hardware design limitations, nested virtualization is ***not possible*** for M1/M2/M3-based Apple computers at this time. However, nested virtualization will work if you have an older, Intel-based Mac. Check your system's profiler for more details. 
-1. Ask your fellow classmates for help. Many others have run into this issue and they may be able to show you how to fix it!
-
-
-## Investigation 2: Install Nested Virtual Machines (KVM)
+## Investigation 2: Install Virtual Machines (KVM)
 
 > ![caution](/img/caution.png)**Keep the root password the same for Host and VMs**
 >
