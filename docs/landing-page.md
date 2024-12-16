@@ -51,25 +51,30 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 ## Required Materials
 
-1. **Solid State Drive (SSD) Minimum Capacity:** 240 GB
-2. **Debian 12 netinstaller ISO Image**
+1. **Solid State Drive (SSD) Minimum Capacity:** 240 GB (500GB Recommended)
+2. **SATA-to-USB Connector**
+> ![SATA USB Connnect](/img/satausbconnector.jpg)
+   
+   - **Note** - It is STRONGLY recommended that you obtain the SATA-to-USB connector and Solid State Drive as noted above. Other types of hard drives and connectors may not work properly in our special lab environment. Several students in past semesters have run into problems using other types of drives. In particular, please avoid cables that connect to the computer using USB-C. They have been known to cause problems. Ensure your cable connects to the computer using USB 3.0.  
+
+3. **Debian 12 netinstaller ISO Image**
 
    - [Download from Debian](https://www.debian.org)
 
-3. **USB Flash Drive** (3.0 preferred) **Minimum Capacity:** 16 GB
-4. **Lab Logbook** (download & print Both sides per lab permitted)
+5. **USB Flash Drive** (3.0 preferred, 2 flash drives if possible) **Minimum Capacity:** 16 GB
+6. **Lab Logbook** (download & print Both sides per lab permitted)
 
    - [Download Doc](/files/OPS245-Logbook-Online.doc)
    - **NOTE: If you've taken this class in a previous semester, you MAY NOT bring that version of the lab logbook to any testing.**
    - Your Professor will direct you on what they want you to do with the Lab Lag Book
 
-5. **Dos and Don'ts** (**PLEASE READ**)
+7. **Dos and Don'ts** (**PLEASE READ**)
 
    - [Tips](/C-ExtraResources/tips.md)
 
 ## Course Faculty
 
-**During the Winter 2024 semester, OPS245 is taught by:**
+**During the Winter 2025 semester, OPS245 is taught by:**
 
 ![Peter Callaghan](/img/Petercallaghan.jpg)
 
