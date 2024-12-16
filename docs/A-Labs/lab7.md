@@ -74,9 +74,6 @@ In this section, you will learn how to configure an SSH server and restart the s
 
 Some tasks in this part of the investigation **require you to be connected to Seneca's VPN**.
 
-- If you are running your installation through VMWare, then you can use the [instructions provided by ITS](https://students.senecapolytechnic.ca/spaces/186/it-services/wiki/view/1024/vpn) to connect to it from your Windows machine (your debhost and its nested VMs will use the VPN through the windows machine without further configuration).
-- If you installed your debhost **directly onto a machine without using VMWare** as an intermediary (or the steps above do not work for you), use the following instructions:
-
   - Install the package openconnect
   - Run the following command as root (or with sudo): `openconnect --protocol=gp studentvpn.senecapolytechnic.ca -b`
   - This should prompt you for your username and password (you could also put the user name in the command with -p)
@@ -85,9 +82,9 @@ Some tasks in this part of the investigation **require you to be connected to Se
 
 Once you have connected to the VPN with either method you may continue
 
-1. Launch your **debhost machine** and your **deb1** and **deb3** VMs.
-2. Switch to your **debhost** VM.
-3. Create a file in your current directory of your debhost machine with some text in it called: **myfile.txt**
+1. Launch your **deb1** and **deb3** VMs.
+2. Switch to your **debhost**.
+3. Create a file in your current directory of your debhost with some text in it called: **myfile.txt**
 4. Issue the following command (using your Matrix login id):
 
 ```bash
@@ -168,7 +165,7 @@ Any time that you configure your computer to allow logins from the network you a
 
 The Linux system administrator can **configure the SSH server** in order to make the SSH server less vulnerable to attacks. Examples include not permitting root login, and changing the default port number for the ssh service.
 
-**Perform the following steps using your debhost and deb1 VM's:**
+**Perform the following steps using your debhost and deb1 VM:**
 
 1. Change to your **deb1** VM and open a terminal and start a sudo shell.
 2. Read the man page for the `sshd_config` file. Search for the `PermitRootLogin` option and read about the possible settings.
@@ -192,15 +189,15 @@ The Linux system administrator can **configure the SSH server** in order to make
 systemctl restart ssh
 ```
 
-9. Try using ssh from your **debhost** VM to your **deb1** VM as **root**. Where you successful?
-10. Try using ssh from your **debhost** VM to your **deb1** VM as your regular user account. Did it work?
+9. Try using ssh from your **debhost** to your **deb1** VM as **root**. Where you successful?
+10. Try using ssh from your **debhost** to your **deb1** VM as your regular user account. Did it work?
 11. Create another user on deb1 called **other**, include the options to create a home directory and set the shell to **/bin/bash**
 12. Set the password for the newly-created user called **other**
-13. Try using ssh from your **debhost** VM to your **deb1** VM as the account called **other**. Why didn't it work?
+13. Try using ssh from your **debhost** to your **deb1** VM as the account called **other**. Why didn't it work?
 14. On **deb1** add the user **other** to the supplemental group **sudo**.
 15. Edit the file **/etc/ssh/sshd_config** and add a new option of `AllowGroups sudo`
 16. Comment out the `AllowUsers` option, save the file, and **restart ssh**
-17. Try using ssh from your **debhost** VM to your **deb1** VM as the user account called **other**. Did it work this time?
+17. Try using ssh from your **debhost** to your **deb1** VM as the user account called **other**. Did it work this time?
 
 **Monitoring access**
 
@@ -374,8 +371,8 @@ You can use an SSH tunnel with options to allow running of applications on remot
 
 **Perform the following steps:**
 
-1. For this section, you will be using your **debhost** and **deb1** VMs.
-2. Switch to your debhost VM, open a terminal and remain logged in as a regular user.
+1. For this section, you will be using your **debhost** and **deb1** VM.
+2. Switch to your debhost, open a terminal and remain logged in as a regular user.
 3. Issue the following command to connect to your **deb1** VM:
 
 ```bash
@@ -385,7 +382,7 @@ ssh -X -C username@deb1
 - (The **-X** option enables the forwarding of X window information, and the **-C** option enables compression for better performance).
 
 4. Once the connection is properly established, run the command `gedit`
-5. The _gedit_ window will display on your **debhost** VM, but in reality, this application is running on your **deb1** VM!
+5. The _gedit_ window will display on your **debhost**, but in reality, this application is running on your **deb1** VM!
 6. Enter some text and save the file as **testfile**
 7. Exit the **gedit** application.
 8. On which host was the file saved? **debhost** or **deb1** What does that tell you about the use of tunneling for this section?
@@ -430,7 +427,7 @@ Let's get some practice using the iptables command such as listing CHAIN rules, 
 
 **Perform the following steps:**
 
-1. For the remainder of this section, use your **debhost** machine.
+1. For the remainder of this section, use your **debhost**.
 2. As working with the firewall requires elevated privileges start a sudo shell
 3. Issue the following command to list the existing iptables policy rules:
 
@@ -512,7 +509,7 @@ iptables -P OUTPUT ACCEPT
 
 **Perform the following steps:**
 
-1. Make certain you are in your **debhost** machine.
+1. Make certain you are in your **debhost**.
 2. Issue the following Linux command:
 
 ```bash
@@ -572,11 +569,9 @@ iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 7. Use Firefox on **debhost** to connect to the Internet your other web-browser to confirm that you can now browse the Internet. Because the incoming traffic is a response related to my established connection it is accepted.
 
 8. Determine the external facing ip address of **debhost**
-9. Using your Windows machine running VMware (or another machine in your network if you did a bare-metal installation for debhost) try to ping that external facing address. Were you successful?
-10. Issue the following iptables command to allow incoming ping packets (icmp) from only the address of your Windows host. (You will have to use your own IP address)
+9. Have a classmate try to ping that external facing address. Were they successful?
+10. Issue the following iptables command to allow incoming ping packets (icmp) from your classmate's IP address. (You will have to use your their external facing IP address on their debhost)
 
-My VMware host IP:
-![winhostip](/img/winhostip.png)
 
 ```bash
 iptables -A INPUT -p icmp -s 192.168.213.1 -j ACCEPT
@@ -586,7 +581,7 @@ iptables -A INPUT -p icmp -s 192.168.213.1 -j ACCEPT
 
 ![iptablesping](/img/iptablesping.png)
 
-12. Try to SSH into YOUR debhost. Were you Successful?
+12. Have your classmate try to SSH into YOUR debhost. Were they Successful?
 13. Issue the following Linux command to append a rule to the INPUT chain to allow incoming ssh traffic (ie. port 22):
 
 ```bash
@@ -622,7 +617,7 @@ When the libvirtd service starts on debhost it adds some rules to iptables to al
 
 8. Test your rules by doing the following:
 
-- ssh from your Windows host to the external ip address of **debhost**
+- ssh from your classmate's **debhost** to the external ip address of **debhost**
 - Open Firefox on **debhost** and connect to a website on the Internet
 - On **debhost** ping the loopback address **127.0.0.1**
 
@@ -667,8 +662,8 @@ If you have successfully completed this lab, make a new backup of your virtual m
 **Perform the Following Steps:**
 
 1. Make certain ALL of your VMs are running.
-2. Make sure you are connected to Seneca's VPN on your Windows host.
-3. Switch to your **debhost** VM and change to your user's **bin** directory.
+2. Make sure you are connected to Seneca's VPN.
+3. Switch to your **debhost** and change to your user's **bin** directory.
 4. Issue the Linux command:
 
 ```bash
