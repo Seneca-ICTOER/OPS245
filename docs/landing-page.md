@@ -56,7 +56,7 @@ Most of the learning in this course occurs through the hands-on problem solving 
 > ![SATA USB Connnect](/img/satausbconnector.jpg)
    
    - **Note** - It is STRONGLY recommended that you obtain the SATA-to-USB connector and Solid State Drive as noted above. Other types of hard drives and connectors may not work properly in our special lab environment. Several students in past semesters have run into problems using other types of drives (and have had to fully re-install their systems!!). In particular, please avoid cables that connect to the computer using USB-C. They have been known to cause problems. Ensure your cable connects to the computer using USB 3.0.
-   -  
+
 3. **Debian 12 netinstaller ISO Image**
 
    - [Download from Debian](https://www.debian.org)
