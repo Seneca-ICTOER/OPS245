@@ -19,7 +19,7 @@ Setting up networks is an essential operation for a system administrator. Mainta
 
 **Main Objectives**
 
-1. Configure a private virtual network for your **VMs** and your **debhost** machine
+1. Configure a private virtual network for your **VMs** and your **debhost**
 2. Configure network interfaces for your Virtual Machines using both **graphical** and **command-line** utilities.
 3. Use **local hostname resolution** to resolve hostnames to the corresponding IP addresses
 4. Use common networking utilities to associate network services with port numbers for troubleshooting purposes
@@ -49,7 +49,7 @@ Setting up networks is an essential operation for a system administrator. Mainta
 
 ## Investigation 1: Configuring A Virtual Network
 
-For the remainder of this course, we will focus on configuring our VM's to communicate across a (Virtual) network. This lab will focus on setting up a virtual network, connecting our VMs and debhost machine to the network, and configuring local hostname resolution to make it more convenient to use, troubleshoot, and protect. **Lab 7** will focus on configuring SSH and making access to the virtual network more secure. Finally, **lab 8** will focus on configuring a DHCP server to automatically assign an IP addresses and other configuration details to DHCP clients.
+For the remainder of this course, we will focus on configuring our VM's to communicate across a (Virtual) network. This lab will focus on setting up a virtual network, connecting our VMs and debhost to the network, and configuring local hostname resolution to make it more convenient to use, troubleshoot, and protect. **Lab 7** will focus on configuring SSH and making access to the virtual network more secure. Finally, **lab 8** will focus on configuring a DHCP server to automatically assign an IP addresses and other configuration details to DHCP clients.
 
 ### Part 1: Configuring a Private Network (Via Virtual Machine Manager)
 
@@ -59,11 +59,11 @@ Before configuring our network, we want to **turn off dynamic network configurat
 
 ![ops245net](/img/ops245net.png)
 
-This diagram shows the current network configuration of your **debhost** machine in relation to your **Virtual Machines**. In this section, you will be learning to change the default network settings for both your **debhost** machine and **VMs** to belong to a **virtual network** using fixed IP Addresses.
+This diagram shows the current network configuration of your **debhost** in relation to your **Virtual Machines**. In this section, you will be learning to change the default network settings for both your **debhost** and **VMs** to belong to a **virtual network** using fixed IP Addresses.
 
 **Perform the following steps:**
 
-1. Launch your **debhost VM** and start the Virtual Machine Manager.
+1. Boot up your **debhost** and start the Virtual Machine Manager.
 2. Make certain that the **deb1**, **deb2**, and **deb3** virtual machines are **powered off**.
 3. In the Virtual Machine Manager dialog box, select **Edit-> Connection Details**.
    ![vmmedit](/img/vmmedit.png)
@@ -120,7 +120,7 @@ Although the private virtual network has been setup via **Virtual Machine Manage
 
 **Perform the following steps:**
 
-1. On your **debhost** machine, run **`ip address`** and make note of the IP address assigned to the **virbr1** (i.e. "Virtual Bridge) interface. This will be the default gateway and DNS server for your other VMs.
+1. On your **debhost**, run **`ip address`** and make note of the IP address assigned to the **virbr1** (i.e. "Virtual Bridge) interface. This will be the default gateway and DNS server for your other VMs.
 2. Select the **Console** view (instead of Details), start your **deb1** VM, and login.
 3. Within your **deb1** VM, open a terminal and show the network interfaces with the command **`ip address`**
    ![deb1ipadd1](/img/deb1ipadd1.png)
@@ -285,8 +285,8 @@ On large public networks like the Internet or even large private networks we use
 
 **Perform the following steps:**
 
-1. Complete this investigation on **all of your VMs** and the **debhost** machine.
-2. Use the `hostname` and `ip` commands on your **debhost** machine and all of your 3 VM's to gather the information needed to configure the **/etc/hosts** file on all of your Linux systems.
+1. Complete this investigation on **all of your VMs** and on **debhost**.
+2. Use the `hostname` and `ip` commands on your **debhost** and all of your 3 VM's to gather the information needed to configure the **/etc/hosts** file on all of your Linux systems.
 3. Edit the **/etc/hosts** file for the **debhost**, **deb1**, **deb2** and **deb3** VMs. Add the following contents to the bottom of the **/etc/hosts** file:
 
 ```text
@@ -315,7 +315,7 @@ Read the first four sections of this [blogpost](https://www.baeldung.com/linux/a
 
 **Perform the following steps:**
 
-1. Switch to your **debhost** machine and start a sudo shell.
+1. Switch to your **debhost** and start a sudo shell.
 2. Install the **`net-tools`** package.
 3. Issue the **ping** command to test connectivity to your **deb1**, **deb2**, and **deb3** VMs.
 4. Examine the contents of the ARP cache by using the command: `arp` What is the purpose of ARP?
@@ -358,7 +358,7 @@ ss -t dst :22
 > - **UDP** is a connectionless protocol that relies on application layer protocols to handle reliability of traffic.
 
 11. From **deb2** exit your ssh connection into **debhost** and rerun the command on the **`ss -at`**. Instead of **ESTABLISHED** it should now show a state of **CLOSE_WAIT**. Indicating that the TCP connection is being closed.
-12. On your debhost VM, try the command: `ss -atn` How is this output different? Without the -n option ss attempts to resolve IP addresses to host names (using /etc/hosts) and port numbers to service names (using /etc/services)
+12. On your debhost, try the command: `ss -atn` How is this output different? Without the -n option ss attempts to resolve IP addresses to host names (using /etc/hosts) and port numbers to service names (using /etc/services)
 13. Examine the **/etc/services** file and find which ports are used for the services: ssh, sftp, http
 
 **Answer INVESTIGATION 2 observations / questions in your lab log book.**
@@ -413,7 +413,7 @@ If you have successfully completed this lab, make a new backup of your virtual m
 **Perform the Following Steps:**
 
 1. Make certain that ALL of your VMs are running.
-2. Switch to your **debhost** VM.
+2. Switch to your **debhost**.
 3. Change to your user's **bin** directory.
 4. Issue the Linux command:
 
