@@ -69,7 +69,7 @@ The /etc/passwd file is a datafile that stores user account information, for bot
 
 **Perform the following steps:**
 
-1. Launch your **debhost** and **deb1** VMs.
+1. Boot up your **debhost** and launch your **deb1** VM.
 2. Switch to your **deb1** VM.
 3. Open a shell terminal.
 4. Look at the `/etc/passwd` file.
@@ -682,7 +682,7 @@ We will now use shell scripting to help automate the task for a Linux administra
 
 **Perform the following steps:**
 
-1. You will be using your **debhost** machine for this section.
+1. You will be using your **debhost** for this section.
 2. Open a shell terminal, as your regular user.
 3. Change to the **~/bin** directory.
 4. Download, study, and run the following shell script. Issue the command:
@@ -802,8 +802,8 @@ Follow your Professors submission instructions for lab 4 on Blackboard.
 
 **Perform the Following Steps:**
 
-1. Make certain that your **debhost**, **deb1** VM are running.
-2. Switch to your **debhost** VM.
+1. Make certain that your **deb1** VM is running.
+2. Switch to your **debhost**.
 3. Open a shell terminal, and change to the **~/bin** directory.
 4. Issue the Linux command:
 
