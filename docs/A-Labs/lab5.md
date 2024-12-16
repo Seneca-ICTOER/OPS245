@@ -67,7 +67,7 @@ The **df** and **du** commands are useful tools for Linux system administrators 
 
 **Perform the following steps:**
 
-1. Launch your **debhost** and **deb2** VMs.
+1. Boot up your **debhost** and launch your **deb2** VM.
 2. Switch to your **deb2** machine.
 3. Open a terminal.
 4. Issue the command:
@@ -115,7 +115,7 @@ The **cron** daemon (service) is used to refer to these tables and to run the sc
 
 **Perform the following steps:**
 
-1. Perform this section in your **debhost** machine
+1. Perform this section in your **debhost**
 2. Change to your **bin** directory.
 3. Download the following shell script by issuing the following command:
 
@@ -589,7 +589,7 @@ Both the configuration of the deb2 VM and the contents of the disk image have ch
 
 **Perform the Following Steps:**
 
-1. Make certain that your **debhost** and **deb2** VMs are running.
+1. Make certain that your **deb2** VM is running.
 2. Switch to your **debhost** machine.
 3. Open a shell terminal, change to your user's **bin** directory.
 4. Issue the Linux command:
