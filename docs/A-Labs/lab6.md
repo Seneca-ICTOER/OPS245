@@ -388,7 +388,7 @@ do
             echo "$host offline"
         fi
     fi
-done < /etc/hosts'
+done < /etc/hosts
 ```
 
 2. Read the script. Try to predict exactly what the script will do.
