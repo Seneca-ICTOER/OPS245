@@ -31,7 +31,7 @@ This course is the second in a series of courses about Linux technologies
 >
 > This semester there are many changes being made to this course.
 >
-> - Virtualization Software
+> - Switch from Virtualization to direct boot for the Debian host installation
 > - Switch to Debian distribution
 > - Changes to automation scripting
 >
