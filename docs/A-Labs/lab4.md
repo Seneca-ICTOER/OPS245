@@ -481,8 +481,8 @@ Requiring the use of **sudo** to access elevated permissions means that there is
 > RedHat based distributions for example typically use a group called **wheel**
 
 8. Start your **deb3** VM
-9. Create a regular user account on **deb3**, using the same username and password as **deb1** and **deb2**
-10. Add your user to the **sudo** group as a secondary group.
+9. Double check that you added your regular user account on **deb3**, using the same username and password as **deb1** and **deb2** (this should have been done in lab 2)
+10. Double check that your user has been added to the **sudo** group as a secondary group. (this should have been done in lab 2)
 11. Test that **sudo** works for that user
 
 ### Part 2: Adding Limited Sudo Capabilities to Other Users
