@@ -75,11 +75,6 @@ Most of the learning in this course occurs through the hands-on problem solving 
 ## Course Faculty
 
 **During the Winter 2025 semester, OPS245 is taught by:**
-
-#![Peter Callaghan](/img/Petercallaghan.jpg)
-
-#**[Peter Callaghan](mailto:peter.callaghan@senecapolytechnic.ca)** \| Section **NAA, NBB**
-
 ![Brian Gray](/img/bgray.png)
 
 **[Brian Gray](mailto:brian.gray@senecapolytechnic.ca)** \| Section **NDD**
@@ -92,13 +87,15 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 **[Chris Johnson](mailto:chris.johnson@senecapolytechnic.ca)** \| Section **NEE**
 
-#![Saso Kocev](/img/Petercallaghan.jpg)
+<!---
+![Peter Callaghan](/img/Petercallaghan.jpg)
+**[Peter Callaghan](mailto:peter.callaghan@senecapolytechnic.ca)** \| Section **NAA, NBB**
+![Saso Kocev](/img/Petercallaghan.jpg)
+**[Saso Kocev](mailto:saso.kocev@senecapolytechnic.ca)** \| Section **ZAA**
+![Azzad Kara](/img/Petercallaghan.jpg)
+**[Azzad Kara](mailto:azzad.kara@senecapolytechnic.ca)** \| Section **ZBB**
+--->
 
-#**[Saso Kocev](mailto:saso.kocev@senecapolytechnic.ca)** \| Section **ZAA**
-
-#![Azzad Kara](/img/Petercallaghan.jpg)
-
-#**[Azzad Kara](mailto:azzad.kara@senecapolytechnic.ca)** \| Section **ZBB**
 
 ## Evaluation
 
