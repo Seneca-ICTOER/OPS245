@@ -76,29 +76,29 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 **During the Winter 2025 semester, OPS245 is taught by:**
 
-![Peter Callaghan](/img/Petercallaghan.jpg)
+#![Peter Callaghan](/img/Petercallaghan.jpg)
 
-**[Peter Callaghan](mailto:peter.callaghan@senecapolytechnic.ca)** \| Section **NAA, NBB**
+#**[Peter Callaghan](mailto:peter.callaghan@senecapolytechnic.ca)** \| Section **NAA, NBB**
 
 ![Brian Gray](/img/bgray.png)
 
-**[Brian Gray](mailto:brian.gray@senecapolytechnic.ca)** \| Section **NCC, NDD**
+**[Brian Gray](mailto:brian.gray@senecapolytechnic.ca)** \| Section **NDD**
 
 ![Hans Heim](/img/hheim.jpg)
 
-**[Hans Heim](mailto:hans.heim@senecapolytechnic.ca)** \| Section **NEE**
+**[Hans Heim](mailto:hans.heim@senecapolytechnic.ca)** \| Section **NAA, NBB, NCC**
 
 ![Chris Johnson](/img/Chris.jpg)
 
-**[Chris Johnson](mailto:chris.johnson@senecapolytechnic.ca)** \| Section **NFF, NGG**
+**[Chris Johnson](mailto:chris.johnson@senecapolytechnic.ca)** \| Section **NEE**
 
-![Saso Kocev](/img/Petercallaghan.jpg)
+#![Saso Kocev](/img/Petercallaghan.jpg)
 
-**[Saso Kocev](mailto:saso.kocev@senecapolytechnic.ca)** \| Section **ZAA**
+#**[Saso Kocev](mailto:saso.kocev@senecapolytechnic.ca)** \| Section **ZAA**
 
-![Azzad Kara](/img/Petercallaghan.jpg)
+#![Azzad Kara](/img/Petercallaghan.jpg)
 
-**[Azzad Kara](mailto:azzad.kara@senecapolytechnic.ca)** \| Section **ZBB**
+#**[Azzad Kara](mailto:azzad.kara@senecapolytechnic.ca)** \| Section **ZBB**
 
 ## Evaluation
 
