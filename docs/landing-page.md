@@ -75,6 +75,7 @@ Most of the learning in this course occurs through the hands-on problem solving 
 ## Course Faculty
 
 **During the Winter 2025 semester, OPS245 is taught by:**
+
 ![Brian Gray](/img/bgray.png)
 
 **[Brian Gray](mailto:brian.gray@senecapolytechnic.ca)** \| Section **NDD**
