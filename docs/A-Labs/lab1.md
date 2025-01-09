@@ -69,7 +69,7 @@ It is ESSENTIAL to have a **Solid State Drive (SSD) with a minimum storage capac
 - Shell Scripting - Part I (Scripting Basics): **/home/ops235/scripting-1**
 
 In this lab, you will learn how to install **Debian 12** to your SSD for use in the Seneca boot labs.
-**Please note that at this time the Seneca boot labs are in C2030, C2034, and C2036. You will only be able to boot to your SSDs in these labs.**
+**Please note that at this time the Seneca boot labs are in C2030, C2032, C2034, and C2036. You will only be able to boot to your SSDs in these labs.**
 
 **debhost system details:**
 
