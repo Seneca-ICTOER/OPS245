@@ -1,8 +1,8 @@
 ---
 id: lab1-vbox
-title: Lab 1 - VirtualBox Version
+title: Lab 1 - VirtualBox Version (old)
 sidebar_position: 11
-description: Lab 1 - VirtualBox Version
+description: Lab 1 - VirtualBox Version (old)
 ---
 
 # Lab 1: Installing Debian 12 with VirtualBox
