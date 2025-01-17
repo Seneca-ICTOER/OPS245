@@ -1,8 +1,8 @@
 ---
 id: lab1-vmware
-title: Lab 1 - VMware Version
+title: Lab 1 - VMware Version (old)
 sidebar_position: 12
-description: Lab 1 - VMware Version
+description: Lab 1 - VMware Version (old)
 ---
 
 # Lab 1: Installing Debian 12 with VMware Workstation
