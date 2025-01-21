@@ -28,7 +28,7 @@ While you are performing this lab, it is recommended to generally note the major
 - Properly **backup VM images** and backup **VM configuration files**
 - Create and run **Bash Shell scripts** to automatically backup our installed VM's
 
-![Lab Environment](/img/labenv.png)
+![Lab Environment](/img/debian-lab1-network-diagram-updated.png)
 
 At the end of Lab 2, your **debhost** will contain **3 virtual machines** (**deb1, deb2, deb3 VMs** in your **KVM** application). You will now have the option to run one virtual machine at a time, or run all machines simultaneously to learn about networking (covered in later labs)
 
