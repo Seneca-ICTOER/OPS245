@@ -420,7 +420,22 @@ echo "Report Date:  $date"
 
 It is extremely important that you complete Lab 1 correctly as this Debian install will be the platform on which the rest of the course will be completed.
 
-When you have completed Lab 1, ask your instructor to come and check your installation. **This must be done in class.** They will ask you to complete a set of tasks/commands. If everything has been completed correctly, your instructor will mark your Lab 1 as complete. 
+When you have completed Lab 1, ask your instructor to come and check your installation. **This must be done in class.** They will ask you to complete a set of tasks/commands. If everything has been completed correctly, your instructor will mark your Lab 1 as complete.
+
+### Lab Check Script - *Only When Approved By Professor*
+
+If your professor **chooses**, they may ask you to do the following:
+
+1. Switch to your **debhost** VM, open a terminal, and change directory to **~/bin**.
+2. Issue the command:
+
+```bash
+wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab1-check.bash
+```
+
+3. Give the **lab1-check.bash** execute permissions for the file owner.
+4. Run the shell script and if there are any warnings, make fixes and re-run shell script until you receive the "Congratulations" message.
+5. Follow the submission instructions of your Professor.
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
