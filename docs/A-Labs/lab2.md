@@ -658,7 +658,7 @@ virsh start deb1
 If the Virtual machine fails to shutdown from the `virsh shutdown` command, then you can go to the **Virtual Machine manager** and **halt** or **shutdown** within the VM itself, then you can click the **PowerOff** button in the VM window. You'll want to avoid a forced shutdown since those are equivalent to yanking the power cord out of the wall on a physical machine!
 
 9. Open a Bash shell terminal.
-10. Using 'sudo' open a text editor (such as 'vim' or `vi` or `nano`) to create a Bash Shell script called: `~/bin/backupVM.bash`
+10. Using 'sudo' open a text editor (such as `vim` or `vi` or `nano`) to create a Bash Shell script called: `~/bin/backupVM.bash`
 11. Enter the following text content into your file:
 
 ```bash
