@@ -729,7 +729,7 @@ fi
 if [ "$#" -eq 0 ] # if no arguments after command
 then
  echo "You must enter an argument" >&2
- echo "USAGE: $0 [-i {input-path}]" >&2
+ echo "USAGE: $0 -i input-path" >&2
  exit 2
 fi
 ```
@@ -798,7 +798,7 @@ exit 0
 
 Follow your Professors submission instructions for lab 4 on Blackboard.
 
-**Time for a new backup!:** If you have successfully completed this lab, make a new backup of your virtual machines as well as your host machine.
+**Time for a new backup!:** If you have successfully completed this lab, make a new backup of your virtual machines.
 
 **Perform the Following Steps:**
 
@@ -813,7 +813,7 @@ wget https://raw.githubusercontent.com/OPS245/debian-labs/main/lab4-check.bash
 
 5. Give the **lab4-check.bash** file execute permissions (for the file owner).
 6. Run the shell script using **sudo** and if any warnings, make fixes and re-run shell script until you receive "congratulations" message.
-7. Follow your Professors instrtuctions for submitting the lab
+7. Follow your Professors instructions for submitting the lab
 
 ## Practice For Quizzes, Tests, Midterm & Final Exam
 
