@@ -607,7 +607,7 @@ When the libvirtd service starts on debhost it adds some rules to iptables to al
 
 1. Make sure that no rules are currently loaded
 2. Set the default **policy** for both the **INPUT** and **FORWARD** chains to **DROP**
-3. Append rules to the **INPUT** chain that allow SSH traffic from your Windows host and from the **192.168.245.0/24** network.
+3. Append rules to the **INPUT** chain that allow SSH traffic from your debhost external facing nic and from the **192.168.245.0/24** network.
 4. Append a rule to the **INPUT** chain to allow **icmp** traffic from your **192.168.245.0/24** network.
 5. Append a rule to the **INPUT** chain to allow all traffic to the **lo** (loopback) interface.
 6. Append a rule to the **INPUT** chain to allow all traffic that is **RELATED**/**ESTABLISHED**.
