@@ -68,17 +68,17 @@ So far, you have learned to use the **ssh** utility to establish a secure connec
 
 In this section, you will learn how to configure an SSH server and restart the ssh service for an existing VM. You will also learn how to configure, restart, and use SSH in order to create secure connections between your Linux machines (host as well as VMs).
 
-### Part 1: Confirming sshd service is Running on VMs.
+### Part 1: Confirming sshd service is Running on VMs
 
 **Perform the following steps:**
 
 Some tasks in this part of the investigation **require you to be connected to Seneca's VPN**.
 
-  - Install the package openconnect
-  - Run the following command as root (or with sudo): `openconnect --protocol=gp studentvpn.senecapolytechnic.ca -b`
-  - This should prompt you for your username and password (you could also put the user name in the command with -p)
-  - You'll know it is working if you check your ip address and see something in the 10.0.0.0/8 range.
-  - To disconnect, as root (or with sudo): `killall openconnect`
+- Install the package openconnect
+- Run the following command as root (or with sudo): `openconnect --protocol=gp studentvpn.senecapolytechnic.ca -b`
+- This should prompt you for your username and password (you could also put the user name in the command with -p)
+- You'll know it is working if you check your ip address and see something in the 10.0.0.0/8 range.
+- To disconnect, as root (or with sudo): `killall openconnect`
 
 Once you have connected to the VPN with either method you may continue
 
@@ -572,7 +572,6 @@ iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 9. Have a classmate try to ping that external facing address. Were they successful?
 10. Issue the following iptables command to allow incoming ping packets (icmp) from your classmate's IP address. (You will have to use your their external facing IP address on their debhost)
 
-
 ```bash
 iptables -A INPUT -p icmp -s 192.168.213.1 -j ACCEPT
 ```
@@ -601,21 +600,22 @@ Any changes to your iptables rules will be lost when you restart your Linux serv
 
 **Don't save copies of rules that libvirtd will auto-add every boot.**
 
-When the libvirtd service starts on debhost it adds some rules to iptables to allow the machines in your virtual network communicate with each other and the outside world. We don't want to include these rules in our configuration because it will cause the rules to be loaded twice. This won't actually break anything, but it does clutter up your iptables and make them harder to read. Before you continue with this investigation, confirm that there are no rules currently loaded.
+When the _libvirtd_ service starts on debhost it adds some rules to iptables to allow the machines in your virtual network communicate with each other and the outside world. We don't want to include these rules in our configuration because it will cause the rules to be loaded twice. This won't actually break anything, but it does clutter up your iptables and make them harder to read. Before you continue with this investigation, confirm that there are no rules currently loaded.
 
 **Perform the following steps:**
 
 1. Make sure that no rules are currently loaded
 2. Set the default **policy** for both the **INPUT** and **FORWARD** chains to **DROP**
-3. Append rules to the **INPUT** chain that allow SSH traffic from your debhost external facing nic and from the **192.168.245.0/24** network.
-4. Append a rule to the **INPUT** chain to allow **icmp** traffic from your **192.168.245.0/24** network.
-5. Append a rule to the **INPUT** chain to allow all traffic to the **lo** (loopback) interface.
-6. Append a rule to the **INPUT** chain to allow all traffic that is **RELATED**/**ESTABLISHED**.
-7. List the **INPUT** chain. It should look similar to this
+3. Append rules to the **INPUT** chain that allow SSH traffic from the **192.168.245.0/24** network.
+4. Append rules to the **INPUT** chain that allow SSH traffic from your _**debhost external facing nic**_.
+5. Append a rule to the **INPUT** chain to allow **icmp** traffic from your **192.168.245.0/24** network.
+6. Append a rule to the **INPUT** chain to allow all traffic to the **lo** (loopback) interface.
+7. Append a rule to the **INPUT** chain to allow all traffic that is **RELATED**/**ESTABLISHED**.
+8. List the **INPUT** chain. It should look similar to this:
 
 ![iptables3](/img/iptables3.png)
 
-8. Test your rules by doing the following:
+9. Test your rules by doing the following:
 
 - ssh from your classmate's **debhost** to the external ip address of **debhost**
 - Open Firefox on **debhost** and connect to a website on the Internet
@@ -623,16 +623,16 @@ When the libvirtd service starts on debhost it adds some rules to iptables to al
 
 You can't test the traffic from **192.168.245.0/24** until **libvirtd** starts. Before you start **libvirtd** you should save your current rules to make them persistent.
 
-9. Save the current ruleset using the command:
+10. Save the current ruleset using the command:
 
 ```bash
 # Save iptables rules in memory to a file in the correct format
 iptables-save -f /etc/iptables.rules
 ```
 
-10. Verify that the file **/etc/iptables.rules** exists.
-11. Create a new script file **/etc/network/if-pre-up.d/iptables**
-12. Add the following to the file
+11. Verify that the file **/etc/iptables.rules** exists.
+12. Create a new script file **/etc/network/if-pre-up.d/iptables**
+13. Add the following to the file
 
 ```bash
 #!/bin/bash
@@ -640,14 +640,14 @@ iptables-save -f /etc/iptables.rules
 /sbin/iptables-restore /etc/iptables.rules
 ```
 
-13. Make the script executable `chmod u+x /etc/network/if-pre-up.d/iptables`
-14. Reboot **debhost** and check that the rules are restored during boot.
-15. Start the **libvirtd** service, and note the rules it adds to your iptables. It will do this automatically every time it starts.
-16. Enable the **libvirtd** service so that it starts during boot.
-17. After rebooting open a terminal and start a sudo shell
-18. List your iptables rules. If everything there?
-19. Start your **deb1**, **deb2**, and **deb3** VM's
-20. Confirm that you can ping **debhost** and that you can connect to **debhost** using **ssh**, from each of your VM's
+14. Make the script executable `chmod u+x /etc/network/if-pre-up.d/iptables`
+15. Reboot **debhost** and check that the rules are restored during boot.
+16. Start the **libvirtd** service, and note the rules it adds to your iptables. It will do this automatically every time it starts.
+17. Enable the **libvirtd** service so that it starts during boot.
+18. After rebooting open a terminal and start a sudo shell
+19. List your iptables rules. If everything there?
+20. Start your **deb1**, **deb2**, and **deb3** VM's
+21. Confirm that you can ping **debhost** and that you can connect to **debhost** using **ssh**, from each of your VM's
 
 **Answer INVESTIGATION 3 observations / questions in your lab log book.**
 
