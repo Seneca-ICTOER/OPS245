@@ -20,23 +20,6 @@ The virtualization software will allow you to create and administer **3 differen
 
 ![labenv.png](/img/debian-lab1-network-diagram-updated.png)
 
-```mermaid
-flowchart TD
-    debhost(["🖥️ **debhost**<br/>Debian 12<br/>*GUI Desktop*"])
-
-    subgraph "🖥️ KVM/QEMU Hypervisor"
-        deb1(["🖥️ **deb1**<br/>Debian 12<br/>*GUI Desktop*"])
-        deb2(["🖥️ **deb2**<br/>Debian 12<br/>*Minimal Install*"])
-        deb3(["🖥️ **deb3**<br/>Debian 12<br/>*Auto installed<br/>with preseed file*"])
-    end
-
-    debhost --> deb1
-    debhost --> deb2
-    debhost --> deb3
-```
-
-*Alternative graphic attempt.*
-
 It is ESSENTIAL to have a **Solid State Drive (SSD) with a minimum storage capacity of 240 GB** or **240 GB available on your own computer** for you to perform the lab work and provide storage for your Debian 12 host and VMs that you will create in Lab 2. **Due to space requirements, you are NOT permitted to share this SSD drive with any other course material than our OPS245 course.**
 
 > **NOTE: It is feasible to use a notebook computer with sufficient hard disk capacity to perform these labs (as you would for an SSD drive)**. It would require that your notebook computer can connect to the Internet (including in Seneca's computer labs). You would be required to follow the same instructions for this lab (SSD). **If you are planning to do these labs on your own personal laptop, please see your professor before you start the installation process to ensure you have appropriate hardware.**
