@@ -72,6 +72,7 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
    - [Tips](/C-ExtraResources/tips.md)
 
+<!--
 ## Course Faculty
 
 **During the Winter 2025 semester, OPS245 is taught by:**
@@ -88,7 +89,6 @@ Most of the learning in this course occurs through the hands-on problem solving 
 
 **[Chris Johnson](mailto:chris.johnson@senecapolytechnic.ca)** \| Section **NEE**
 
-<!---
 ![Peter Callaghan](/img/Petercallaghan.jpg)
 **[Peter Callaghan](mailto:peter.callaghan@senecapolytechnic.ca)** \| Section **NAA, NBB**
 ![Saso Kocev](/img/Petercallaghan.jpg)
@@ -104,5 +104,5 @@ Most of the learning in this course occurs through the hands-on problem solving 
 | -------------------------- | --------- |
 | Labs and Quizzes           | 25%       |
 | Assignments (minimum of 2) | 30%       |
-| Tests (minimum of 1)       | 20%       |
-| Final Assessment           | 25%       |
+| Midterm Test               | 20%       |
+| Final Test                 | 25%       |
