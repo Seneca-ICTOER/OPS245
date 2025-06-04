@@ -323,7 +323,7 @@ In this section, we will learn how to create, remove and modify groups in our Li
 3. The output of this command is the list of your group memberships.
    ![deb1groups1](/img/deb1groups1.png)
    Every user account is assigned a **primary** group. On most Linux distributions when a new user account is created a new group is also created with the same name, that group is then assigned as the primary group for that user. However, not all Linux systems are configured that way. On the host matrix.senecapolytechnic.ca your user account is assigned to a primary group called **users**.
-4. Close all application windows, and switch user accounts (within your deb1 VM) by clicking on the **logout** icon and clicking on the **Switch User button, and then login as the user **ops245_2\*\*.
+4. Close all application windows, and switch user accounts (within your deb1 VM) by clicking on the **logout** icon and clicking on the **Switch User** button, and then login as the user **ops245_2**.
 5. Open a terminal.
 6. Create a file called **information.txt** in the home directory of that user.
 7. Issue the following commands:
