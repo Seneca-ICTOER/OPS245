@@ -7,7 +7,7 @@ description: Weekly Schedule Page for OPS245
 
 # Weekly Schedule
 
-## Week 1 - May 5 - May 9
+## Week 1 - Sept 2 - Sept 5
 
 | Learning Objectives and Tasks                                          | Lecture Notes                             | Evaluation                                                                                                         |
 | :--------------------------------------------------------------------- | :---------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
@@ -15,14 +15,14 @@ description: Weekly Schedule Page for OPS245
 | - Install Debian (Full Install)                                        | - [Installing Linux](/slides/w1-l2.pptx)  |                                                                                                                    |
 | - Obtain System Information                                            |                                           |                                                                                                                    |
 
-## Week 2 - May 12 - May 16
+## Week 2 - Sept 8 - Sept 12
 
 | **Learning Objectives and Tasks** | **Lecture Notes:**                                                                            | **Evaluation** |
 | :-------------------------------- | :-------------------------------------------------------------------------------------------- | :------------- |
 | **Post-Installation Tasks:**      | **Scripting Practice:** [OPS245 Scripting Exercises](/C-ExtraResources/scripting-exercise.md) |                |
 | - Post-Install Commands           |                                                                                               |                |
 
-## Week 3 - May 19 - May 23
+## Week 3 - Sept 15 - Sept 19
 
 | Learning Objectives and Tasks                  | **Lecture Notes:**                                  | Evaluation                                                    |
 | :--------------------------------------------- | :-------------------------------------------------- | :------------------------------------------------------------ |
@@ -30,7 +30,7 @@ description: Weekly Schedule Page for OPS245
 | - Installing and Using Virtualization Software |                                                     |                                                               |
 | - Installing Guest VMs                         |                                                     |                                                               |
 
-## Week 4 - May 26 - May 30
+## Week 4 - Sept 22 - Sept 26
 
 | Learning Objectives and Tasks                      | **Lecture Notes:**                                | Evaluation |
 | :------------------------------------------------- | :------------------------------------------------ | :--------- |
@@ -39,7 +39,7 @@ description: Weekly Schedule Page for OPS245
 | - Backing-up Virtual Machines                      |                                                   |            |
 | - Manipulating Virtual Machines                    |                                                   |            |
 
-## Week 5 - June 2 - June 6
+## Week 5 - Sept 29 - Oct 3
 
 | Learning Objectives and Tasks                       | **Lecture Notes:**                                                     | Evaluation                                                         |
 | :-------------------------------------------------- | :--------------------------------------------------------------------- | :----------------------------------------------------------------- |
@@ -48,7 +48,7 @@ description: Weekly Schedule Page for OPS245
 | - Archiving Files                                   |                                                                        |                                                                    |
 | - Package Management                                |                                                                        |                                                                    |
 
-## Week 6 - June 9 - June 13
+## Week 6 - Oct 6 - Oct 10
 
 | Learning Objectives and Tasks          | **Lecture Notes:**                                        | Evaluation                                           |
 | :------------------------------------- | :-------------------------------------------------------- | :--------------------------------------------------- |
@@ -58,19 +58,19 @@ description: Weekly Schedule Page for OPS245
 | - Service Status                       |                                                           |                                                      |
 | - Starting / Stopping Services         |                                                           |                                                      |
 
-## Week 7 - June 16 - June 20
+## Week 7 - Oct 13 - Oct 17
 
 | Learning Objectives and Tasks | **Lecture Notes:** | Evaluation |
 | :---------------------------- | :----------------- | :--------- |
 |                               |                    | MIDTERM    |
 
-## Study Week - June 23 - June 27
+## Study Week - Oct 20 - Oct 24
 
 | Learning Objectives and Tasks | **Lecture Notes:** | Evaluation |
 | :---------------------------- | :----------------- | :--------- |
 |                               |                    |            |
 
-## Week 8 - June 30 - July 4
+## Week 8 - Oct 27 - Oct 31
 
 | Learning Objectives and Tasks                   | **Lecture Notes:**                                       | Evaluation                                                        |
 | :---------------------------------------------- | :------------------------------------------------------- | :---------------------------------------------------------------- |
@@ -80,7 +80,7 @@ description: Weekly Schedule Page for OPS245
 | - Using LVM                                     |                                                          |                                                                   |
 | - Creating Shell Scripts to Flag Low Disk Space |                                                          |                                                                   |
 
-## Week 9 - July 7 - July 11
+## Week 9 - Nov 3 - Nov 7
 
 | Learning Objectives and Tasks                   | **Lecture Notes:**                                                                               | Evaluation                                                                                               |
 | :---------------------------------------------- | :----------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
@@ -89,7 +89,7 @@ description: Weekly Schedule Page for OPS245
 |                                                 | - [Advanced uses of the `awk` command](/slides/w9-l2.pptx)                                       |                                                                                                          |
 |                                                 | - Demonstration of Growing _/home_ partition using LVM: [YouTube](https://youtu.be/4fGQmw9RInYg) |                                                                                                          |
 
-## Week 10 - July 14 - July 18
+## Week 10 - Nov 10 - Nov 14
 
 | Learning Objectives and Tasks                       | **Lecture Notes:**                                  | Evaluation                                 |
 | :-------------------------------------------------- | :-------------------------------------------------- | :----------------------------------------- |
@@ -98,7 +98,7 @@ description: Weekly Schedule Page for OPS245
 | - Network Configuration with a DHCP client          |                                                     |                                            |
 | - Basic TCP/IP network commands: `ping`, `ip`, `ss` |                                                     |                                            |
 
-## Week 11 - July 21 - July 25
+## Week 11 - Nov 17 - Nov 21
 
 | Learning Objectives and Tasks                 | **Lecture Notes:**                                        | Evaluation                                        |
 | :-------------------------------------------- | :-------------------------------------------------------- | :------------------------------------------------ |
@@ -106,20 +106,20 @@ description: Weekly Schedule Page for OPS245
 | - Network Services                            | - [Configuring Firewalls (iptables)](/slides/W11-l2.pptx) |                                                   |
 | - SSH                                         |                                                           |                                                   |
 
-## Week 12 - July 28 - August 1
+## Week 12 - Nov 24 - Nov 28
 
 | Learning Objectives and Tasks                       | **Lecture Notes:**                                | Evaluation                                                  |
 | :-------------------------------------------------- | :------------------------------------------------ | :---------------------------------------------------------- |
 | **Setting Up, Using and Maintaining a DHCP Server** | - [Setting up a DHCP Server](/slides/w12-l1.pptx) | [Lab 8: Setup and Configure a DHCP Server](/A-Labs/lab8.md) |
 | - DHCP Server                                       |                                                   |                                                             |
 
-## Week 13 - August 4 - August 8
+## Week 13 - Dec 1 - Dec 5
 
 | Learning Objectives and Tasks | **Lecture Notes:** | Evaluation                                    |
 | :---------------------------- | :----------------- | :-------------------------------------------- |
 |                               |                    | [Assignment 2](/B-Assignments/assignment2.md) |
 
-## Week 14 - August 11 - August 15
+## Week 14 - Dec 8 - Dec 12
 
 | Learning Objectives and Tasks | **Lecture Notes:** | Evaluation       |
 | :---------------------------- | :----------------- | :--------------- |
