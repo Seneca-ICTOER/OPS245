@@ -387,7 +387,7 @@ sudo flatpak install flathub com.obsproject.Studio
 ```
 
 11. Answer `y` to accept the required runtime library and proceed with the changes.
-12. After the installation confirm that the application runs.
+12. After the installation, reboot your VM and then confirm that the application runs.
 13. To uninstall OBS try the following commands:
 
 ```bash
