@@ -312,7 +312,9 @@ ssh-copy-id username@hostname
 ssh-copy-id -i ~/.ssh/mykey.pub username@hostname
 ```
 
-4. To generate a keypair (public/private keys), issue the following command: `ssh-keygen`
+4. To generate a keypair (public/private keys), issue the following command: `ssh-keygen -t rsa -b 4096`
+
+**Note** Without the "-t" option that allows us to specify the "rsa" type, Debian 13 will default to a new encryption format (ed25519) . The -b option allows us to set the length of the encription in bits. 
 
 After generating the keys it prompts you for the location to save the keys. The default is **~/.ssh** Your private key will be saved as **id_rsa** and your public key will be saved as **id_rsa.pub** by default.
 
