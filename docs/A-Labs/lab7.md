@@ -535,24 +535,24 @@ Examples:
 
 ```bash
 # Append a rule to the INPUT chain allowing incoming ssh traffic from the local network only
-iptables -A INPUT --dport 22 -p tcp -s 192.168.245.0/24 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -s 192.168.245.0/24 -j ACCEPT
 
 # Append a rule to the INPUT chain allowing all incoming packets to the loopback interface
 iptables -A INPUT -i lo -p all -j ACCEPT
 
 # Insert a rule into 2nd position of the INPUT chain to allow incoming traffic related to established connections
-iptables -I 2 INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -I INPUT 2 -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 # Insert a rule into 1st postition of the INPUT chain to allow incoming pings (icmp) from the local network only
-iptables -I 1 INPUT -p icmp -s 192.168.245.0/24 -j ACCEPT
+iptables -I INPUT 1 -p icmp -s 192.168.245.0/24 -j ACCEPT
 ```
 
 | Placement in Chain                       | Chain Name  | Specify Protocol               | Source/Destination                                  | Target                                        |
 | :--------------------------------------- | :---------- | :----------------------------- | :-------------------------------------------------- | :-------------------------------------------- |
 | **-A** (add / Append to bottom of chain) | **INPUT**   | **-p tcp** (tcp packets)       | **-s IPADDR** (source host or network address)      | **-j DROP**                                   |
-| **-I 2** (insert into 2nd position)      | **OUTPUT**  | **-p udp** (udp packets)       | **-d IPADDR** (destination host or network address) | **-j ACCEPT**                                 |
-| **-R 2** (replace the 2nd rule)          | **FORWARD** | **-p icmp**                    | **-i ens33** (interface name)                       | **-j LOG** (accept packet but record in logs) |
-| **-D 3** (delete rule 3)                 |             | **-p all**                     | **--dport 22** (destination port number)            | **-j REJECT** (reject with error)             |
+| **-I INPUT 2** (insert into 2nd position)| **OUTPUT**  | **-p udp** (udp packets)       | **-d IPADDR** (destination host or network address) | **-j ACCEPT**                                 |
+| **-R OUTPUT 2** (replace the 2nd rule)   | **FORWARD** | **-p icmp**                    | **-i ens33** (interface name)                       | **-j LOG** (accept packet but record in logs) |
+| **-D FORWARD 3** (delete rule 3)         |             | **-p all**                     | **--dport 22** (destination port number)            | **-j REJECT** (reject with error)             |
 |                                          |             | **-p tcp,udp,icmp** (combined) | **--sport 53** (source port numner)                 |                                               |
 |                                          |             | (refer to **/etc/protocols** ) | (refer to **/etc/services**)                        |                                               |
 
